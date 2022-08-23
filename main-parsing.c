@@ -19,6 +19,8 @@ typedef struct envp
 //     char    *type;
 // }   t_node;
 
+int execute_str(char *str, t_envp *env);
+
 void    free_envp(t_envp *head)
 {
     t_envp  *prev;
@@ -135,13 +137,14 @@ int main(int argc, char **argv, char **envp)
     env = arrange_envp(envp);
     if (!env)
         return (0);
-    // while (1)
-    // {
-    //     str = readline("> ");
-    //     if (!str)
-    //         break ;
-    //     add_history(str);
-    //     free(str);
-    // }
+    while (1)
+    {
+        str = readline("> ");
+        if (!str)
+            break ;
+        add_history(str);
+        execute_str(str, env);
+        free(str);
+    }
     return (0);
 }
