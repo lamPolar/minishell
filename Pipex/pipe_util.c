@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_util.c                                       :+:      :+:    :+:   */
+/*   pipe_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/07/02 13:53:50 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/22 22:09:43 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipe.h"
 
-char	*find_path(char **path_array, char *command)
+char	*find_path(char *env_path, char *command)
 {
+	char	**path_array;
 	char	*path;
 	int		i;
 
 	if (access(command, F_OK) == 0)
 		return (command);
+	path_array = ft_split(env_path, ':');
+	if (path_array == NULL)
+		ft_error();
 	i = 0;
 	while (path_array[i])
 	{
-		path = ft_strjoin(path_array[i], "/");
-		if (path == NULL)
-			return (NULL);
-		path = ft_strjoin(path, command);
+		path = ft_strjoin_three(path_array[i], "/", command);
 		if (path == NULL)
 			return (NULL);
 		if (access(path, F_OK) == 0)
@@ -35,22 +36,27 @@ char	*find_path(char **path_array, char *command)
 	}
 	if (path_array[i] == NULL)
 		return (NULL);
-	free_everything(path_array);
+	free_double_array(path_array);
 	return (path);
 }
 
-char	**get_path(char **environ)
+char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3)
 {
-	int		i;
-	char	**path_array;
+	size_t	len1;
+	size_t	len2;
+	size_t	len3;
+	char	*new;
 
-	i = 0;
-	while (ft_strnstr(environ[i], "PATH", 4) == 0)
-		i += 1;
-	path_array = ft_split(environ[i] + 5, ':');
-	if (path_array == NULL)
-		return (NULL);
-	return (path_array);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	len3 = ft_strlen(s3);
+	new = (char *)ft_calloc(len1 + len2 + len3 + 1, sizeof(char));
+	if (!new)
+		return (0);
+	ft_strlcat(new, s1, len1 + 1);
+	ft_strlcat(new, s2, len1 + len2 + 1);
+	ft_strlcat(new, s3, len1 + len2 + len3 + 1);
+	return (new);
 }
 
 void	ft_error(void)
@@ -65,7 +71,7 @@ void	ft_free(char *str)
 	str = NULL;
 }
 
-void	free_everything(char **string)
+void	free_double_array(char **string)
 {
 	int	i;
 
