@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/22 22:09:43 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/24 17:39:03 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3)
 
 void	ft_error(void)
 {
-	perror("\e[1;31mError");
+	perror("\e[1;31mError\e[0m");
 	exit(EXIT_FAILURE);
 }
 
