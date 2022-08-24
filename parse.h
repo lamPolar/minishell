@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/24 17:05:26 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/24 17:08:55 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+#define HIDE 0
+#define SHOW 1
 
 typedef struct envp
 {
