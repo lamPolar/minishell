@@ -1,19 +1,32 @@
 #include "builtin.h"
 #include <errno.h>
 
-//현재 ;;로 들어오는 커맨드에 대해서는 어떻게 처리중인지?
-int builtin_cd(t_node *command, t_envp *env)
+int ft_strequal(char *s1, char *s2)
 {
-	//cd ~일때 home으로 변경
-	//cd $변수 -> 변수 찾아서 이동 (만약에 없는 환경변수이면 home으로 이동) 
-	//cd $HOME -> home변수가 없으면 (unset : bash: cd: HOME not set 메세지 출력)
-	//cd ~ 234 : home으로 이동 : path가 2개 들어오면 -> 앞에거 기준으로 이동
-	// 올바르지 않은 폴더 경로일 때 : no such file or directory
-	// .과  ..에 대해서 ?
+	int i;
+	int len1;
+	int len2;
+
+	i = 0;
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	if (len1 != len2)
+		return (0);
+	while (i < len1)
+	{
+		if (s1[i] != s2[i])
+			return(0);
+		i++;
+	}
+	return (1);
+}
+
+int	builtin_cd(t_node *command, t_envp *env)
+{
 	int		result;
 	char	*home;
 	
-	if (command->right == NULL || command->right->str == '~') //매개변수가 없으면
+	if (command->right == NULL || ft_strequal(command->right->str, "~")) //매개변수가 없으면
 	{
 		home = getenv("HOME");
 		if (home == NULL)
@@ -22,7 +35,10 @@ int builtin_cd(t_node *command, t_envp *env)
 			return (1);
 		}
 		if (chdir(home) == -1)
+		{
+			printf("cd: HOME: %s\n", strerror(errno));
 			return (1);
+		}
 	}
 	else
 	{
@@ -35,40 +51,106 @@ int builtin_cd(t_node *command, t_envp *env)
 	return (0);
 }
 
+int check_equal(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return(1);
+		i++;
+	}
+	return(0);
+}
+
+int check_invalid(char *str)
+{
+	if ((str[0] < '0' || str[0] > '9') && str[0] != '_')
+		return(1);
+	return(0);
+}
+
+int	change_env_value(char *str, t_envp *env)
+{
+	char *value;
+
+	value = envp_split_val(str);
+	if (value == NULL)
+		return (1);
+	free(env->value);
+	env->value = value;
+	env->display = SHOW;
+	return (0);
+}
+
+int add_to_env(char *str, t_envp *env)
+{
+	t_envp	*new;
+	char	*key;
+	char	*value;
+
+	key = envp_split_key(str);
+	if (key == NULL)
+		return (1);
+	while (env->next)
+	{
+		if (ft_strequal(env->key, new->key))
+			return (change_env_value(str, env));
+		env = env->next;
+	}
+	if (ft_strequl(env->key, new->key))
+		return (change_env_value(str, env));
+	else if (env->next == NULL)
+	{
+		new = make_new_node(str);
+		if (new == NULL)
+			return (1);
+		env->next = new;
+	}
+}
+
 int builtin_export(t_node *command, t_envp *env)
 {
 	t_envp *new;
+	t_node *argument;
+	
 
-	//아무것도 없이 export만 들어오면 -> declare -x key="value"\n으로 출력
 	if (command->right == NULL)
 	{
-		printf("USAGE: export [KEY=VALUE]\n");
+		//env 오름차순 sorting??
+		while (env)
+		{
+			if (env->display == SHOW)
+			printf("declare -x %s = \"%s\"\n", env->key, env->value);
+			env = env->next;
+		}
 		return (1);
 	}
 	else
 	{
-		//command=sjiemn이 들어오면 어떤식으로 트리에 들어가있는지?
-
-		//만약 파이프 뒤에 export를 호출하면, 자식프로세스에 대한 export이므로 환경변수에 대해서 변경하지 않음
-		//export하나만 들어오면 -> env 출력 : declare -x COLORTERM="truecolor" 이런식
-		//export Z같은 식으로 인자가 1개만 들어오면
-		//앞에  Z=jkdfls이런식의 명령어가 있으면 -> 저장
-		// 아니면 환경변수에 저장되지 않음 -> error message 출력 x
-		//key가 숫자만 있으면-> not a valid identifier라는 경고문구 출력
-		//만약 존재하는 변수에 대해서 실행할때
-		//export LANG=KOR
-		//존재하는 변수를 찾아서 새로 할당하기
-		//만약 존재하지 않는 변수면,
-		new = make_new_node(command->right->str);
-		if (new == NULL)
+		argument = command->right;
+		if (check_equal(argument->str)) // = 있으면 1리턴
 		{
-			free_envp(env);
-			return (1);
+			if (check_invalid(argument->str))
+				printf("KINDER: export: \'%s\': not a valid identifier\n", argument->str);
+			add_to_env(argument->str, env);
 		}
-		while (env->next)
-			env = env->next;
-		env->next = new;
+		else // =이 없다면
+		{
+			while (env)
+			{
+				if (ft_strequal(env->key, argument->str)) //맞는 env가 있다면 
+				{
+					env->display = SHOW;
+					return (0);
+				}
+				env = env->next;
+			}
+		}
 	}
+	//만약 파이프 뒤에 export를 호출하면, 자식프로세스에 대한 export이므로 환경변수에 대해서 변경하지 않음
 }
 
 int builtin_pwd(t_node *command)
@@ -80,7 +162,7 @@ int builtin_pwd(t_node *command)
 	buf = getcwd(buf, size);
 	if (buf == NULL)
 	{
-		printf("buf is null\n");
+		printf("KINDER: pwd: %s", strerror(errno));
 		return (1);
 	}
 	printf("%s\n", buf);
@@ -213,9 +295,7 @@ int builtin_echo(int argc, char *argv[], t_envp *env)
 
 int main(int argc, char **argv)
 {
-	builtin_pwd();
-	builtin_cd(argc - 1, argv[1]);
-	builtin_pwd();
+
 	while (1) {}
 	return (0);
 }
