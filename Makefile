@@ -1,6 +1,6 @@
-CC = gcc
+0CC = gcc
 CFLAGS = -Wall -Werror -Wextra
-SRCS = pipex.c pipex_util.c
+SRCS = ///
 OBJS = $(SRCS:.c=.o)
 LDIR = ./libft
 LIB = $(LDIR)/libft.a
@@ -12,7 +12,7 @@ all : $(NAME)
 $(NAME) : $(LIB) $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $(NAME) $(LIB)
 
-.c.o : %.c pipex.h
+.c.o : %.c pipe.h parse.h execute.h
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(LIB) : 

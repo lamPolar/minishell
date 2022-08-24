@@ -20,8 +20,6 @@
 # include <fcntl.h>
 # include "libft/libft.h" 
 
-#define REDIRECTION 3
-
 char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
 void	execute(t_node *command, char **environ);
 void	ft_error(void);
