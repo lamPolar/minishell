@@ -6,11 +6,15 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#define HIDE 0
+#define SHOW 1
+
 typedef struct envp
 {
     char        *key;
     char        *value;
     struct envp *next;
+    int         display; //1 : show, 0 : hide
 }   t_envp;
 
 typedef struct node
