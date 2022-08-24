@@ -8,6 +8,7 @@ typedef struct envp
     char        *key;
     char        *value;
     struct envp *next;
+    int         display;
 }   t_envp;
 
 // typedef struct node
