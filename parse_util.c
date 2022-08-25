@@ -42,3 +42,22 @@ void	*ft_calloc(size_t count, size_t size)
 	ft_memset(new, 0, count * size);
 	return (new);
 }
+
+char    *ft_strdup_idx(int i, int j, char *str)
+{
+    char    *res;
+    int     idx;
+
+    res = (char *)malloc(sizeof(char) * (j - i + 2));
+    if (!res)
+        return (0);
+    idx = 0;
+    while (i <= j)
+    {
+        res[idx] = str[i];
+        idx++;
+        i++;
+    }
+    res[idx] = '\0';
+    return (res);
+}
