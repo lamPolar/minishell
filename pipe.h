@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 21:50:12 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:40:28 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ char	**make_command_array(t_node *command);
 void	ft_command(t_node *line, t_envp *env);
 
 //redirection
-void	check_redirection(t_node *re, int fd[2]);
+int 	check_redirection(t_node *re, int fd[2]);
 void	here_doc(int fd, char *delimiter);
-int 	open_redirection_file(t_node *file, int MODE, int *fd);
+void	open_redirection_file(t_node *file, int MODE, int *fd);
 
 //libft_util
 size_t	ft_strlen(const char *s);

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 23:17:42 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:58:33 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ int	run_pipe(t_node *root, t_envp *env)
 	i = 0;
 	if (process == 1)
 	{
+		//파이프 없이 포크후
 		//빌트인이면 빌트인 실행
-		//실행파일이면, 자식프로세스 생성
+		//실행파일이면 execve
 		return (0);
 	}
 	while (i < process)
@@ -155,21 +156,11 @@ void	ft_command(t_node *line, t_envp *env)
 
 	redirection = line->left;
 	command = line->right;
-	check_redirection(redirection, fd);
+	if (check_redirection(redirection, fd)) // 함수 내부에서 바로 exit할지
+		exit(EXIT_FAILURE); // 아니면 여기서 exit할지
+		//뭐라도 프린트 해야할지?
 	execute_function(command, env);
 }
-
-//전위순회 방법 
-//preorder way 
-// void	preorder(t_node *root)
-// {
-// 	printf("%s ", root->str);
-// 	printf("%s \n", root->type);
-// 	if(root->left)
-// 		preorder(root->left);
-// 	if (root->right)
-// 		preorder(root->right);
-// }
 
 int	execute_function(t_node *command, t_envp *env)
 {

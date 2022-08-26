@@ -8,14 +8,17 @@
 # define COMMAND 4
 
 // redirection mode : << < > >>
-# define HEREDOC 0
-# define INFILE 1
-# define OUTFILE 2
-# define APPEND_OUT 3
+# define HEREDOC 10
+# define INFILE 11
+# define OUTFILE 12
+# define APPEND_OUT 13
 
 // envp.display
-# define HIDE 0
-# define SHOW 1
+# define HIDE 20
+# define SHOW 21
+
+//token.type
+// # define WORD 2 ???맞나여?
 
 typedef struct envp
 {

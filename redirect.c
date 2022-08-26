@@ -6,13 +6,13 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 23:18:10 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:43:26 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 
-void	check_redirection(t_node *re, int fd[2])
+int	check_redirection(t_node *re, int fd[2])
 {
 	int		infile;
 	int		outfile;
@@ -33,10 +33,11 @@ void	check_redirection(t_node *re, int fd[2])
 	}
 	//만약 infile == STDIN_FILENO면?
 	if (dup2(infile, STDIN_FILENO) == -1 || close(infile) == -1)
-		ft_error();
+		return (1); // error시 출력??
 	//oufile == STDOUT_FILENO 면?
 	if (dup2(outfile, STDOUT_FILENO) == -1 || close(outfile) == -1)
-		ft_error();
+		return (1);
+	return (0);
 }
 //나머지 fd처리 어떻게 할건지?
 
@@ -61,11 +62,14 @@ void	here_doc(int fd, char *delimiter)
 		line = readline("HERE_DOC > ");
 	}
 }
+//bash-3.2$ ls <<     a
+//> a
+//bash-3.2$ ls << "    a"
+//>     a
 
-int	open_redirection_file(t_node *file, int MODE, int *fd)
+void	open_redirection_file(t_node *file, int MODE, int *fd)
 {
 	if (MODE == HEREDOC)
-		//여기서 보내는 fd는 현재의 outfd
 		here_doc(*fd, file->str);
 	else if (MODE == INFILE)
 		*fd = open(file->str, O_RDONLY, 0644);
@@ -74,5 +78,8 @@ int	open_redirection_file(t_node *file, int MODE, int *fd)
 	else if (MODE == APPEND_OUT)
 		*fd = open(file->str, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (*fd == -1)
+	{
 		printf("KINDER: %s", strerror(errno));
+		exit(127); // builtin_exit을 호출?
+	}
 }
