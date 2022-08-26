@@ -1,11 +1,19 @@
-## 1. Introduction
+MINISHELL
+---
+### made by [sojoo](https://github.com/zoovely) && heeskim
+  welcome to kindershell
+  [사진 삽입 예정]
+  개발 기간 : 8/24 ~
+
+
+### 1. Introduction
 > *The objective of this project is for you to **create a simple shell**. Yes, your own little bash or zsh. You will learn a lot about processes and file descriptors.*
 >
 > With Minishell, you’ll be able to travel through time and come back to problems people faced when Windows didn’t exist.
 
 
 
-## 2. Instructions : Write a shell
+### 2. Instructions : Write a shell
 
 - 인터프리터는 명령 프롬프트(`$> `)를 띄워야한다.
   - 사용자가 enter 키를 눌러 명령줄(command line)을 입력할 때 까지 기다려야 한다.
@@ -41,7 +49,7 @@
 - 모든 사항에서 Bash를 참고하길 추천한다.
   
 
-## 3. Allowed Functions
+### 3. Allowed Functions
 
 - malloc, free
 - read, write, open, close
