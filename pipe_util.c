@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 13:30:54 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 18:40:46 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 char	*find_path(char *env_path, char *command)
 {
+	struct stat buf;
 	char	**path_array;
 	char	*path;
 	int		i;
 
-	if (access(command, F_OK) == 0)
+	if (stat(command, &buf) != -1)
 		return (command);
 	path_array = ft_split(env_path, ':');
 	if (path_array == NULL)
@@ -29,13 +30,16 @@ char	*find_path(char *env_path, char *command)
 		path = ft_strjoin_three(path_array[i], "/", command);
 		if (path == NULL)
 			return (NULL);
-		if (access(path, F_OK) == 0)
+		if (stat(path, &buf) != -1)
 			break ;
 		ft_free(path);
 		i += 1;
 	}
 	if (path_array[i] == NULL)
+	{
+		printf("KINDER: %s: command not found\n", command);
 		return (NULL);
+	}
 	free_double_array(path_array);
 	return (path);
 }

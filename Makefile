@@ -3,9 +3,13 @@ CFLAGS = -Wall -Werror -Wextra
 SRCS = ///
 OBJS = $(SRCS:.c=.o)
 
-NAME = pipex
+NAME = minishell
+
+token: envp.c main.c token2.c parse_util.c
+	gcc $^ -lreadline -o kinder
 
 all : $(NAME)
+
 $(NAME) : $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $(NAME) $(LIB)
 

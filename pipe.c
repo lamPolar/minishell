@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 16:43:40 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 19:07:02 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,34 @@ int	run_pipe(t_node *root, t_envp *env)
 	pid_t	*pid;
 	int		i;
 	int		process;
+	t_node	*line;
 
+	//fd 정리 필요 redirection에 어떤 fd2개를 연결시켜줄지?
+	//어떤 fd를 파이프에 연결해야될지, 어떤 fd를 닫아야할지... 어떻게 알지?
+	//해당 cmd가 파이프의 맨앞인지, 가운데인지, 마지막인지 어떻게 알지?
 	process = count_process(root);
 	pid = (pid_t *)ft_calloc(sizeof(pid_t), process);
 	i = 0;
+	if (process == 1)
+	{
+		//빌트인이면 빌트인 실행
+		//실행파일이면, 자식프로세스 생성
+		return (0);
+	}
 	while (i < process)
 	{
+		if (i == process - 1)
+			line = root->right;
+		else
+			line = root->left;
+		root = root->right;
 		if (pipe(fd) == -1)
 			ft_error();
 		pid[i] = fork();
 		if (pid[i] == -1)
 			ft_error();
 		if (pid[i] == 0)
-			ft_command(fd, root->right, env);
+			ft_command(line, env);
 		if (close(fd[0]) == -1)
 			ft_error();
 		if (close(fd[1]) == -1)
@@ -83,6 +98,7 @@ char	**make_command_array(t_node *command)
 		i += 1;
 		save = save->right;
 	}
+	return (command_array);
 }
 
 char	**dearrange_envp(t_envp *env)
@@ -110,28 +126,6 @@ char	**dearrange_envp(t_envp *env)
 	}
 }
 
-void	execute(t_node *command, t_envp *env)
-{
-	char	**path_array;
-	char	**command_array;
-	char	*path;
-	char	**envp;
-
-	//아니면 command file 찾기
-	path = getenv("PATH");
-	if (path == NULL)
-		ft_error();
-	path = find_path(path, command->str);
-	if (path == NULL)
-		ft_error();
-	command_array = make_command_array(command);
-	envp = dearrange_envp(env);
-	if (envp == NULL)
-		exit(EXIT_FAILURE);
-	if (execve(path, command, envp) == -1)
-		ft_error();
-}
-
 int	get_env_size(t_envp *env)
 {
 	int	i;
@@ -146,7 +140,7 @@ int	get_env_size(t_envp *env)
 	return (i);
 }
 
-void	ft_command(int *fd, t_node *line, t_envp *env)
+void	ft_command(t_node *line, t_envp *env)
 {
 	int		fd[2];
 	t_node	*redirection;
@@ -155,11 +149,7 @@ void	ft_command(int *fd, t_node *line, t_envp *env)
 	redirection = line->left;
 	command = line->right;
 	check_redirection(redirection, fd);
-	//execute : 나누기 (builtin / 실행파일)
 	execute_function(command, env);
-	//fd 정리 필요 redirection에 어떤 fd2개를 연결시켜줄지?
-	//어떤 fd를 파이프에 연결해야될지, 어떤 fd를 닫아야할지... 어떻게 알지?
-	//해당 cmd가 파이프의 맨앞인지, 가운데인지, 마지막인지 어떻게 알지?
 }
 
 //전위순회 방법 
@@ -176,8 +166,6 @@ void	ft_command(int *fd, t_node *line, t_envp *env)
 
 int	execute_function(t_node *command, t_envp *env)
 {
-	int	fd[2];
-
 	if (ft_strequal("pwd", command->str) == 0)
 		return (builtin_pwd(command));
 	else if (ft_strequal("cd", command->str) == 0)
@@ -192,8 +180,30 @@ int	execute_function(t_node *command, t_envp *env)
 		return (builtin_echo(command, env));
 	else if (ft_strequal("unset", command->str) == 0)
 		return (builtin_unset(command, env));
-	//빌트인이 아니면, execute로 fork실행
 	else
 		execute(command, env);
 	return (0);
+}
+
+void	execute(t_node *command, t_envp *env)
+{
+	char	**path_array;
+	char	**command_array;
+	char	*path;
+	char	**envp;
+
+	path = getenv("PATH");
+	if (path == NULL)
+		ft_error();
+	path = find_path(path, command->str);
+	if (path == NULL)
+		ft_error();
+	command_array = make_command_array(command);
+	if (command_array == NULL)
+		ft_error();
+	envp = dearrange_envp(env);
+	if (envp == NULL)
+		exit(EXIT_FAILURE);
+	if (execve(path, command, envp) == -1)
+		ft_error();
 }

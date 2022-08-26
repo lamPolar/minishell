@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:38 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/26 16:05:47 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 17:43:54 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_envp	*make_new_envp(char *str)
 	new = (t_envp *)ft_calloc(sizeof(t_envp), 1);
 	if (!new)
 		return (NULL);
-	new->key = envp_split_key(str); // key가 '\0'이면 저장가능?
+	new->key = envp_split_key(str);
 	new->value = envp_split_val(str);
 	new->next = NULL;
 	new->display = 1;
