@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 16:40:36 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:19:13 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static int	add_to_env(char *str, t_envp *env)
 			return (change_env_value(str, env));
 		env = env->next;
 	}
-	if (ft_strequl(env->key, new->key))
+	if (ft_strequal(env->key, new->key))
 		return (change_env_value(str, env));
 	else if (env->next == NULL)
 	{
-		new = make_new_node(str);
+		new = make_new_envp(str);
 		if (new == NULL)
 			return (1);
 		env->next = new;
@@ -98,6 +98,7 @@ int	builtin_export(t_node *command, t_envp *env)
 			argument = argument->right;
 		}
 	}
+	return (0);
 }
 //만약 파이프 뒤에 export를 호출하면, 자식프로세스에 대한 export이므로 환경변수에 대해서 변경하지 않음
 //export TE\ST=100 ok

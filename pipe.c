@@ -6,13 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 19:07:02 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:17:42 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-#include "builtin.h"
-#include "parse.h"
 
 int	count_process(t_node *root)
 {
@@ -73,7 +71,6 @@ int	run_pipe(t_node *root, t_envp *env)
 	i = 0;
 	while (i < process)
 		waitpid(pid[i], NULL, 0);
-	return (0);
 }
 
 char	**make_command_array(t_node *command)
@@ -91,10 +88,17 @@ char	**make_command_array(t_node *command)
 		command = command->right;
 	}
 	command_array = (char **)ft_calloc(sizeof(char *), size + 1);
+	if (command_array == NULL)
+		return (NULL);
 	i = 0;
 	while (i < size)
 	{
 		command_array[i] = ft_strdup(save->str);
+		if (command_array[i] == NULL)
+		{
+			free_double_array(command_array);
+			return (NULL);
+		}
 		i += 1;
 		save = save->right;
 	}
@@ -109,12 +113,14 @@ char	**dearrange_envp(t_envp *env)
 
 	size = get_env_size(env);
 	envp = (char **)ft_calloc(sizeof(char *), size + 1);
+	if (envp == NULL)
+		return (NULL);
 	i = 0;
 	while (i < size)
 	{
 		if (env->display == SHOW)
 		{	
-			envp[i] == ft_strjoin_three(env->key, "=", env->value);
+			envp[i] = ft_strjoin_three(env->key, "=", env->value);
 			if (envp[i] == NULL)
 			{
 				free_double_array(envp);
@@ -124,6 +130,7 @@ char	**dearrange_envp(t_envp *env)
 		}
 		env = env->next;
 	}
+	return (envp);
 }
 
 int	get_env_size(t_envp *env)
@@ -171,7 +178,7 @@ int	execute_function(t_node *command, t_envp *env)
 	else if (ft_strequal("cd", command->str) == 0)
 		return (builtin_cd(command, env));
 	else if (ft_strequal("exit", command->str) == 0)
-		return (builtin_exit(command));
+		return (builtin_exit(command, env));
 	else if (ft_strequal("env", command->str) == 0)
 		return (builtin_env(env));
 	else if (ft_strequal("export", command->str) == 0)
@@ -182,7 +189,6 @@ int	execute_function(t_node *command, t_envp *env)
 		return (builtin_unset(command, env));
 	else
 		execute(command, env);
-	return (0);
 }
 
 void	execute(t_node *command, t_envp *env)
@@ -192,10 +198,10 @@ void	execute(t_node *command, t_envp *env)
 	char	*path;
 	char	**envp;
 
-	path = getenv("PATH");
-	if (path == NULL)
+	path_array = get_path(env);
+	if (path_array == NULL)
 		ft_error();
-	path = find_path(path, command->str);
+	path = find_path(path_array, command->str);
 	if (path == NULL)
 		ft_error();
 	command_array = make_command_array(command);
@@ -204,6 +210,6 @@ void	execute(t_node *command, t_envp *env)
 	envp = dearrange_envp(env);
 	if (envp == NULL)
 		exit(EXIT_FAILURE);
-	if (execve(path, command, envp) == -1)
+	if (execve(path, command_array, envp) == -1)
 		ft_error();
 }

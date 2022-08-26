@@ -6,28 +6,24 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 18:40:46 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:17:53 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 
-char	*find_path(char *env_path, char *command)
+char	*find_path(char **env_path, char *command)
 {
 	struct stat buf;
-	char	**path_array;
 	char	*path;
 	int		i;
 
 	if (stat(command, &buf) != -1)
 		return (command);
-	path_array = ft_split(env_path, ':');
-	if (path_array == NULL)
-		ft_error();
 	i = 0;
-	while (path_array[i])
+	while (env_path[i])
 	{
-		path = ft_strjoin_three(path_array[i], "/", command);
+		path = ft_strjoin_three(env_path[i], "/", command);
 		if (path == NULL)
 			return (NULL);
 		if (stat(path, &buf) != -1)
@@ -35,13 +31,33 @@ char	*find_path(char *env_path, char *command)
 		ft_free(path);
 		i += 1;
 	}
-	if (path_array[i] == NULL)
+	if (env_path[i] == NULL)
 	{
 		printf("KINDER: %s: command not found\n", command);
 		return (NULL);
 	}
-	free_double_array(path_array);
+	free_double_array(env_path);
 	return (path);
+}
+
+char	**get_path(t_envp *env)
+{
+	int		i;
+	char	**path_array;
+
+	i = 0;
+	while (env && ft_strequal(env->key, "PATH") == 0)
+		env = env->next;
+	if (env == NULL)
+		env = NULL; // 일단 아무거나 써둠
+		//path환경변수 없으면? 어떻게 할까?
+	else
+	{
+		path_array = ft_split(env->value, ':');
+		if (path_array == NULL)
+			return (NULL);
+		return (path_array);
+	}
 }
 
 char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3)

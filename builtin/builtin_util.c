@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:32:02 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 16:03:35 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 21:45:30 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,34 @@ int	max(int len1, int len2)
 		return (len1);
 	else
 		return (len2);
+}
+
+
+int	ft_atoi(const char *str)
+{
+	long long	result;
+	long long	tmp;
+	long long	sign;
+
+	result = 0;
+	sign = 1;
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			sign = -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		tmp = result;
+		result = result * 10 + (*str - '0');
+		if (tmp > result && sign < 0)
+			return (0);
+		if (tmp > result && sign > 0)
+			return (-1);
+		str++;
+	}
+	return ((int)(result * sign));
 }

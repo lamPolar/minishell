@@ -6,13 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 17:46:06 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:18:10 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-#include "parse.h"
-#include "builtin.h"
 
 void	check_redirection(t_node *re, int fd[2])
 {

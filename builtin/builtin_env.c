@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:48:05 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 16:41:25 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:19:34 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	delete_env(char *str, t_envp **head)
 	}
 }
 
-int	builtin_unset(t_node *command, t_envp **head)
+int	builtin_unset(t_node *command, t_envp *env)
 {
 	t_node	*argument;
 
@@ -60,10 +60,11 @@ int	builtin_unset(t_node *command, t_envp **head)
 						argument->str);
 				return (1);
 			}
-			delete_env(argument->str, head);
+			delete_env(argument->str, &env);
 			argument = argument->right;
 		}
 	}
+	return (0);
 }
 
 int	builtin_env(t_envp *env)
@@ -74,5 +75,4 @@ int	builtin_env(t_envp *env)
 			printf("%s = %s\n", env->key, env->value);
 		env = env->next;
 	}
-	return (0);
 }

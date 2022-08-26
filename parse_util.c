@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 00:40:26 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 17:27:28 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/26 22:08:20 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	*ft_calloc(size_t count, size_t size)
 	void	*new;
 
 	new = (void *)malloc(count * size);
-	if (!new)
+	if (new == NULL)
 	{
 		printf("kinder: %s\n", strerror(errno));
-		return (0);
+		return (NULL);
 	}
 	ft_memset(new, 0, count * size);
 	return (new);
@@ -89,7 +89,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-size_t	ft_strlen(char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:38 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:43:54 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 22:06:32 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_envp	*arrange_envp(char **envp)
 		return (free_envp(head));
 	prev = head;
 	cnt = 0;
-	while (envp[cnt] != NULL)
+	while (envp[cnt])
 	{
 		new = make_new_envp(envp[cnt]);
 		if (new == NULL)
@@ -41,7 +41,7 @@ t_envp	*make_new_envp(char *str)
 	t_envp	*new;
 
 	new = (t_envp *)ft_calloc(sizeof(t_envp), 1);
-	if (!new)
+	if (new == NULL)
 		return (NULL);
 	new->key = envp_split_key(str);
 	new->value = envp_split_val(str);

@@ -6,46 +6,20 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:40:05 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 21:42:27 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
 
+# include "define.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <errno.h>
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-# define HIDE 0
-# define SHOW 1
-
-typedef struct envp
-{
-	char		*key;
-	char		*value;
-	int			display;
-	struct envp	*next;
-}	t_envp;
-
-typedef struct token
-{
-	int				type;
-	char			*value;
-	struct token	*next;
-}	t_token;
-
-// typedef struct node
-// {
-// 	t_node  *left;
-// 	t_node  *right;
-// 	t_node  *papa;
-// 	char    *str;
-// 	char    *type;
-// }   t_node;
 
 t_envp	*make_new_envp(char *str);
 char	*envp_split_val(char *str);
@@ -62,7 +36,7 @@ void	execute_str(char *str, t_envp *env);
 
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strjoin(char *s1, char *s2);
-size_t	ft_strlen(char *s);
+size_t	ft_strlen(const char *s);
 char	find_quotes(char *str, int *first, int *second);
 int check_valid(int i, int j, char *str);
 int ft_strequal(char *s1, char *s2);

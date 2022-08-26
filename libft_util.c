@@ -6,11 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:28:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 16:06:13 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 22:08:06 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "pipe.h"
 
 size_t	ft_strlen(const char *s)
 {
@@ -28,10 +28,10 @@ void	*ft_calloc(size_t count, size_t size)
 	size_t			index;
 	unsigned char	*ptr;
 
-	new = (void *)ft_calloc(count, size);
+	new = (void *)malloc(count * size);
 	if (new == NULL)
 	{
-		printf("kinder: %s\n", strerror(errno));
+		printf("KINDER: %s\n", strerror(errno));
 		return (NULL);
 	}
 	index = 0;
@@ -80,4 +80,92 @@ char	*ft_strdup(const char *s1)
 	}
 	new[0] = s1[0];
 	return (new);
+}
+
+static char	**ft_free_result(char **result, int total)
+{
+	int	index;
+	int i;
+
+	index = 0;
+	while (index < total)
+	{
+		i = 0;
+		while (i < ft_strlen(result[index]))
+		{
+			result[index][i] = '\0';
+			i += 1;
+		}
+		free(result[index]);
+		index++;
+	}
+	free(result);
+	return (0);
+}
+
+static int	ft_check_words(const char *s, char c)
+{
+	int	index;
+	int	count;
+
+	index = 0;
+	count = 0;
+	while (s[index])
+	{
+		if (s[index] != c)
+		{
+			count++;
+			while (s[index] && s[index] != c)
+				index++;
+		}
+		while (s[index] && s[index] == c)
+			index++;
+	}
+	return (count);
+}
+
+static int	ft_count_word_len(const char *s, char c)
+{
+	int	index;
+	int	count;
+
+	index = 0;
+	count = 0;
+	while (s[index] && s[index] == c)
+		index++;
+	while (s[index] && s[index] != c)
+	{
+		index++;
+		count++;
+	}
+	return (count);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**result;
+	char	*word;
+	int		index;
+	int		count_words;
+	int		count_word_len;
+
+	count_words = ft_check_words(s, c);
+	result = (char **)ft_calloc(count_words + 1, sizeof(char *));
+	if (!result)
+		return (0);
+	index = 0;
+	result[count_words] = 0;
+	while (index < count_words)
+	{
+		count_word_len = ft_count_word_len(s, c);
+		word = (char *)ft_calloc(count_word_len + 1, sizeof(char));
+		if (!word)
+			return (ft_free_result(result, index));
+		while (*s && *s == c)
+			s++;
+		ft_strlcat(word, s, count_word_len + 1);
+		s += count_word_len;
+		result[index++] = word;
+	}
+	return (result);
 }

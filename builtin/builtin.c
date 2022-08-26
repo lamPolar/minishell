@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 15:58:28 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 23:18:45 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	builtin_cd(t_node *command, t_envp *env)
 	{
 		if (chdir(command->right->str) == -1)
 		{
-			printf("cd: %s: %s\n", command->right, strerror(errno));
+			printf("cd: %s: %s\n", command->right->str, strerror(errno));
 			return (1);
 		}
 	}
@@ -58,7 +58,7 @@ int	builtin_pwd(t_node *command)
 	return (0);
 }
 
-int	builtin_exit(t_node *command, t_node **head, t_envp *env)
+int	builtin_exit(t_node *command, t_envp *env)
 {
 	t_node	*argument;
 
@@ -76,7 +76,7 @@ int	builtin_exit(t_node *command, t_node **head, t_envp *env)
 				printf("exit\nkinder: exit: %s: numeric argument required", \
 						argument->str);
 				free_envp(env);
-				free_tree(head);
+				//free_tree(head);
 				exit(255);
 			}
 		}
