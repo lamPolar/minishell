@@ -6,37 +6,37 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/26 11:36:46 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:23:22 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
-#define PARSE_H
+# define PARSE_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <errno.h>
+# include <string.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
-#define HIDE 0
-#define SHOW 1
+# define HIDE 0
+# define SHOW 1
 
 typedef struct envp
 {
-	char        *key;
-	char        *value;
-	struct envp *next;
-	int         display;
-}   t_envp;
+	char		*key;
+	char		*value;
+	int			display;
+	struct envp	*next;
+}	t_envp;
 
 typedef struct token
 {
-	int             type;
-	char            *value;
-	struct token    *next;
-}   t_token;
+	int				type;
+	char			*value;
+	struct token	*next;
+}	t_token;
 
 // typedef struct node
 // {

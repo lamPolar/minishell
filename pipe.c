@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 14:08:20 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:20:31 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "builtin.h"
 #include "parse.h"
 
-int count_process(t_node *root)
+int	count_process(t_node *root)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (root->type == PIPE)
@@ -27,12 +27,12 @@ int count_process(t_node *root)
 	return (i);
 }
 
-int	run_pipe(t_node *root, t_envp *env)
-{
 	//t_node *command
 	//command : root 기준 왼쪽 : redirection, 오른쪽 : 실제 command
 	//1. 총 pipe개수 + 1 = process -> 이건 먼저 알아야해.
 	//2. file, command array? list? 
+int	run_pipe(t_node *root, t_envp *env)
+{
 	int		fd[2];
 	pid_t	*pid;
 	int		i;
@@ -61,7 +61,7 @@ int	run_pipe(t_node *root, t_envp *env)
 	return (0);
 }
 
-char **make_command_array(t_node *command)
+char	**make_command_array(t_node *command)
 {
 	int		size;
 	int		i;
@@ -98,7 +98,7 @@ char	**dearrange_envp(t_envp *env)
 	{
 		if (env->display == SHOW)
 		{	
-			envp[i] == 	ft_strjoin_three(env->key, "=", env->value);
+			envp[i] == ft_strjoin_three(env->key, "=", env->value);
 			if (envp[i] == NULL)
 			{
 				free_double_array(envp);
@@ -116,7 +116,7 @@ void	execute(t_node *command, t_envp *env)
 	char	**command_array;
 	char	*path;
 	char	**envp;
-	
+
 	//아니면 command file 찾기
 	path = getenv("PATH");
 	if (path == NULL)
@@ -132,9 +132,9 @@ void	execute(t_node *command, t_envp *env)
 		ft_error();
 }
 
-int get_env_size(t_envp *env)
+int	get_env_size(t_envp *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env)
@@ -148,9 +148,9 @@ int get_env_size(t_envp *env)
 
 void	ft_command(int *fd, t_node *line, t_envp *env)
 {
-	int	fd[2];
-	t_node *redirection;
-	t_node *command;
+	int		fd[2];
+	t_node	*redirection;
+	t_node	*command;
 
 	redirection = line->left;
 	command = line->right;
@@ -164,19 +164,20 @@ void	ft_command(int *fd, t_node *line, t_envp *env)
 
 //전위순회 방법 
 //preorder way 
-void preorder(t_node *root)
-{
-	printf("%s ", root->str);
-	printf("%s \n", root->type);
-	if(root->left) preorder(root->left);
-	if (root->right) preorder(root->right);
-}
+// void	preorder(t_node *root)
+// {
+// 	printf("%s ", root->str);
+// 	printf("%s \n", root->type);
+// 	if(root->left)
+// 		preorder(root->left);
+// 	if (root->right)
+// 		preorder(root->right);
+// }
 
-int execute_function(t_node *command, t_envp *env)
+int	execute_function(t_node *command, t_envp *env)
 {
-	int fd[2];
+	int	fd[2];
 
-	//만약 빌트인이면, 빌트인 실행
 	if (ft_strequal("pwd", command->str) == 0)
 		return (builtin_pwd(command));
 	else if (ft_strequal("cd", command->str) == 0)

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/25 19:02:59 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 15:58:28 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 int	builtin_cd(t_node *command, t_envp *env)
 {
-	int		result;
 	char	*home;
-	
-	if (command->right == NULL || ft_strequal(command->right->str, "~")) //매개변수가 없으면
+
+	if (command->right == NULL || ft_strequal(command->right->str, "~"))
 	{
 		home = getenv("HOME");
 		if (home == NULL)
@@ -42,10 +41,10 @@ int	builtin_cd(t_node *command, t_envp *env)
 	return (0);
 }
 
-int builtin_pwd(t_node *command)
+int	builtin_pwd(t_node *command)
 {
-	char *buf;
-	size_t size;
+	char	*buf;
+	size_t	size;
 
 	buf = NULL;
 	buf = getcwd(buf, size);
@@ -59,9 +58,9 @@ int builtin_pwd(t_node *command)
 	return (0);
 }
 
-int builtin_exit(t_node *command, t_node **head, t_envp *env)
+int	builtin_exit(t_node *command, t_node **head, t_envp *env)
 {
-	t_node *argument;
+	t_node	*argument;
 
 	if (command->right == NULL)
 		exit(EXIT_SUCCESS);
@@ -73,12 +72,14 @@ int builtin_exit(t_node *command, t_node **head, t_envp *env)
 			if (ft_isnum(argument->str))
 				exit(ft_atoi(argument->str));
 			else
-				printf("exit\nkinder: exit: %s: numeric argument required",\
+			{
+				printf("exit\nkinder: exit: %s: numeric argument required", \
 						argument->str);
 				free_envp(env);
 				free_tree(head);
 				exit(255);
-		}   
+			}
+		}
 		else
 			printf("exit\nkinder: exit: too many arguments\n");
 	}

@@ -6,12 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:48:05 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/24 18:16:41 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:12:07 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-#include "util.h"
 
 static void	delete_env(char *str, t_envp **head)
 {
@@ -19,7 +18,7 @@ static void	delete_env(char *str, t_envp **head)
 	int		len2;
 	t_envp	*env;
 	t_envp	*prev;
-	
+
 	len1 = ft_strlen(str);
 	env = *head;
 	while (env)
@@ -41,14 +40,16 @@ static void	delete_env(char *str, t_envp **head)
 	}
 }
 
-int builtin_unset(t_node *command, t_envp **head)
+// show ->hide로 바꾸지 말고
+// list에서 아예 삭제하기
+int	builtin_unset(t_node *command, t_envp **head)
 {
 	t_node	*argument;
 
 	if (command->right == NULL)
 	{
 		printf("USAGE: unset [KEY]\n");
-		return(1);
+		return (1);
 	}
 	else
 	{
@@ -67,7 +68,7 @@ int builtin_unset(t_node *command, t_envp **head)
 	}
 }
 
-int builtin_env(t_envp *env)
+int	builtin_env(t_envp *env)
 {
 	while (env)
 	{

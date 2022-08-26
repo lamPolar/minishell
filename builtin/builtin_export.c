@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 11:37:11 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:02:19 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	change_env_value(char *str, t_envp *env)
 {
-	char *value;
+	char	*value;
 
 	value = envp_split_val(str);
 	if (value == NULL)
@@ -25,7 +25,7 @@ static int	change_env_value(char *str, t_envp *env)
 	return (0);
 }
 
-static int add_to_env(char *str, t_envp *env)
+static int	add_to_env(char *str, t_envp *env)
 {
 	t_envp	*new;
 	char	*key;
@@ -51,12 +51,13 @@ static int add_to_env(char *str, t_envp *env)
 	}
 }
 
-int export_with_argument(t_node *argument, t_envp *env)
+int	export_with_argument(t_node *argument, t_envp *env)
 {
 	if (check_equal(argument->str)) // = 있으면 1리턴
 	{
 		if (check_invalid(argument->str))
-			printf("KINDER: export: \'%s\': not a valid identifier\n", argument->str);
+			printf("KINDER: export: \'%s\': not a valid identifier\n", \
+			argument->str);
 		add_to_env(argument->str, env);
 	}
 	else // =이 없다면
@@ -74,10 +75,10 @@ int export_with_argument(t_node *argument, t_envp *env)
 }
 
 //export a=b b=a 하면 둘다 입려되어야함.
-int builtin_export(t_node *command, t_envp *env)
+int	builtin_export(t_node *command, t_envp *env)
 {
-	t_envp *new;
-	t_node *argument;
+	t_envp	*new;
+	t_node	*argument;
 
 	if (command->right == NULL)
 	{
