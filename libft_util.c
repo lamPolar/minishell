@@ -6,11 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:28:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/24 18:07:55 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 13:55:32 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "parse.h"
 
 size_t	ft_strlen(const char *s)
 {
@@ -18,7 +18,7 @@ size_t	ft_strlen(const char *s)
 
 	count = 0;
 	while (s[count])
-		count++;
+		count += 1;
 	return (count);
 }
 
@@ -28,11 +28,11 @@ void	*ft_calloc(size_t count, size_t size)
 	size_t			index;
 	unsigned char	*ptr;
 
-	new = (void *)malloc(count * size);
-	if (!new)
+	new = (void *)ft_calloc(count, size);
+	if (new == NULL)
 	{
 		printf("kinder: %s\n", strerror(errno));
-		return (0);
+		return (NULL);
 	}
 	index = 0;
 	ptr = (unsigned char *)new;
@@ -58,8 +58,26 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	while (dlen + index + 1 < dstsize && src[index])
 	{
 		dst[dlen + index] = src[index];
-		index++;
+		index += 1;
 	}
 	dst[dlen + index] = '\0';
 	return (dlen + slen);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*new;
+	size_t	slen;
+
+	slen = ft_strlen(s1);
+	new = (char *)ft_calloc(sizeof(char), slen + 1);
+	if (new == NULL)
+		return (NULL);
+	while (slen > 0)
+	{	
+		new[slen] = s1[slen];
+		slen -= 1;
+	}
+	new[0] = s1[0];
+	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/24 17:41:43 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 11:36:46 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ typedef struct token
 	struct token    *next;
 }   t_token;
 
-typedef struct node
-{
-	t_node  *left;
-	t_node  *right;
-	t_node  *papa;
-	char    *str;
-	char    *type;
-}   t_node;
+// typedef struct node
+// {
+// 	t_node  *left;
+// 	t_node  *right;
+// 	t_node  *papa;
+// 	char    *str;
+// 	char    *type;
+// }   t_node;
 
 t_envp	*make_new_envp(char *str);
 char	*envp_split_val(char *str);

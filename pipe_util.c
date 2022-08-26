@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/24 17:39:03 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 13:30:54 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	ft_error(void)
 
 void	ft_free(char *str)
 {
-	free(str);
+	if (str)
+		free(str);
 	str = NULL;
 }
 
@@ -76,6 +77,8 @@ void	free_double_array(char **string)
 	int	i;
 
 	i = 0;
+	if (string == NULL)
+		return ;
 	while (string[i])
 	{
 		ft_free(string[i]);

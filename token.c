@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/24 17:09:04 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/26 13:51:53 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,15 @@ char    *ft_strdup_idx(int i, int j, char *str)
     char    *res;
     int     idx;
 
-    res = (char *)malloc(sizeof(char) * (j - i + 2));
-    if (!res)
-        return (0);
+    res = (char *)ft_calloc(sizeof(char), (j - i + 2));
+    if (res == NULL)
+        return (NULL);
     idx = 0;
     while (i <= j)
     {
         res[idx] = str[i];
-        idx++;
-        i++;
+        idx += 1;
+        i += 1;
     }
     res[idx] = '\0';
     return (res);
@@ -117,10 +117,10 @@ void    execute_str(char *str, t_envp *env)
     if (tokenlist == NULL)
         return ;
 
-    // int i = 0;
-    // while (tokenlist != NULL)
-    // {
-    //     printf("value:%s\ntype:%d\n\n", tokenlist->value, tokenlist->type);
-    //     tokenlist = tokenlist->next;
-    // }
+    int i = 0;
+    while (tokenlist != NULL)
+    {
+        printf("value:%s\ntype:%d\n\n", tokenlist->value, tokenlist->type);
+        tokenlist = tokenlist->next;
+    }
 }

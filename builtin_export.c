@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/24 18:13:00 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 11:37:11 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,10 @@ int builtin_export(t_node *command, t_envp *env)
 			argument = argument->right;
 		}
 	}
-}//만약 파이프 뒤에 export를 호출하면, 자식프로세스에 대한 export이므로 환경변수에 대해서 변경하지 않음
+}
+//만약 파이프 뒤에 export를 호출하면, 자식프로세스에 대한 export이므로 환경변수에 대해서 변경하지 않음
+//export TE\ST=100 ok
+//export TE\\ST=100 x
+//export TES\\\ST=100 x
+//export TEST+=100
+///-> 원래 TEST환경변수의 value뒤에 추가되어야함.

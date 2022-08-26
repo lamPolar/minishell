@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:38 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/24 15:11:41 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/26 14:01:57 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ t_envp  *make_new_envp(char *str)
     new = (t_envp *)ft_calloc(sizeof(t_envp), 1);
     if (!new)
         return (NULL);
-    new->key = envp_split_key(str);
+    new->key = envp_split_key(str); // key가 '\0'이면 저장가능?
     new->value = envp_split_val(str);
     new->next = NULL;
     new->display = 1;
-    if (new->key == NULL || new->value == NULL)
+    if (new->key == NULL || new->value == NULL) //둘중 하나가 말록 되었을 수도 있으므로 프리 필요
         return (NULL);
     return (new);
 }

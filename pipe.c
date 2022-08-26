@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/24 17:43:43 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 14:08:20 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,20 @@
 #include "builtin.h"
 #include "parse.h"
 
-int	run_pipe(int process, char **command[], t_envp *env)
+int count_process(t_node *root)
+{
+	int i;
+
+	i = 1;
+	while (root->type == PIPE)
+	{
+		i += 1;
+		root = root->right;
+	}
+	return (i);
+}
+
+int	run_pipe(t_node *root, t_envp *env)
 {
 	//t_node *command
 	//command : root 기준 왼쪽 : redirection, 오른쪽 : 실제 command
@@ -23,7 +36,9 @@ int	run_pipe(int process, char **command[], t_envp *env)
 	int		fd[2];
 	pid_t	*pid;
 	int		i;
+	int		process;
 
+	process = count_process(root);
 	pid = (pid_t *)ft_calloc(sizeof(pid_t), process);
 	i = 0;
 	while (i < process)
@@ -34,10 +49,7 @@ int	run_pipe(int process, char **command[], t_envp *env)
 		if (pid[i] == -1)
 			ft_error();
 		if (pid[i] == 0)
-			// if (root->left->type == 'CMD')
-			// {
-			// 	ft_command(fd, root, env);
-			// }
+			ft_command(fd, root->right, env);
 		if (close(fd[0]) == -1)
 			ft_error();
 		if (close(fd[1]) == -1)
@@ -49,14 +61,61 @@ int	run_pipe(int process, char **command[], t_envp *env)
 	return (0);
 }
 
-//execute : 나누기 (builtin / 실행파일)
-void	execute(t_node *command, char **envp)
+char **make_command_array(t_node *command)
+{
+	int		size;
+	int		i;
+	char	**command_array;
+	t_node	*save;
+
+	size = 0;
+	save = command;
+	while (command)
+	{
+		size += 1;
+		command = command->right;
+	}
+	command_array = (char **)ft_calloc(sizeof(char *), size + 1);
+	i = 0;
+	while (i < size)
+	{
+		command_array[i] = ft_strdup(save->str);
+		i += 1;
+		save = save->right;
+	}
+}
+
+char	**dearrange_envp(t_envp *env)
+{
+	char	**envp;
+	int		size;
+	int		i;
+
+	size = get_env_size(env);
+	envp = (char **)ft_calloc(sizeof(char *), size + 1);
+	i = 0;
+	while (i < size)
+	{
+		if (env->display == SHOW)
+		{	
+			envp[i] == 	ft_strjoin_three(env->key, "=", env->value);
+			if (envp[i] == NULL)
+			{
+				free_double_array(envp);
+				return (NULL);
+			}
+			i += 1;
+		}
+		env = env->next;
+	}
+}
+
+void	execute(t_node *command, t_envp *env)
 {
 	char	**path_array;
 	char	**command_array;
 	char	*path;
-
-	//만약 빌트인이면, 빌트인 실행 -> 빌트인 모음과 함께 비교. 빌트인 모음은 어디있지? 전역변수?
+	char	**envp;
 	
 	//아니면 command file 찾기
 	path = getenv("PATH");
@@ -65,40 +124,40 @@ void	execute(t_node *command, char **envp)
 	path = find_path(path, command->str);
 	if (path == NULL)
 		ft_error();
-	//execve : command array 로 보내줘야함 -> command list를 다시 array로 만들어?
-	command_array = make_list_to_array(command);
+	command_array = make_command_array(command);
+	envp = dearrange_envp(env);
+	if (envp == NULL)
+		exit(EXIT_FAILURE);
 	if (execve(path, command, envp) == -1)
 		ft_error();
 }
 
-void	ft_command(int *fd, t_node *command, t_envp *env)
+int get_env_size(t_envp *env)
 {
-	int		infile;
-	int		outfile;
-	t_node	*redirection;
+	int i;
 
-	infile = STDIN_FILENO;
-	outfile = STDOUT_FILENO;
-	redirection = command->left;
-	while (redirection && redirection->type == REDIRECTION)
+	i = 0;
+	while (env)
 	{
-		if (redirection->str == '<<')
-			infile = open(STDIN_FILENO, O_RDONLY, 0644); //redirection->left->str이 단독으로 들어올때까지 stdin을 읽기
-		else if (redirection->str == '<')
-			infile = open(redirection->left->str, O_RDONLY, 0644); // left 에 적힌 파일을 읽기
-		else if (redirection->str == '>>')
-			outfile = open(redirection->left->str, O_CREAT | O_APPEND | O_WRONLY, 0644);
-		else if (redirection->str == '>')
-			outfile = open(redirection->left->str, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-		redirection = redirection->right;
+		if (env->display == SHOW)
+			i += 1;
+		env = env->next;
 	}
-	if (infile == -1 || outfile == -1)
-		ft_error();
-	if (dup2(infile, STDIN_FILENO) == -1)
-		ft_error();
-	if (dup2(outfile, STDOUT_FILENO) == -1)
-		ft_error();
-	
+	return (i);
+}
+
+void	ft_command(int *fd, t_node *line, t_envp *env)
+{
+	int	fd[2];
+	t_node *redirection;
+	t_node *command;
+
+	redirection = line->left;
+	command = line->right;
+	check_redirection(redirection, fd);
+	//execute : 나누기 (builtin / 실행파일)
+	execute_function(command, env);
+	//fd 정리 필요 redirection에 어떤 fd2개를 연결시켜줄지?
 	//어떤 fd를 파이프에 연결해야될지, 어떤 fd를 닫아야할지... 어떻게 알지?
 	//해당 cmd가 파이프의 맨앞인지, 가운데인지, 마지막인지 어떻게 알지?
 }
@@ -111,4 +170,29 @@ void preorder(t_node *root)
 	printf("%s \n", root->type);
 	if(root->left) preorder(root->left);
 	if (root->right) preorder(root->right);
+}
+
+int execute_function(t_node *command, t_envp *env)
+{
+	int fd[2];
+
+	//만약 빌트인이면, 빌트인 실행
+	if (ft_strequal("pwd", command->str) == 0)
+		return (builtin_pwd(command));
+	else if (ft_strequal("cd", command->str) == 0)
+		return (builtin_cd(command, env));
+	else if (ft_strequal("exit", command->str) == 0)
+		return (builtin_exit(command));
+	else if (ft_strequal("env", command->str) == 0)
+		return (builtin_env(env));
+	else if (ft_strequal("export", command->str) == 0)
+		return (builtin_export(command, env));
+	else if (ft_strequal("echo", command->str) == 0)
+		return (builtin_echo(command, env));
+	else if (ft_strequal("unset", command->str) == 0)
+		return (builtin_unset(command, env));
+	//빌트인이 아니면, execute로 fork실행
+	else
+		execute(command, env);
+	return (0);
 }
