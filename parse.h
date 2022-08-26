@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/24 17:08:55 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/26 17:06:47 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,16 @@ void    execute_str(char *str, t_envp *env);
 
 void	*ft_memset(void *b, int c, size_t len);
 void	*ft_calloc(size_t count, size_t size);
+char	*ft_strjoin(char *s1, char *s2);
+size_t	ft_strlen(char *s);
+char	find_quotes(char *str, int *first, int *second);
+int check_valid(int i, int j, char *str);
+int ft_strequal(char *s1, char *s2);
+
+void    after_tokenize(t_token *tokenlist, t_envp *env);
+int delete_quotes(t_token *token, int idx1, int idx2, char ch);
+int change_dollar(t_token *tokenlist, t_envp *env);
+int find_double_quotes(t_token *tokenlist, t_envp *env, int i);
+void    envp_in_value(t_token *tokenlist, t_envp *env, int i, int j);
 
 #endif

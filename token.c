@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/24 17:09:04 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/26 14:12:38 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,79 +34,75 @@ t_token *make_new_token(int type, char *value)
     return (new);
 }
 
+int tokenize_pipe(int i, char *str, t_token *prev)
+{
+    t_token *new;
+
+    new = make_new_token(0, ft_strdup_idx(i, i, str));
+    prev->next = new;
+    prev = prev->next;
+    return (i);
+}
+
+int tokenize_redirect(int i, char *str, t_token *prev)
+{
+    char    ch;
+    int     j;
+    t_token *new;
+
+    ch = str[i];
+    if (str[i + 1] == ch)
+        j = i + 1;
+    else
+        j = i;
+    new = make_new_token(1, ft_strdup_idx(i, j, str));
+    prev->next = new;
+    prev = prev->next;
+    i = j;
+    return (i);
+}
+
+int tokenize_word(int i, char *str, t_token *prev)
+{
+    int     j;
+    t_token *new;
+
+    j = find_word(str, i);
+    new = make_new_token(2, ft_strdup_idx(i, j - 1, str));
+    prev->next = new;
+    prev = prev->next;
+    i = j - 1;
+    return (i);
+}
+
 t_token *tokenize(char *str)
 {
     t_token *res;
     t_token *prev;
-    t_token *new;
     int     i;
-    int     j;
-    char    ch;
 
     res = make_new_token(-1, NULL);
     prev = res;
-    i = 0;
-    while (str[i] != '\0')
+    i = -1;
+    while (str[++i] != '\0')
     {
         if (str[i] == ' ')
-        {
-            while (str[i] == ' ')
-                i++;
-        }
+            continue ;
         else if (str[i] == '|')
         {
-            new = make_new_token(0, ft_strdup_idx(i, i, str));
-            prev->next = new;
-            prev = prev->next;
-            i++;
+            i = tokenize_pipe(i, str, prev);
             continue ;
         }
         else if (str[i] == '>' || str[i] == '<')
         {
-            ch = str[i];
-            if (str[i + 1] == ch)
-                j = i + 1;
-            else
-                j = i;
-            new = make_new_token(1, ft_strdup_idx(i, j, str));
-            prev->next = new;
-            prev = prev->next;
-            i = j + 1;
+            i = tokenize_redirect(i, str, prev);
             continue ;
         }
         else
-        {
-            j = find_word(str, i);
-            new = make_new_token(2, ft_strdup_idx(i, j - 1, str));
-            prev->next = new;
-            prev = prev->next;
-            i = j;
-            continue ;
-        }
+            i = tokenize_word(i, str, prev);
     }
-    prev = res;
-    res = res->next;
-    free(prev);
     return (res);
-}
-
-char    *ft_strdup_idx(int i, int j, char *str)
-{
-    char    *res;
-    int     idx;
-
-    res = (char *)malloc(sizeof(char) * (j - i + 2));
-    if (!res)
-        return (0);
-    idx = 0;
-    while (i <= j)
-    {
-        res[idx] = str[i];
-        idx++;
-        i++;
-    }
-    res[idx] = '\0';
-    return (res);
+    //왜??? 왜 prev가 이어지지 않을까요?? 어떻게 해야할까요???
 }
 
 void    execute_str(char *str, t_envp *env)
@@ -116,7 +112,7 @@ void    execute_str(char *str, t_envp *env)
     tokenlist = tokenize(str);
     if (tokenlist == NULL)
         return ;
-
+    
     // int i = 0;
     // while (tokenlist != NULL)
     // {
