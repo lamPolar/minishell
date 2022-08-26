@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:48:05 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 16:12:07 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:41:25 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static void	delete_env(char *str, t_envp **head)
 	}
 }
 
-// show ->hide로 바꾸지 말고
-// list에서 아예 삭제하기
 int	builtin_unset(t_node *command, t_envp **head)
 {
 	t_node	*argument;

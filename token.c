@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/26 16:23:47 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:28:28 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,10 @@ void	execute_str(char *str, t_envp *env)
 	if (tokenlist == NULL)
 		return ;
 
-	// int i = 0;
-	// while (tokenlist != NULL)
-	// {
-	// 	printf("value:%s\ntype:%d\n\n", tokenlist->value, tokenlist->type);
-	// 	tokenlist = tokenlist->next;
-	// }
+	int i = 0;
+	while (tokenlist != NULL)
+	{
+		printf("value:%s\ntype:%d\n\n", tokenlist->value, tokenlist->type);
+		tokenlist = tokenlist->next;
+	}
 }

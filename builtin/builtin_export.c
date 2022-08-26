@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 16:02:19 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/26 16:40:36 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,32 +49,29 @@ static int	add_to_env(char *str, t_envp *env)
 			return (1);
 		env->next = new;
 	}
+	return (0);
 }
 
 int	export_with_argument(t_node *argument, t_envp *env)
 {
-	if (check_equal(argument->str)) // = 있으면 1리턴
+	if (check_equal(argument->str))
 	{
 		if (check_invalid(argument->str))
 			printf("KINDER: export: \'%s\': not a valid identifier\n", \
 			argument->str);
-		add_to_env(argument->str, env);
+		return (add_to_env(argument->str, env));
 	}
-	else // =이 없다면
+	while (env)
 	{
-		while (env)
+		if (ft_strequal(env->key, argument->str)) //맞는 env가 있다면 
 		{
-			if (ft_strequal(env->key, argument->str)) //맞는 env가 있다면 
-			{
-				env->display = SHOW;
-				return (0);
-			}
-			env = env->next;
+			env->display = SHOW;
+			return (0);
 		}
+		env = env->next;
 	}
 }
 
-//export a=b b=a 하면 둘다 입려되어야함.
 int	builtin_export(t_node *command, t_envp *env)
 {
 	t_envp	*new;
