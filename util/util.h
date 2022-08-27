@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:18:58 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:29:05 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int		change_env_value(char *str, t_envp *env, int display);
 int		add_to_env(char *str, t_envp *env, int display);
 int		change_env_value_plus(char *str, t_envp *env, int display);
 int		add_to_env_plus(char *str, t_envp *env, int display);
-
-
 
 //libft_util.c
 size_t	ft_strlen(const char *s);
@@ -69,5 +67,9 @@ char	*get_env_value(char *key, t_envp *env);
 
 //ast_util.h
 t_node	*make_new_node(char *str, int type, t_node *papa);
+t_node  *make_root_node(int i);
+int syntax_check_pipe(t_token *token, t_node *head);
+int syntax_check_redirect(t_token *token);
+void    free_tree(t_node *head);
 
 #endif
