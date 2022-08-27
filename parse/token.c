@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/08/28 04:49:48 by sojoo            ###   ########.fr       */
+=======
+/*   Updated: 2022/08/28 04:32:29 by heeskim          ###   ########.fr       */
+>>>>>>> df05211eb4f147ab5b7fc6d01f98abeac76b3d14
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+#include "../pipe.h"
 
 void	execute_str(char *str, t_envp *env)
 {

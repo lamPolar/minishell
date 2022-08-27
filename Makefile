@@ -8,7 +8,7 @@ NAME = minishell
 token: parse/*.c util/*.c main.c
 	gcc $^ -lreadline -o kinder
 
-test : test_main.c pipe.c envp.c builtin/*.c redirect.c util/*.c
+test : main.c pipe.c redirect.c execute.c builtin/*.c util/*.c parse/*.c
 	gcc $^ -lreadline -o test
 
 all : $(NAME)

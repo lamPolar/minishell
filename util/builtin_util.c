@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:32:02 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 02:59:54 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:46:30 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,11 @@ int	check_invalid(char *str)
 	{
 		if ((str[i] < 'A' || str[i] > 'z') && str[i] != '_' \
 			&& (str[i] < '0' || str[i] > '9'))
+		{
+			if (str[i] == '+' && str[i + 1] && str[i + 1] == '=')
+				return (2);
 			return (1);
+		}
 		i += 1;
 	}
 	return (0);
@@ -154,6 +158,53 @@ int	add_to_env(char *str, t_envp *env, int display)
 		{	
 			free(key);
 			return (change_env_value(str, env, display));
+		}
+		prev = env;
+		env = env->next;
+	}
+	free(key);
+	if (env == NULL)
+	{
+		new = make_new_envp(str, display);
+		if (new == NULL)
+			return (1);
+		prev->next = new;
+	}
+	return (0);
+}
+
+int	change_env_value_plus(char *str, t_envp *env, int display)
+{
+	char	*value;
+
+	value = envp_split_val(str);
+	if (value == NULL)
+		return (1);
+	value = ft_strjoin(env->value, value, 0);
+	if (value == NULL)
+		return (1);
+	free(env->value);
+	env->value = value;
+	env->display = display;
+	return (0);
+}
+
+int	add_to_env_plus(char *str, t_envp *env, int display)
+{
+	t_envp	*new;
+	t_envp	*prev;
+	char	*key;
+	char	*value;
+
+	key = envp_split_key(str);
+	if (key == NULL)
+		return (1);
+	while (env)
+	{
+		if (ft_strequal(env->key, key))
+		{
+			free(key);
+			return (change_env_value_plus(str, env, display));
 		}
 		prev = env;
 		env = env->next;

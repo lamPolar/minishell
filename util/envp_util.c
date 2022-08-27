@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:28 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 03:45:59 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:14:15 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ char	*envp_split_key(char *str)
 	int		i;
 
 	i = 0;
-	while (str[i] && str[i] != '=')
+	while (str[i] && str[i] != '=' && str[i] != '+')
 		i += 1;
 	res = (char *)ft_calloc(sizeof(char), i + 1);
 	if (res == NULL)
 		return (0);
 	i = 0;
-	while (str[i] && str[i] != '=')
+	while (str[i] && str[i] != '=' && str[i] != '+')
 	{
 		res[i] = str[i];
 		i += 1;
