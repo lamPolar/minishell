@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 03:27:19 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:03:09 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,9 @@ char	*get_env_value(char *key, t_envp *env);
 
 //ast_util.h
 t_node	*make_new_node(char *str, int type, t_node *papa);
+t_node  *make_root_node(int i);
+int syntax_check_pipe(t_token *token, t_node *head);
+int syntax_check_redirect(t_token *token);
+void    free_tree(t_node *head);
 
 #endif
