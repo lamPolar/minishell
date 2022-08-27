@@ -6,42 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 15:16:36 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 19:21:01 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-
-int	builtin_cd(t_node *command, t_envp *env)
-{
-	char	*home;
-
-	if (command->right == NULL || ft_strequal(command->right->str, "~"))
-	{
-		home = get_home(env);
-		printf("home : %s\n", home);
-		if (home == NULL)
-		{
-			printf("kinder: cd: HOME not set\n");
-			return (1);
-		}
-		if (chdir(home) == -1)
-		{
-			printf("cd: HOME: %s\n", strerror(errno));
-			return (1);
-		}
-	}
-	else
-	{
-		if (chdir(command->right->str) == -1)
-		{
-			printf("cd: %s: %s\n", command->right->str, strerror(errno));
-			return (1);
-		}
-	}
-	return (0);
-}
-//cd ~/Desktop/ -> ~에대해서 변환해줘야함...?
 
 int	builtin_pwd(t_node *command)
 {

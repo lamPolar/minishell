@@ -6,13 +6,13 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 15:19:25 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 17:39:53 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	change_env_value(char *str, t_envp *env)
+int	change_env_value(char *str, t_envp *env)
 {
 	char	*value;
 
@@ -25,7 +25,7 @@ static int	change_env_value(char *str, t_envp *env)
 	return (0);
 }
 
-static int	add_to_env(char *str, t_envp *env)
+int	add_to_env(char *str, t_envp *env)
 {
 	t_envp	*new;
 	t_envp	*prev;

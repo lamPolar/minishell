@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 00:40:26 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 14:04:39 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 20:20:43 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char    *ft_strdup_idx(int i, int j, char *str)
     return (res);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, int flag)
 {
 	char	*str;
 	size_t	len;
@@ -84,8 +84,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[len] != '\0')
 		str[i++] = s2[len++];
 	str[i] = '\0';
-	free(s1);
-	free(s2);
+	if (flag)
+	{
+		free(s1);
+		free(s2);
+	}
 	return (str);
 }
 

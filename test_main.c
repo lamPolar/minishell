@@ -1,4 +1,5 @@
 #include "parse.h"
+#include "builtin/builtin.h"
 #include "pipe.h"
 #include "define.h"
 
@@ -24,20 +25,20 @@ int redirection_test_main(int argc, char *argv[])
     here_doc(STDOUT_FILENO, argv[1]);
 }
 
-t_node *make_new_node(char *str, int type, t_node *papa)
-{
-    t_node *new;
+// t_node *make_new_node(char *str, int type, t_node *papa)
+// {
+//     t_node *new;
 
-    new = (t_node *)ft_calloc(sizeof(t_node), 1);
-    if (new == NULL)
-        return (NULL);
-    new->str = str;
-    new->type = type;
-    new->right = NULL;
-    new->left = NULL;
-    new->papa = papa;
-    return (new);
-}
+//     new = (t_node *)ft_calloc(sizeof(t_node), 1);
+//     if (new == NULL)
+//         return (NULL);
+//     new->str = str;
+//     new->type = type;
+//     new->right = NULL;
+//     new->left = NULL;
+//     new->papa = papa;
+//     return (new);
+// }
 
 //전위순회 방법 
 //preorder way 
@@ -71,9 +72,9 @@ int main(int argc, char *argv[], char *envp[])
     left_left->right = make_new_node((">"), REDIRECTION, left_left);
     left_left->right->left = make_new_node(("b"), REDIRECTION, left_left->right);
 
-    head_left->right = make_new_node(("unset"), COMMAND, head_left);
+    head_left->right = make_new_node(("cd"), COMMAND, head_left);
     left_right = head_left->right;
-    left_right->right = make_new_node(("1ABC"), COMMAND, left_right);
+    left_right->right = make_new_node(("~"), COMMAND, left_right);
     // left_right->right->right = make_new_node(("LESS"), COMMAND, left_right->right);
     // left_right->right->right->right = make_new_node(("o"), COMMAND, left_right->right->right);
     ///left_right->right->right->right->right = make_new_node(("..."), COMMAND, left_right->right->right->right);
@@ -85,17 +86,17 @@ int main(int argc, char *argv[], char *envp[])
     
     //preorder(head);
     
-    builtin_env(env);
-    printf("\n\n");
-    if (ft_strequal(head_right->right->str, "export"))
-        builtin_export(head_right->right, env);
-    printf("\n\n");
-    builtin_env(env);
-    printf("\n\n");
-    if (ft_strequal(left_right->str, "unset"))
-        builtin_unset(left_right, env);
-    printf("\n\n");
-    builtin_env(env);  
+    // builtin_env(env);
+    // printf("\n\n");
+    // if (ft_strequal(head_right->right->str, "export"))
+    //     builtin_export(head_right->right, env);
+    // printf("\n\n");
+    // builtin_env(env);
+    // printf("\n\n");
+    // if (ft_strequal(left_right->str, "unset"))
+    //     builtin_unset(left_right, env);
+    // printf("\n\n");
+    // builtin_env(env);  
 
     // builtin_env(env);
     // printf("\n\n");
@@ -110,9 +111,9 @@ int main(int argc, char *argv[], char *envp[])
     // if (ft_strequal(left_right->str, "echo"))
     //     builtin_echo(left_right, env);
    
-    // if (ft_strequal(left_right->str, "cd"))
-    //     builtin_cd(left_right, env);
-    //builtin_pwd(head);
+    if (ft_strequal(left_right->str, "cd"))
+        builtin_cd(left_right, env);
+    builtin_pwd(head);
     // head->right = make_new_node(NULL, PIPE, head);
     // head_right = head->right;
 }

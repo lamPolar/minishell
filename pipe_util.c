@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 13:38:24 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 20:25:03 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	**get_path(t_envp *env)
 	if (env == NULL)
 		env = NULL; // 일단 아무거나 써둠
 		//path환경변수 없으면? 어떻게 할까?
+		//없는채로 넘겨줘라...?
+		
 	else
 	{
 		path_array = ft_split(env->value, ':');
