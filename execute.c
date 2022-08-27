@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 03:39:22 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:28:34 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,17 @@ int	execute_function(t_node *command, t_envp *env)
 		return (builtin_echo(command, env));
 	if (ft_strequal("unset", command->str))
 		return (builtin_unset(command, env));
-	if (check_equal(command->str) && check_invalid(command->str) == 0)
-		return (add_to_env(command->str, env, HIDE));
+	if (check_equal(command->str))
+	{
+		if (check_invalid(command->str) == 2)
+			return (add_to_env_plus(command->str, env, SHOW));
+		else if (check_invalid(command->str) == 0)
+			return (add_to_env(command->str, env, HIDE));
+	}
 	else
 		execute_with_fork(command, env);
 }
-
+                    
 void	execute_process(t_node *command, t_envp *env)
 {
 	char	**path_array;

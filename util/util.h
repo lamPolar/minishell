@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 03:27:19 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:18:58 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ int		ft_atoi(const char *str);
 int		free_both(char *s1, char *s2);
 int		change_env_value(char *str, t_envp *env, int display);
 int		add_to_env(char *str, t_envp *env, int display);
+int		change_env_value_plus(char *str, t_envp *env, int display);
+int		add_to_env_plus(char *str, t_envp *env, int display);
+
+
 
 //libft_util.c
 size_t	ft_strlen(const char *s);
