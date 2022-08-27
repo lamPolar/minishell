@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:21:18 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:21:36 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 20:57:20 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,21 +105,6 @@ int change_pwd(char *oldpwd, char *pwd, t_envp *env)
 	if (flag)
 		return (1);
 	return (0);
-}
-
-static t_node *make_new_node(char *str, int type, t_node *papa)
-{
-    t_node *new;
-
-    new = (t_node *)ft_calloc(sizeof(t_node), 1);
-    if (new == NULL)
-        return (NULL);
-    new->str = str;
-    new->type = type;
-    new->right = NULL;
-    new->left = NULL;
-    new->papa = papa;
-    return (new);
 }
 
 int	builtin_cd(t_node *command, t_envp *env)

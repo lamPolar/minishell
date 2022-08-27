@@ -6,11 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:25:03 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 20:52:21 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipe.h"
+#include "util.h"
 
 char	*find_path(char **env_path, char *command)
 {

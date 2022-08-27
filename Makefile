@@ -5,10 +5,10 @@ OBJS = $(SRCS:.c=.o)
 
 NAME = minishell
 
-token: envp.c main.c token2.c parse_util.c
+token: envp.c main.c token2.c util/*.c ast.c
 	gcc $^ -lreadline -o kinder
 
-test : test_main.c pipe.c envp.c builtin/*.c libft_util.c pipe_util.c redirect.c parse_util.c
+test : test_main.c pipe.c envp.c builtin/*.c redirect.c util/*.c
 	gcc $^ -lreadline -o test
 
 all : $(NAME)

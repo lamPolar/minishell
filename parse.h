@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/27 20:28:01 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 20:59:46 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSE_H
 
 # include "define.h"
+# include "util/util.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <errno.h>
@@ -21,11 +22,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-t_envp	*make_new_envp(char *str);
-char	*envp_split_val(char *str);
-char	*envp_split_key(char *str);
+//envp.c
 t_envp	*arrange_envp(char **envp);
-t_envp	*free_envp(t_envp *head);
 
 int		find_word(char *str, int i);
 char	*ft_strdup_idx(int i, int j, char *str);
@@ -33,13 +31,6 @@ t_token	*make_new_token(int type, char *value);
 t_token	*tokenize(char *str);
 
 void	execute_str(char *str, t_envp *env);
-
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_strjoin(char *s1, char *s2, int flag);
-size_t	ft_strlen(const char *s);
-char	find_quotes(char *str, int *first, int *second);
-int 	check_valid(int i, int j, char *str);
-int 	ft_strequal(char *s1, char *s2);
 
 void    after_tokenize(t_token *tokenlist, t_envp *env);
 int 	delete_quotes(t_token *token, int idx1, int idx2, char ch);

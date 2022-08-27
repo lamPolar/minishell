@@ -1,7 +1,8 @@
-#include "parse.h"
-#include "builtin/builtin.h"
-#include "pipe.h"
+#include "util/util.h"
 #include "define.h"
+#include "parse.h"
+#include "pipe.h"
+#include "builtin/builtin.h"
 
 int print_envp(char *envp[])
 {

@@ -6,11 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:32:02 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:22:18 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 21:02:26 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "util.h"
 
 int	ft_strequal(char *s1, char *s2)
 {
@@ -112,22 +112,4 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	return ((int)(result * sign));
-}
-
-char	*ft_strdup(const char *s1)
-{
-	char	*new;
-	size_t	slen;
-
-	slen = ft_strlen(s1);
-	new = (char *)ft_calloc(sizeof(char), slen + 1);
-	if (new == NULL)
-		return (NULL);
-	while (slen > 0)
-	{	
-		new[slen] = s1[slen];
-		slen -= 1;
-	}
-	new[0] = s1[0];
-	return (new);
 }

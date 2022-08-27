@@ -6,11 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:28:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 22:08:06 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 20:49:22 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipe.h"
+#include "util.h"
 
 size_t	ft_strlen(const char *s)
 {

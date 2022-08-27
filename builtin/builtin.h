@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:48 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:22:12 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 20:47:03 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define BUILTIN_H
 
 # include "../define.h"
-# include "../parse.h"
+# include "../util/util.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -25,15 +25,6 @@
 int	builtin_cd(t_node *command, t_envp *env);
 int	builtin_pwd(t_node *command);
 int	builtin_exit(t_node *command, t_envp *env);
-
-//builtin_util.c
-int		ft_strequal(char *s1, char *s2);
-int		check_equal(char *str);
-int		check_invalid(char *str);
-int		ft_isnum(char *str);
-int		max(int len1, int len2);
-int		ft_atoi(const char *str);
-char	*ft_strdup(const char *s1);
 
 //builtin_export.c
 int	change_env_value(char *str, t_envp *env);

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 23:40:28 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 21:03:32 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,14 @@
 # define PIPE_H
 
 # include "define.h"
+# include "util/util.h"
 # include "builtin/builtin.h"
 # include <sys/wait.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h> 
-# include <sys/stat.h>
-
-//pipe_util.c
-char	*find_path(char **env_path, char *command);
-char	**get_path(t_envp *env);
-char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
-void	ft_error(void);
-void	ft_free(char *str);
-void	free_double_array(char **string);
+//# include <sys/stat.h>
 
 //pipe.c
 int	    count_process(t_node *root);
