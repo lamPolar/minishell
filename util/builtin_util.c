@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:32:02 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:46:30 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 05:46:56 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,15 @@ int	ft_atoi(const char *str)
 
 int	change_env_value(char *str, t_envp *env, int display)
 {
+	char	*save;
 	char	*value;
 
 	value = envp_split_val(str);
 	if (value == NULL)
 		return (1);
-	free(env->value);
+	save = env->value;
 	env->value = value;
+	free(save);
 	env->display = display;
 	return (0);
 }

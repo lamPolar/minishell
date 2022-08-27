@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:47:19 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 05:51:10 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	execute_with_fork(t_node *command, t_envp *env)
 	pid_t	pid;
 	int		status;
 	char	*exitcode;
+	char	*save;
 
 	pid = fork();
 	if (pid == 0)
@@ -82,7 +83,12 @@ void	execute_with_fork(t_node *command, t_envp *env)
 		while (env)
 		{
 			if (ft_strequal(env->key, "?"))
-				change_env_value(exitcode, env, HIDE);
+			{
+				save = env->value;
+				env->value = exitcode;
+				free(save);
+				break ;
+			}
 			env = env->next;
 		}
 	}

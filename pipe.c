@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 03:40:48 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 05:56:56 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,18 @@ void	make_process(t_node *line, t_envp *env)
 	if (line->left)
 		check_redirection(line->left, fd);
 	if (line->right)
-		execute_function(line->right, env);
+	{
+		// if (line->right->str[0] == '\0')
+		// {
+		// 	add_to_env("?=0", env, HIDE); //$?만 0으로 초기화
+		// }
+		// else
+		// {
+			execute_function(line->right, env);
+		//}
+	}
+	else
+		add_to_env("?=0", env, HIDE); //$?만 0으로 초기화
 }
 
 int	count_process(t_node *root)

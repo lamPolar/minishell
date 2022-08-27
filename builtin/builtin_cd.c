@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:21:18 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 03:27:42 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 06:14:01 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,25 @@ int	check_home(t_node *command, t_envp *env)
 {
 	char	*home;
 	char	*path;
+	char	*save;
 
 	home = get_env_value("HOME", env);
 	if (home == NULL)
 		return (1);
 	if (ft_strequal(command->str, "~") || ft_strequal(command->str, "--"))
+	{
 		command->str = home;
+		return (0);
+	}
 	else if (command->str[0] == '~' && command->str[1] == '/')
 	{
 		path = ft_strjoin(home, &(command->str[1]), 0);
 		if (path == NULL)
 			return (1);
 		free(home);
+		save = command->str;
 		command->str = path;
+		free(save);
 		return (0);
 	}
 	free(home);
@@ -38,13 +44,16 @@ int	check_home(t_node *command, t_envp *env)
 int	check_oldpwd(t_node *command, t_envp *env)
 {
 	char	*oldpwd;
+	char	*save;
 
 	oldpwd = get_env_value("OLDPWD", env);
 	if (oldpwd == NULL)
 		return (1);
 	if (ft_strequal(command->str, "-"))
 	{
+		save = command->str;
 		command->str = oldpwd;
+		free(save);
 		return (0);
 	}
 	free(oldpwd);
@@ -55,9 +64,12 @@ char	*make_pwd(char *str, char **pwd)
 {
 	char	*temp;
 	char	*oldpwd;
+	char	*save;
 	size_t	size;
 
+	save = *pwd;
 	*pwd = ft_strjoin("PWD=", str, 0);
+	free(save);
 	temp = NULL;
 	temp = getcwd(temp, size);
 	if (temp == NULL)
@@ -97,7 +109,7 @@ int	builtin_cd(t_node *command, t_envp *env)
 	}
 	if (check_home(argument, env) || check_oldpwd(argument, env))
 		return (1);
-	pwd = NULL;
+	pwd = (char *)ft_calloc(sizeof(char), 1);
 	oldpwd = make_pwd(argument->str, &pwd);
 	if (oldpwd == NULL || pwd == NULL)
 		return (free_both(pwd, oldpwd));
