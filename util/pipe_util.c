@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 23:33:10 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/28 01:06:44 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3)
 void	ft_error(void)
 {
 	perror("\e[1;31mError\e[0m");
-	exit(EXIT_FAILURE);
+	//exit(EXIT_FAILURE);
 }
 
 void	ft_free(char *str)

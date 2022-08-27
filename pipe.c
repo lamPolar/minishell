@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 00:45:54 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 01:09:53 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,35 +27,34 @@ int	count_process(t_node *root)
 
 void	make_process(t_node *line, t_envp *env)
 {
-	pid_t	pid;
+	//pid_t	pid;
 	int		fd[2];
 	int		status;
 	char	*exitcode;
 
-	pid = fork();
+	//pid = fork();
 	fd[0] = STDIN_FILENO;
 	fd[1] = STDOUT_FILENO;
-	if (pid == 0)
-	{
-		if (line->left)
-			check_redirection(line->left, fd);
-		if (line->right)
-			execute_function(line->right, env);
-	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-    {
-        status = WEXITSTATUS(status);       
-        exitcode = ft_itoa(status);
-		if (exitcode == NULL)
-			return ;
-		exitcode = ft_strjoin("?=", exitcode, 0);
-		if (exitcode == NULL)
-			return ;
-		if (add_to_env(exitcode, env))
-			return ;
-    }
-
+	//if (pid == 0)
+	//{
+	if (line->left)
+		check_redirection(line->left, fd);
+	if (line->right)
+		execute_function(line->right, env);
+	//}
+	//waitpid(pid, &status, 0);
+	// if (WIFEXITED(status))
+    // {
+    //     status = WEXITSTATUS(status);       
+    //     exitcode = ft_itoa(status);
+	// 	if (exitcode == NULL)
+	// 		return ;
+	// 	exitcode = ft_strjoin("?=", exitcode, 0);
+	// 	if (exitcode == NULL)
+	// 		return ;
+	// 	if (add_to_env(exitcode, env))
+	// 		return ;
+    // }
 }
 
 void	execute_tree(t_node *root, t_envp *env)
@@ -131,23 +130,43 @@ int	execute_function(t_node *command, t_envp *env)
 
 void	execute(t_node *command, t_envp *env)
 {
+	pid_t	pid;
+	int		status;
+	char	*exitcode;
 	char	**path_array;
 	char	**command_array;
 	char	*path;
 	char	**envp;
 
-	path_array = get_path(env);
-	if (path_array == NULL)
-		ft_error();
-	path = find_path(path_array, command->str);
-	if (path == NULL)
-		ft_error();
-	command_array = make_command_array(command);
-	if (command_array == NULL)
-		ft_error();
-	envp = dearrange_envp(env);
-	if (envp == NULL)
-		exit(EXIT_FAILURE);
-	if (execve(path, command_array, envp) == -1)
-		ft_error();
+	pid = fork();
+	if (pid == 0)
+	{
+		path_array = get_path(env);
+		if (path_array == NULL)
+			ft_error();
+		path = find_path(path_array, command->str);
+		if (path == NULL)
+			ft_error();
+		command_array = make_command_array(command);
+		if (command_array == NULL)
+			ft_error();
+		envp = dearrange_envp(env);
+		if (envp == NULL)
+			exit(EXIT_FAILURE);
+		if (execve(path, command_array, envp) == -1)
+			ft_error();
+	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+    {
+        status = WEXITSTATUS(status);       
+        exitcode = ft_itoa(status);
+		if (exitcode == NULL)
+			return ;
+		exitcode = ft_strjoin("?=", exitcode, 0);
+		if (exitcode == NULL)
+			return ;
+		if (add_to_env(exitcode, env))
+			return ;
+    }
 }

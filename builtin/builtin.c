@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 00:45:23 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 01:11:40 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ int	builtin_exit(t_node *line, t_envp *env)
 		if (argument->right == NULL)
 		{
 			if (ft_isnum(argument->str))
+			{
+				printf ("🥚 KINDER JOY SHELL EXIT 🥚\n");
 				exit(ft_atoi(argument->str));
+			}
 			else
 			{
 				printf("exit\nKINDER: exit: %s: numeric argument required\n", \

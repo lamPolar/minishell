@@ -53,38 +53,8 @@ void	preorder(t_node *root)
 		preorder(root->right);
 }
 
-int main(int argc, char *argv[], char *envp[])
+int builtin_main(int argc, char *argv[], char *envp[])
 {
-    t_node *head;
-    t_node *head_left;
-    t_node *left_left;
-    t_node *left_right;
-    t_node *head_right;
-    t_envp *env;
-
-    env = arrange_envp(envp);
-    head = make_new_node(NULL, PIPE, NULL);
-    head->left = make_new_node(NULL, LINE, head);
-    head_left = head->left;
-
-    head_left->left = make_new_node(("<<"), REDIRECTION, head_left);
-    left_left = head_left->left;
-    left_left->left = make_new_node(("a"), REDIRECTION, left_left);
-    left_left->right = make_new_node((">"), REDIRECTION, left_left);
-    left_left->right->left = make_new_node(("b"), REDIRECTION, left_left->right);
-
-    head_left->right = make_new_node("unset", COMMAND, head_left);
-    left_right = head_left->right;
-    left_right->right = make_new_node(("ABC"), COMMAND, left_right);
-    // left_right->right->right = make_new_node(("LESS"), COMMAND, left_right->right);
-    // left_right->right->right->right = make_new_node(("o"), COMMAND, left_right->right->right);
-    // left_right->right->right->right->right = make_new_node(("..."), COMMAND, left_right->right->right->right);
-
-    head->right = make_new_node(NULL, LINE, head);
-    head_right = head->right;
-    head_right->right = make_new_node("export", COMMAND, head_right);
-    head_right->right->right = make_new_node("ABC=ABC", COMMAND, head_right->right);
-    
     //preorder(head);
     
     // builtin_env(env);
@@ -121,4 +91,11 @@ int main(int argc, char *argv[], char *envp[])
 
     while (1){
     }
+}
+
+
+void    B(t_node *node){
+    t_node *queue;
+
+
 }
