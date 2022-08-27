@@ -18,7 +18,9 @@
 # define SHOW 21
 
 //token.type
-// # define WORD 2 ???맞나여?
+# define PIPE_T 30
+# define REDIRECT 31
+# define WORD 32
 
 typedef struct envp
 {

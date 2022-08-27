@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:27:51 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/27 20:17:07 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ t_token *make_quotes_token(char *str, int i, int j, t_token *prev)
     else
         word = ft_strdup_idx(i, find_word(str, j) - 1, str);
     new = NULL;
-    if (str[i - 1] != ' ' && prev->type == 2)
-        prev->value = ft_strjoin(prev->value, word);
+    if (str[i - 1] != ' ' && prev->type == WORD)
+        prev->value = ft_strjoin(prev->value, word); //flag1로 변경
     else
-        new = make_new_token(2, word);
+        new = make_new_token(WORD, word);
     return (new);
 }
 
@@ -98,7 +98,7 @@ t_token *tokenize(char *str)
         }
         else if (str[i] == '|')
         {
-            new = make_new_token(0, ft_strdup_idx(i, i, str));
+            new = make_new_token(PIPE_T, ft_strdup_idx(i, i, str));
             prev->next = new;
             prev = prev->next;
             i++;
@@ -111,7 +111,7 @@ t_token *tokenize(char *str)
                 j = i + 1;
             else
                 j = i;
-            new = make_new_token(1, ft_strdup_idx(i, j, str));
+            new = make_new_token(REDIRECT, ft_strdup_idx(i, j, str));
             prev->next = new;
             prev = prev->next;
             i = j + 1;
@@ -120,7 +120,7 @@ t_token *tokenize(char *str)
         else
         {
             j = find_word(str, i);
-            new = make_new_token(2, ft_strdup_idx(i, j - 1, str));
+            new = make_new_token(WORD, ft_strdup_idx(i, j - 1, str));
             prev->next = new;
             prev = prev->next;
             i = j;
@@ -269,7 +269,7 @@ void    after_tokenize(t_token *tokenlist, t_envp *env)
 
     while (tokenlist != NULL)
     {
-        if (tokenlist->type == 2)
+        if (tokenlist->type == WORD)
         {
             if (change_dollar(tokenlist, env) == 0)
                 return ;
@@ -292,11 +292,15 @@ void    after_tokenize(t_token *tokenlist, t_envp *env)
 void    execute_str(char *str, t_envp *env)
 {
     t_token *tokenlist;
+    t_node  *ast;
 
     tokenlist = tokenize(str);
     if (tokenlist == NULL)
         return ;
     after_tokenize(tokenlist, env);
+    ast = into_ast(tokenlist);
+    if (ast == NULL)
+        return ;
 
     int i = 0;
     while (tokenlist != NULL)

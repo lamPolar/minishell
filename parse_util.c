@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 00:40:26 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:20:43 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 20:27:56 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ char	find_quotes(char *str, int *first, int *second)
 int check_valid(int i, int j, char *str)
 {
 	i++;
+	if (str[i] == '?')
+		return (i + 1);
 	while (i <= j)
     {
 		if ((str[i] < 'A' || str[i] > 'z') && str[i] != '_' && \

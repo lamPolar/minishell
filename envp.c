@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:38 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/27 15:15:12 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 15:59:38 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ t_envp	*arrange_envp(char **envp)
 		prev = prev->next;
 		cnt += 1;
 	}
+	new = make_new_envp("?=0");
+	if (new == NULL)
+		return (free_envp(head));
+	new->display = HIDE;
+	prev->next = new;
 	return (head);
 }
 
