@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 00:40:26 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 14:04:39 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 16:13:04 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ char	find_quotes(char *str, int *first, int *second)
 int check_valid(int i, int j, char *str)
 {
 	i++;
+	if (str[i] == '?')
+		return (i + 1);
 	while (i <= j)
     {
 		if ((str[i] < 'A' || str[i] > 'z') && str[i] != '_' && \
