@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:32:02 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:21:00 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:46:30 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ int	check_invalid(char *str)
 	{
 		if ((str[i] < 'A' || str[i] > 'z') && str[i] != '_' \
 			&& (str[i] < '0' || str[i] > '9'))
-			{
-				if (str[i] == '+' && str[i + 1] && str[i + 1] == '=')
-					return (2);
-				return (1);
-			}
+		{
+			if (str[i] == '+' && str[i + 1] && str[i + 1] == '=')
+				return (2);
+			return (1);
+		}
 		i += 1;
 	}
 	return (0);
@@ -202,7 +202,7 @@ int	add_to_env_plus(char *str, t_envp *env, int display)
 	while (env)
 	{
 		if (ft_strequal(env->key, key))
-		{	
+		{
 			free(key);
 			return (change_env_value_plus(str, env, display));
 		}

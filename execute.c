@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:28:34 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:47:19 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ int	execute_function(t_node *command, t_envp *env)
 		else if (check_invalid(command->str) == 0)
 			return (add_to_env(command->str, env, HIDE));
 	}
-	else
-		execute_with_fork(command, env);
+	execute_with_fork(command, env);
 }
-                    
+               
 void	execute_process(t_node *command, t_envp *env)
 {
 	char	**path_array;

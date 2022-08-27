@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:23:43 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:46:51 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	export_with_argument(t_node *argument, t_envp *env)
 {
-	int check;
+	int	check;
 
 	if (check_equal(argument->str))
 	{
@@ -25,7 +25,7 @@ int	export_with_argument(t_node *argument, t_envp *env)
 			argument->str);
 			return (1);
 		}
-		else if(check == 2)
+		else if (check == 2)
 			return (add_to_env_plus(argument->str, env, SHOW));
 		return (add_to_env(argument->str, env, SHOW));
 	}
