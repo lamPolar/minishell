@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 00:27:47 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 03:27:19 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int		ft_isnum(char *str);
 int		max(int len1, int len2);
 int		ft_atoi(const char *str);
 int		free_both(char *s1, char *s2);
+int		change_env_value(char *str, t_envp *env, int display);
+int		add_to_env(char *str, t_envp *env, int display);
 
 //libft_util.c
 size_t	ft_strlen(const char *s);
@@ -53,12 +55,13 @@ void	ft_free(char *str);
 void	free_double_array(char **string);
 
 //envp_util.h
-t_envp	*make_new_envp(char *str);
+t_envp	*make_new_envp(char *str, int display);
 char	*envp_split_key(char *str);
 char	*envp_split_val(char *str);
 t_envp	*free_envp(t_envp *head);
 char	**dearrange_envp(t_envp *env);
 int		get_env_size(t_envp *env);
+char	*get_env_value(char *key, t_envp *env);
 
 //ast_util.h
 t_node	*make_new_node(char *str, int type, t_node *papa);

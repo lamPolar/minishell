@@ -6,13 +6,13 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:28 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 22:34:25 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 03:45:59 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "util.h"
 
-t_envp	*make_new_envp(char *str)
+t_envp	*make_new_envp(char *str, int display)
 {
 	t_envp	*new;
 
@@ -22,7 +22,7 @@ t_envp	*make_new_envp(char *str)
 	new->key = envp_split_key(str);
 	new->value = envp_split_val(str);
 	new->next = NULL;
-	new->display = SHOW;
+	new->display = display;
 	if (new->key == NULL || new->value == NULL)
 	{
 		free_both(new->key, new->value);
@@ -37,13 +37,13 @@ char	*envp_split_key(char *str)
 	int		i;
 
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=')
 		i += 1;
 	res = (char *)ft_calloc(sizeof(char), i + 1);
 	if (res == NULL)
 		return (0);
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=')
 	{
 		res[i] = str[i];
 		i += 1;
@@ -59,17 +59,17 @@ char	*envp_split_val(char *str)
 	int		j;
 
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=')
 		i += 1;
 	i += 1;
 	j = 0;
-	while (str[i + j] != '\0')
+	while (str[i + j])
 		j += 1;
 	res = (char *)ft_calloc(sizeof(char), j + 1);
 	if (res == NULL)
 		return (NULL);
 	j = 0;
-	while (str[i] != '\0')
+	while (str[i])
 	{
 		res[j] = str[i];
 		i += 1;

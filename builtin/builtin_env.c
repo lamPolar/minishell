@@ -6,11 +6,26 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:48:05 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 15:15:54 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 03:26:25 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+
+char	*get_env_value(char *key, t_envp *env)
+{
+	char	*value;
+
+	while (env && ft_strequal(env->key, key) == 0)
+		env = env->next;
+	if (env == NULL)
+	{
+		printf("KINDER: cd: %s not set\n", key);
+		return (NULL);
+	}
+	value = ft_strdup(env->value);
+	return (value);
+}
 
 static void	delete_env(char *str, t_envp **head)
 {

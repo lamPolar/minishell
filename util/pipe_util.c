@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 01:06:44 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 03:36:47 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*find_path(char **env_path, char *command)
 	if (env_path[i] == NULL)
 	{
 		printf("KINDER: %s: command not found\n", command);
-		return (NULL);
+		exit(EXIT_FAILURE);
 	}
 	free_double_array(env_path);
 	return (path);
@@ -80,8 +80,8 @@ char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3)
 
 void	ft_error(void)
 {
-	perror("\e[1;31mError\e[0m");
-	//exit(EXIT_FAILURE);
+	printf("\e[1;31mError: \e[0m %s\n",strerror(errno));
+	exit(EXIT_FAILURE);
 }
 
 void	ft_free(char *str)
@@ -101,6 +101,7 @@ void	free_double_array(char **string)
 	while (string[i])
 	{
 		ft_free(string[i]);
+		string[i] = NULL;
 		i += 1;
 	}
 	free(string);

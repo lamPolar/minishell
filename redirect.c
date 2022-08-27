@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 14:31:10 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 03:15:46 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ void	open_redirection_file(t_node *file, int MODE, int *fd)
 	if (*fd == -1)
 	{
 		printf("KINDER: %s", strerror(errno));
-		exit(127); // builtin_exit을 호출?
+		exit(127);
 	}
 }

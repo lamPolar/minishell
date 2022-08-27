@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 01:11:40 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 03:29:40 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,38 +29,6 @@ int	builtin_pwd(t_node *command)
 	return (0);
 }
 
-int	builtin_exit(t_node *line, t_envp *env)
-{
-	t_node	*argument;
-
-	argument = line->right;
-	if (argument == NULL)
-	{
-		printf("exit\n");
-		exit(0);
-	}
-	else
-	{
-		if (argument->right == NULL)
-		{
-			if (ft_isnum(argument->str))
-			{
-				printf ("🥚 KINDER JOY SHELL EXIT 🥚\n");
-				exit(ft_atoi(argument->str));
-			}
-			else
-			{
-				printf("exit\nKINDER: exit: %s: numeric argument required\n", \
-						argument->str);
-				free_envp(env);
-				//free_tree(head);
-				exit(255);
-			}
-		}
-		else
-			printf("exit\nKINDER: exit: too many arguments\n");
-	}
-}
 	//free필요???
 	/*
 	exit만 입력시 -> exit출력 후 exit_success를 넘기면서 종료
@@ -75,6 +43,29 @@ int	builtin_exit(t_node *line, t_envp *env)
 	출력후 종료
 	파이프 뒤에 있으면, 자식프로세스의 exit이기 때문에 쉘 종료 x
 	그러나 $?에는 해당 exit의 값이 있음*/
+	//exit하기 전에 exitcode를 env에 저장하기로 xx-> wait에서 끝난 process의 
+	//종료코드를 보고, 그걸 읽어서 env에 넣어주기로
 
-	//exit하기 전에 exitcode를 env에 저장하기로 xx-> wait에서 끝난 process의 종료코드를 보고, 그걸 읽어서 env에 넣어주기로
-	
+int	builtin_exit(t_node *command, t_envp *env)
+{
+	t_node	*argument;
+
+	printf("🥚 KINDER JOY SHELL EXIT 🥚\n");
+	argument = command->right;
+	if (argument == NULL)
+		exit(0);
+	else
+	{
+		if (argument->right == NULL)
+		{
+			if (ft_isnum(argument->str))
+				exit(ft_atoi(argument->str));
+			printf("KINDER: exit: %s: numeric argument required\n" \
+					, argument->str);
+			free_envp(env);
+			//free_tree(head);
+			exit(255);
+		}
+		printf("KINDER: exit: too many arguments\n");
+	}
+}

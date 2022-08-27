@@ -6,33 +6,18 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:21:18 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 22:30:52 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 03:27:42 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-
-char	*get_env(char *key, t_envp *env)
-{
-	char	*value;
-
-	while (env && ft_strequal(env->key, key) == 0)
-		env = env->next;
-	if (env == NULL)
-	{
-		printf("KINDER: cd: %s not set\n", key);
-		return (NULL);
-	}
-	value = ft_strdup(env->value);
-	return (value);
-}
 
 int	check_home(t_node *command, t_envp *env)
 {
 	char	*home;
 	char	*path;
 
-	home = get_env("HOME", env);
+	home = get_env_value("HOME", env);
 	if (home == NULL)
 		return (1);
 	if (ft_strequal(command->str, "~") || ft_strequal(command->str, "--"))
@@ -54,7 +39,7 @@ int	check_oldpwd(t_node *command, t_envp *env)
 {
 	char	*oldpwd;
 
-	oldpwd = get_env("OLDPWD", env);
+	oldpwd = get_env_value("OLDPWD", env);
 	if (oldpwd == NULL)
 		return (1);
 	if (ft_strequal(command->str, "-"))
@@ -87,9 +72,9 @@ int	change_pwd(char *oldpwd, char *pwd, t_envp *env)
 	int	flag;
 
 	flag = 0;
-	if (add_to_env(oldpwd, env))
+	if (add_to_env(oldpwd, env, SHOW))
 		flag = 1;
-	if (add_to_env(pwd, env))
+	if (add_to_env(pwd, env, SHOW))
 		flag = 1;
 	free_both(pwd, oldpwd);
 	if (flag)

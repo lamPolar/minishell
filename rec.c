@@ -1,8 +1,5 @@
 #include "builtin/builtin.h"	
-	//t_node *command
-	//command : root 기준 왼쪽 : redirection, 오른쪽 : 실제 command
-	//1. 총 pipe개수 + 1 = process -> 이건 먼저 알아야해.
-	//2. file, command array? list? 
+
 int	run_pipe(t_node *root, t_envp *env)
 {
 	int		fd[2];

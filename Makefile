@@ -8,8 +8,8 @@ NAME = minishell
 token: envp.c main.c token2.c util/*.c ast.c
 	gcc $^ -lreadline -o kinder
 
-test : token2.c pipe.c envp.c builtin/*.c redirect.c util/*.c ast.c main.c
-	gcc $^ -lreadline -o test
+test : token2.c pipe.c envp.c builtin/*.c redirect.c util/*.c ast.c main.c execute.c
+	gcc -g $^ -lreadline -o test
 
 all : $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:32:02 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 00:23:08 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 02:59:54 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,47 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	return ((int)(result * sign));
+}
+
+int	change_env_value(char *str, t_envp *env, int display)
+{
+	char	*value;
+
+	value = envp_split_val(str);
+	if (value == NULL)
+		return (1);
+	free(env->value);
+	env->value = value;
+	env->display = display;
+	return (0);
+}
+
+int	add_to_env(char *str, t_envp *env, int display)
+{
+	t_envp	*new;
+	t_envp	*prev;
+	char	*key;
+
+	key = envp_split_key(str);
+	if (key == NULL)
+		return (1);
+	while (env)
+	{
+		if (ft_strequal(env->key, key))
+		{	
+			free(key);
+			return (change_env_value(str, env, display));
+		}
+		prev = env;
+		env = env->next;
+	}
+	free(key);
+	if (env == NULL)
+	{
+		new = make_new_envp(str, display);
+		if (new == NULL)
+			return (1);
+		prev->next = new;
+	}
+	return (0);
 }
