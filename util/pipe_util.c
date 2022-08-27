@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 03:36:47 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:44:45 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3)
 
 void	ft_error(void)
 {
-	printf("\e[1;31mError: \e[0m %s\n",strerror(errno));
+	printf("\e[1;31mError: \e[0m %s\n", strerror(errno));
 	exit(EXIT_FAILURE);
 }
 

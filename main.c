@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:50 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 16:14:20 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/28 04:35:38 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "parse/parse.h"
 // #include "builtin.h"
 // #include "pipe.h"
 

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 00:40:26 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 22:34:04 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:45:59 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_strjoin(char *s1, char *s2, int flag)
 		len = 1;
 	else
 		len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	str = (char *)malloc(sizeof(char) * len);
+	str = (char *)ft_calloc(sizeof(char), len);
 	if (!str)
 		return (0);
 	i = -1;
@@ -52,7 +52,6 @@ char	*ft_strjoin(char *s1, char *s2, int flag)
 	len = 0;
 	while (s2[len] != '\0')
 		str[i++] = s2[len++];
-	str[i] = '\0';
 	if (flag)
 	{
 		free(s1);
