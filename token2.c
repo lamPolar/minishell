@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/27 22:42:23 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 23:58:57 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_token	*make_quotes_token(char *str, int i, int j, t_token *prev)
 		word = ft_strdup_idx(i, find_word(str, j) - 1, str);
 	new = NULL;
 	if (str[i - 1] != ' ' && prev->type == WORD)
-		prev->value = ft_strjoin(prev->value, word); //flag1로 변경
+		prev->value = ft_strjoin(prev->value, word, 1); //flag1로 변경
 	else
 		new = make_new_token(WORD, word);
 	return (new);
@@ -289,6 +289,24 @@ void	after_tokenize(t_token *tokenlist, t_envp *env)
 	}
 }
 
+void	preorder(t_node *root)
+{
+    if (root->papa != NULL)
+        printf("papa : %d / %s\n", root->papa->type, root->papa->str);
+	printf("str : %s ", root->str);
+	printf("type : %d \n", root->type);
+	if(root->left)
+	{
+        printf("<");
+    	preorder(root->left);
+    }
+    if (root->right)
+    {
+        printf(">");
+		preorder(root->right);
+    }
+}
+
 void	execute_str(char *str, t_envp *env)
 {
 	t_token	*tokenlist;
@@ -300,12 +318,18 @@ void	execute_str(char *str, t_envp *env)
 	after_tokenize(tokenlist, env);
 	ast = into_ast(tokenlist);
 	if (ast == NULL)
+    {
+        // free_tokenlist(tokenlist); //만들기
 		return ;
+    }
+    // preorder(ast);
+    
 
-	int i = 0;
-	while (tokenlist != NULL)
-	{
-		printf("value:%s\ntype:%d\n\n", tokenlist->value, tokenlist->type);
-		tokenlist = tokenlist->next;
-	}
+	// int i = 0;
+	// while (tokenlist != NULL)
+	// {
+	// 	printf("value:%s\ntype:%d\n\n", tokenlist->value, tokenlist->type);
+	// 	tokenlist = tokenlist->next;
+	// }
 }
+
