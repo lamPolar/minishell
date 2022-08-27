@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:28:59 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 22:29:37 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 04:02:59 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,58 @@ t_node	*make_new_node(char *str, int type, t_node *papa)
 	new->left = NULL;
 	new->papa = papa;
 	return (new);
+}
+
+t_node	*make_root_node(int i)
+{
+	t_node	*root;
+
+	root = (t_node *)ft_calloc(1, sizeof(t_node));
+	if (root == NULL)
+		return (0);
+	root->left = NULL;
+	root->right = NULL;
+	root->papa = NULL;
+	root->str = NULL;
+	if (i == PIPE)
+		root->type = PIPE;
+	else if (i == LINE)
+		root->type = LINE;
+	return (root);
+}
+
+int	syntax_check_pipe(t_token *token, t_node *head)
+{
+	if (token->next->type == PIPE_T)
+	{
+		printf("KINDER: syntax error near unexpected token '|'\n");
+		free_tree(head);
+		return (0);
+	}
+	return (1);
+}
+
+int	syntax_check_redirect(t_token *token)
+{
+	if (token->next == NULL)
+		printf("KINDER: syntax error near unexpected token 'newline'\n");
+	else if (token->next->type == REDIRECT)
+		printf("KINDER: syntax error near unexpected token '%s'\n", \
+				token->next->value);
+	else if (token->next->type == PIPE_T)
+		printf("KINDER: syntax error near unexpected token '|'\n");
+	else
+		return (1);
+	return (0);
+}
+
+void	free_tree(t_node *head)
+{
+	if (head == NULL)
+		return ;
+	if (head->left)
+		free_tree(head->left);
+	if (head->right)
+		free_tree(head->right);
+	free(head);
 }
