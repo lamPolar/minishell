@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 22:38:41 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 00:45:54 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,53 +25,53 @@ int	count_process(t_node *root)
 	return (i);
 }
 
-	//t_node *command
-	//command : root 기준 왼쪽 : redirection, 오른쪽 : 실제 command
-	//1. 총 pipe개수 + 1 = process -> 이건 먼저 알아야해.
-	//2. file, command array? list? 
-int	run_pipe(t_node *root, t_envp *env)
+void	make_process(t_node *line, t_envp *env)
 {
+	pid_t	pid;
 	int		fd[2];
-	pid_t	*pid;
-	int		i;
-	int		process;
-	t_node	*line;
+	int		status;
+	char	*exitcode;
 
-	//fd 정리 필요 redirection에 어떤 fd2개를 연결시켜줄지?
-	//어떤 fd를 파이프에 연결해야될지, 어떤 fd를 닫아야할지... 어떻게 알지?
-	//해당 cmd가 파이프의 맨앞인지, 가운데인지, 마지막인지 어떻게 알지?
+	pid = fork();
+	fd[0] = STDIN_FILENO;
+	fd[1] = STDOUT_FILENO;
+	if (pid == 0)
+	{
+		if (line->left)
+			check_redirection(line->left, fd);
+		if (line->right)
+			execute_function(line->right, env);
+	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+    {
+        status = WEXITSTATUS(status);       
+        exitcode = ft_itoa(status);
+		if (exitcode == NULL)
+			return ;
+		exitcode = ft_strjoin("?=", exitcode, 0);
+		if (exitcode == NULL)
+			return ;
+		if (add_to_env(exitcode, env))
+			return ;
+    }
+
+}
+
+void	execute_tree(t_node *root, t_envp *env)
+{
+	int process;
+	
 	process = count_process(root);
-	pid = (pid_t *)ft_calloc(sizeof(pid_t), process);
-	i = 0;
-	if (process == 1)
+	if (root->type == LINE)
 	{
-		//파이프 없이 포크후
-		//빌트인이면 빌트인 실행
-		//실행파일이면 execve
-		return (0);
+		make_process(root, env);
 	}
-	while (i < process)
+	if (root->type == PIPE)
 	{
-		if (i == process - 1)
-			line = root->right;
-		else
-			line = root->left;
-		root = root->right;
-		if (pipe(fd) == -1)
-			ft_error();
-		pid[i] = fork();
-		if (pid[i] == -1)
-			ft_error();
-		if (pid[i] == 0)
-			ft_command(line, env);
-		if (close(fd[0]) == -1)
-			ft_error();
-		if (close(fd[1]) == -1)
-			ft_error();
-	}
-	i = 0;
-	while (i < process)
-		waitpid(pid[i], NULL, 0);
+		execute_tree(root->left, env);
+		execute_tree(root->right, env);
+	}	
 }
 
 char	**make_command_array(t_node *command)
@@ -104,20 +104,6 @@ char	**make_command_array(t_node *command)
 		save = save->right;
 	}
 	return (command_array);
-}
-
-void	ft_command(t_node *line, t_envp *env)
-{
-	int		fd[2];
-	t_node	*redirection;
-	t_node	*command;
-
-	redirection = line->left;
-	command = line->right;
-	if (check_redirection(redirection, fd)) // 함수 내부에서 바로 exit할지
-		exit(EXIT_FAILURE); // 아니면 여기서 exit할지
-		//뭐라도 프린트 해야할지?
-	execute_function(command, env);
 }
 
 int	execute_function(t_node *command, t_envp *env)

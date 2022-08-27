@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 22:32:03 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 00:27:47 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strdup(const char *s1);
 char	**ft_split(char const *s, char c);
+char	*ft_itoa(int n);
 
 //parse_util.c
 char	*ft_strdup_idx(int i, int j, char *str);

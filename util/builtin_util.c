@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:32:02 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 22:31:00 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 00:23:08 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	check_invalid(char *str)
 	if ((str[0] < 'A' || str[0] > 'z') && str[0] != '_')
 		return (1);
 	i = 1;
-	while (str[i])
+	while (str[i] && str[i] != '=')
 	{
 		if ((str[i] < 'A' || str[i] > 'z') && str[i] != '_' \
 			&& (str[i] < '0' || str[i] > '9'))
@@ -81,8 +81,8 @@ int	ft_isnum(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] < '0' || str[i] > '9' || str[i] != '+' || str[i] != '-' \
-			|| str[i] < 9 || str[i] > 13 || str[i] != 32)
+		if ((str[i] < '0' || str[i] > '9') && str[i] != '+' && str[i] != '-' \
+			&& (str[i] < 9 || str[i] > 13) && str[i] != 32)
 			return (0);
 		i += 1;
 	}

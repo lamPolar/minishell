@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/27 23:58:57 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/28 00:47:03 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,7 +306,7 @@ void	preorder(t_node *root)
 		preorder(root->right);
     }
 }
-
+#include "pipe.h"
 void	execute_str(char *str, t_envp *env)
 {
 	t_token	*tokenlist;
@@ -322,6 +322,7 @@ void	execute_str(char *str, t_envp *env)
         // free_tokenlist(tokenlist); //만들기
 		return ;
     }
+	execute_tree(ast, env);
     // preorder(ast);
     
 

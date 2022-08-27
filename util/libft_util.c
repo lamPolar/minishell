@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:28:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:49:22 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 00:27:34 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,57 @@ char	**ft_split(char const *s, char c)
 		result[index++] = word;
 	}
 	return (result);
+}
+
+static int	ft_count_length(int n)
+{
+	int	count;
+
+	count = 0;
+	if (n == 0)
+		return (1);
+	if (n < 0)
+	{
+		count += 2;
+		n /= -10;
+	}
+	while (n)
+	{
+		count++;
+		n /= 10;
+	}
+	return (count);
+}
+
+static void	ft_ten(char *new, int n, int len)
+{
+	if (n == 0)
+	{
+		new[0] = '0';
+		return ;
+	}
+	if (n < 0)
+	{
+		new[0] = '-';
+		new[len--] = -(n % 10) + '0';
+		n /= -10;
+	}
+	while (n)
+	{
+		new[len--] = n % 10 + '0';
+		n /= 10;
+	}
+}
+
+char	*ft_itoa(int n)
+{
+	char	*new;
+	int		len;
+
+	len = ft_count_length(n);
+	new = (char *)ft_calloc(len + 1, sizeof(char));
+	if (!new)
+		return (0);
+	ft_ten(new, n, --len);
+	return (new);
 }
