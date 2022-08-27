@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 23:58:33 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 14:47:01 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,22 +164,23 @@ void	ft_command(t_node *line, t_envp *env)
 
 int	execute_function(t_node *command, t_envp *env)
 {
-	if (ft_strequal("pwd", command->str) == 0)
+	if (ft_strequal("pwd", command->str) || ft_strequal("PWD", command->str))
 		return (builtin_pwd(command));
-	else if (ft_strequal("cd", command->str) == 0)
+	else if (ft_strequal("cd", command->str))
 		return (builtin_cd(command, env));
-	else if (ft_strequal("exit", command->str) == 0)
+	else if (ft_strequal("exit", command->str))
 		return (builtin_exit(command, env));
-	else if (ft_strequal("env", command->str) == 0)
+	else if (ft_strequal("env", command->str) || ft_strequal("ENV", command->str))
 		return (builtin_env(env));
-	else if (ft_strequal("export", command->str) == 0)
+	else if (ft_strequal("export", command->str))
 		return (builtin_export(command, env));
-	else if (ft_strequal("echo", command->str) == 0)
+	else if (ft_strequal("echo", command->str) || ft_strequal("ECHO", command->str))
 		return (builtin_echo(command, env));
-	else if (ft_strequal("unset", command->str) == 0)
+	else if (ft_strequal("unset", command->str))
 		return (builtin_unset(command, env));
 	else
 		execute(command, env);
+	//만약에 OMG=omg 명령어가 들어왔다면, add_env해주고, display = HIDE로 설정
 }
 
 void	execute(t_node *command, t_envp *env)

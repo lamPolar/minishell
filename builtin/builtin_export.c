@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 23:19:13 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 15:19:25 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,26 @@ static int	change_env_value(char *str, t_envp *env)
 static int	add_to_env(char *str, t_envp *env)
 {
 	t_envp	*new;
+	t_envp	*prev;
 	char	*key;
 	char	*value;
 
 	key = envp_split_key(str);
 	if (key == NULL)
 		return (1);
-	while (env->next)
+	while (env)
 	{
-		if (ft_strequal(env->key, new->key))
+		if (ft_strequal(env->key, key))
 			return (change_env_value(str, env));
+		prev = env;
 		env = env->next;
 	}
-	if (ft_strequal(env->key, new->key))
-		return (change_env_value(str, env));
-	else if (env->next == NULL)
+	if (env == NULL)
 	{
 		new = make_new_envp(str);
 		if (new == NULL)
 			return (1);
-		env->next = new;
+		prev->next = new;
 	}
 	return (0);
 }
@@ -57,13 +57,16 @@ int	export_with_argument(t_node *argument, t_envp *env)
 	if (check_equal(argument->str))
 	{
 		if (check_invalid(argument->str))
+		{
 			printf("KINDER: export: \'%s\': not a valid identifier\n", \
 			argument->str);
+			return (1);
+		}
 		return (add_to_env(argument->str, env));
 	}
 	while (env)
 	{
-		if (ft_strequal(env->key, argument->str)) //맞는 env가 있다면 
+		if (ft_strequal(env->key, argument->str))
 		{
 			env->display = SHOW;
 			return (0);
@@ -77,7 +80,8 @@ int	builtin_export(t_node *command, t_envp *env)
 	t_envp	*new;
 	t_node	*argument;
 
-	if (command->right == NULL)
+	argument = command->right;
+	if (argument == NULL)
 	{
 		//env 오름차순 sorting??
 		while (env)
@@ -86,23 +90,29 @@ int	builtin_export(t_node *command, t_envp *env)
 				printf("declare -x %s = \"%s\"\n", env->key, env->value);
 			env = env->next;
 		}
+		if (env == NULL)
+			return (0);
 		return (1);
 	}
 	else
 	{
-		argument = command->right;
-		while (argument == NULL)
+		while (argument)
 		{
 			if (export_with_argument(argument, env))
 				return (1);
 			argument = argument->right;
 		}
+		if (argument == NULL)
+			return (0);
+		return (1);
 	}
-	return (0);
 }
+
 //만약 파이프 뒤에 export를 호출하면, 자식프로세스에 대한 export이므로 환경변수에 대해서 변경하지 않음
+
 //export TE\ST=100 ok
 //export TE\\ST=100 x
 //export TES\\\ST=100 x
-//export TEST+=100
-///-> 원래 TEST환경변수의 value뒤에 추가되어야함.
+//export TEST+=100 -> 원래 TEST환경변수의 value뒤에 추가되어야함.
+
+// 환경변수 key한글자 한글자에 대해서 모두 valid체크 해줘야할까?

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:45:54 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 23:19:50 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 14:36:22 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,21 @@ int	builtin_echo(t_node *command, t_envp *env)
 	int	flag;
 
 	command = command->right;
-	flag = 0;
-	if (check_n(command->str))
+	flag = 1;
+	if (command && check_n(command->str))
 	{
-		flag = 1;
+		flag = 0;
 		command = command->right;
 		while (command && check_n(command->str))
 			command = command->right;
 	}
 	while (command)
 	{
-		printf("%s", command->right->str);
+		printf("%s", command->str);
 		command = command->right;
+		if (command)
+			printf(" ");
 	}
 	if (flag)
 		printf("\n");
 }
-	//echo -nnnnnnnnnnnn fdjksl: echo -n fdjksl과 동일하게 취급
-	//echo hello ;; 
-	//echo hello ; ;  -> syntax error 아니고 그냥 문자출력
-	//echo -n -n -n1 >> -n1
-	//echo "o"hi"o"

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:48:05 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 23:19:34 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 15:15:54 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ int	builtin_unset(t_node *command, t_envp *env)
 {
 	t_node	*argument;
 
-	if (command->right == NULL)
+	argument = command->right;
+	if (argument == NULL)
 	{
 		printf("USAGE: unset [KEY]\n");
 		return (1);
 	}
 	else
 	{
-		argument = command->right;
 		while (argument != NULL)
 		{
 			if (check_invalid(argument->str))
@@ -72,7 +72,7 @@ int	builtin_env(t_envp *env)
 	while (env)
 	{
 		if (env->display == SHOW)
-			printf("%s = %s\n", env->key, env->value);
+			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
 }

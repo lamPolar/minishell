@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 23:18:45 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 15:16:36 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	builtin_cd(t_node *command, t_envp *env)
 
 	if (command->right == NULL || ft_strequal(command->right->str, "~"))
 	{
-		home = getenv("HOME");
+		home = get_home(env);
+		printf("home : %s\n", home);
 		if (home == NULL)
 		{
 			printf("kinder: cd: HOME not set\n");
@@ -40,6 +41,7 @@ int	builtin_cd(t_node *command, t_envp *env)
 	}
 	return (0);
 }
+//cd ~/Desktop/ -> ~에대해서 변환해줘야함...?
 
 int	builtin_pwd(t_node *command)
 {
@@ -62,11 +64,11 @@ int	builtin_exit(t_node *command, t_envp *env)
 {
 	t_node	*argument;
 
-	if (command->right == NULL)
+	argument = command->right;
+	if (argument == NULL)
 		exit(EXIT_SUCCESS);
 	else
 	{
-		argument = command->right;
 		if (argument->right == NULL)
 		{
 			if (ft_isnum(argument->str))

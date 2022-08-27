@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:48 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 21:47:16 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 13:41:27 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ int	builtin_pwd(t_node *command);
 int	builtin_exit(t_node *command, t_envp *env);
 
 //builtin_util.c
-int	ft_strequal(char *s1, char *s2);
-int	check_equal(char *str);
-int	check_invalid(char *str);
-int	ft_isnum(char *str);
-int	max(int len1, int len2);
-int	ft_atoi(const char *str);
+int		ft_strequal(char *s1, char *s2);
+int		check_equal(char *str);
+int		check_invalid(char *str);
+int		ft_isnum(char *str);
+int		max(int len1, int len2);
+int		ft_atoi(const char *str);
+char	*get_home(t_envp *env);
+//static char	*ft_strdup(const char *s1);
 
 //builtin_export.c
 int	export_with_argument(t_node *argument, t_envp *env);

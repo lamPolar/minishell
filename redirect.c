@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 23:43:26 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 14:31:10 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,6 @@ void	here_doc(int fd, char *delimiter)
 		line = readline("HERE_DOC > ");
 	}
 }
-//bash-3.2$ ls <<     a
-//> a
-//bash-3.2$ ls << "    a"
-//>     a
 
 void	open_redirection_file(t_node *file, int MODE, int *fd)
 {

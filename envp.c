@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:38 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/26 22:06:32 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 15:15:12 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_envp	*arrange_envp(char **envp)
 	if (head == NULL)
 		return (free_envp(head));
 	prev = head;
-	cnt = 0;
+	cnt = 1;
 	while (envp[cnt])
 	{
 		new = make_new_envp(envp[cnt]);
@@ -46,7 +46,7 @@ t_envp	*make_new_envp(char *str)
 	new->key = envp_split_key(str);
 	new->value = envp_split_val(str);
 	new->next = NULL;
-	new->display = 1;
+	new->display = SHOW;
 	if (new->key == NULL || new->value == NULL) //둘중 하나가 말록 되었을 수도 있으므로 프리 필요
 		return (NULL);
 	return (new);

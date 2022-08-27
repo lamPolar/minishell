@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/26 23:17:53 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 13:38:24 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@ char	*find_path(char **env_path, char *command)
 
 char	**get_path(t_envp *env)
 {
-	int		i;
 	char	**path_array;
 
-	i = 0;
 	while (env && ft_strequal(env->key, "PATH") == 0)
 		env = env->next;
 	if (env == NULL)
