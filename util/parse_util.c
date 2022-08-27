@@ -6,29 +6,29 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 00:40:26 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:49:30 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 22:34:04 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "util.h"
 
-char    *ft_strdup_idx(int i, int j, char *str)
+char	*ft_strdup_idx(int i, int j, char *str)
 {
-    char    *res;
-    int     idx;
+	char	*res;
+	int		idx;
 
-    res = (char *)malloc(sizeof(char) * (j - i + 2));
-    if (!res)
-        return (0);
-    idx = 0;
-    while (i <= j)
-    {
-        res[idx] = str[i];
-        idx++;
-        i++;
-    }
-    res[idx] = '\0';
-    return (res);
+	res = (char *)malloc(sizeof(char) * (j - i + 2));
+	if (!res)
+		return (0);
+	idx = 0;
+	while (i <= j)
+	{
+		res[idx] = str[i];
+		idx += 1;
+		i += 1;
+	}
+	res[idx] = '\0';
+	return (res);
 }
 
 char	*ft_strjoin(char *s1, char *s2, int flag)
@@ -83,17 +83,17 @@ char	find_quotes(char *str, int *first, int *second)
 	return (0);
 }
 
-int check_valid(int i, int j, char *str)
+int	check_valid(int i, int j, char *str)
 {
-	i++;
+	i += 1;
 	if (str[i] == '?')
 		return (i + 1);
 	while (i <= j)
-    {
+	{
 		if ((str[i] < 'A' || str[i] > 'z') && str[i] != '_' && \
 			(str[i] < '0' || str[i] > '9'))
 			return (i);
-		i++;
+		i += 1;
 	}
-    return(j);
+	return (j);
 }

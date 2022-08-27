@@ -6,20 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:21:18 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:57:20 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 22:30:52 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-
-int free_both(char *s1, char *s2)
-{
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	return (1);
-}
 
 char	*get_env(char *key, t_envp *env)
 {
@@ -45,38 +36,37 @@ int	check_home(t_node *command, t_envp *env)
 	if (home == NULL)
 		return (1);
 	if (ft_strequal(command->str, "~") || ft_strequal(command->str, "--"))
-	{
-		free(command->str);
 		command->str = home;
-	}
 	else if (command->str[0] == '~' && command->str[1] == '/')
 	{
 		path = ft_strjoin(home, &(command->str[1]), 0);
 		if (path == NULL)
 			return (1);
 		free(home);
-		free(command->str);
 		command->str = path;
+		return (0);
 	}
+	free(home);
 	return (0);
 }
 
 int	check_oldpwd(t_node *command, t_envp *env)
 {
-	char *oldpwd;
+	char	*oldpwd;
 
 	oldpwd = get_env("OLDPWD", env);
 	if (oldpwd == NULL)
 		return (1);
 	if (ft_strequal(command->str, "-"))
 	{
-		free(command->str);
 		command->str = oldpwd;
+		return (0);
 	}
+	free(oldpwd);
 	return (0);
 }
 
-char *make_pwd(char *str, char **pwd)
+char	*make_pwd(char *str, char **pwd)
 {
 	char	*temp;
 	char	*oldpwd;
@@ -92,9 +82,9 @@ char *make_pwd(char *str, char **pwd)
 	return (oldpwd);
 }
 
-int change_pwd(char *oldpwd, char *pwd, t_envp *env)
+int	change_pwd(char *oldpwd, char *pwd, t_envp *env)
 {
-	int flag;
+	int	flag;
 
 	flag = 0;
 	if (add_to_env(oldpwd, env))
@@ -120,9 +110,7 @@ int	builtin_cd(t_node *command, t_envp *env)
 		if (argument == NULL)
 			return (1);
 	}
-	if (check_home(argument, env))
-		return (1);
-	else if (check_oldpwd(argument, env))
+	if (check_home(argument, env) || check_oldpwd(argument, env))
 		return (1);
 	pwd = NULL;
 	oldpwd = make_pwd(argument->str, &pwd);

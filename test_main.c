@@ -73,12 +73,12 @@ int main(int argc, char *argv[], char *envp[])
     left_left->right = make_new_node((">"), REDIRECTION, left_left);
     left_left->right->left = make_new_node(("b"), REDIRECTION, left_left->right);
 
-    head_left->right = make_new_node(("cd"), COMMAND, head_left);
+    head_left->right = make_new_node("unset", COMMAND, head_left);
     left_right = head_left->right;
-    left_right->right = make_new_node(("~"), COMMAND, left_right);
+    left_right->right = make_new_node(("ABC"), COMMAND, left_right);
     // left_right->right->right = make_new_node(("LESS"), COMMAND, left_right->right);
     // left_right->right->right->right = make_new_node(("o"), COMMAND, left_right->right->right);
-    ///left_right->right->right->right->right = make_new_node(("..."), COMMAND, left_right->right->right->right);
+    // left_right->right->right->right->right = make_new_node(("..."), COMMAND, left_right->right->right->right);
 
     head->right = make_new_node(NULL, LINE, head);
     head_right = head->right;
@@ -112,9 +112,13 @@ int main(int argc, char *argv[], char *envp[])
     // if (ft_strequal(left_right->str, "echo"))
     //     builtin_echo(left_right, env);
    
-    if (ft_strequal(left_right->str, "cd"))
-        builtin_cd(left_right, env);
-    builtin_pwd(head);
+    // if (ft_strequal(left_right->str, "cd"))
+    //     builtin_cd(left_right, env);
+    // builtin_pwd(head);
+
     // head->right = make_new_node(NULL, PIPE, head);
     // head_right = head->right;
+
+    while (1){
+    }
 }

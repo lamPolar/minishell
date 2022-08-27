@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 14:47:01 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 22:38:41 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,48 +106,6 @@ char	**make_command_array(t_node *command)
 	return (command_array);
 }
 
-char	**dearrange_envp(t_envp *env)
-{
-	char	**envp;
-	int		size;
-	int		i;
-
-	size = get_env_size(env);
-	envp = (char **)ft_calloc(sizeof(char *), size + 1);
-	if (envp == NULL)
-		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		if (env->display == SHOW)
-		{	
-			envp[i] = ft_strjoin_three(env->key, "=", env->value);
-			if (envp[i] == NULL)
-			{
-				free_double_array(envp);
-				return (NULL);
-			}
-			i += 1;
-		}
-		env = env->next;
-	}
-	return (envp);
-}
-
-int	get_env_size(t_envp *env)
-{
-	int	i;
-
-	i = 0;
-	while (env)
-	{
-		if (env->display == SHOW)
-			i += 1;
-		env = env->next;
-	}
-	return (i);
-}
-
 void	ft_command(t_node *line, t_envp *env)
 {
 	int		fd[2];
@@ -170,11 +128,13 @@ int	execute_function(t_node *command, t_envp *env)
 		return (builtin_cd(command, env));
 	else if (ft_strequal("exit", command->str))
 		return (builtin_exit(command, env));
-	else if (ft_strequal("env", command->str) || ft_strequal("ENV", command->str))
+	else if (ft_strequal("env", command->str) || \
+			ft_strequal("ENV", command->str))
 		return (builtin_env(env));
 	else if (ft_strequal("export", command->str))
 		return (builtin_export(command, env));
-	else if (ft_strequal("echo", command->str) || ft_strequal("ECHO", command->str))
+	else if (ft_strequal("echo", command->str) || \
+			ft_strequal("ECHO", command->str))
 		return (builtin_echo(command, env));
 	else if (ft_strequal("unset", command->str))
 		return (builtin_unset(command, env));

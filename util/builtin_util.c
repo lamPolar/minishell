@@ -6,11 +6,22 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:32:02 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 21:02:26 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 22:31:00 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "util.h"
+
+int	free_both(char *s1, char *s2)
+{
+	if (s1)
+		free(s1);
+	s1 = NULL;
+	if (s2)
+		free(s2);
+	s2 = NULL;
+	return (1);
+}
 
 int	ft_strequal(char *s1, char *s2)
 {
@@ -48,14 +59,15 @@ int	check_equal(char *str)
 
 int	check_invalid(char *str)
 {
-	int i;
+	int	i;
 
 	if ((str[0] < 'A' || str[0] > 'z') && str[0] != '_')
 		return (1);
 	i = 1;
 	while (str[i])
 	{
-		if ((str[i] < 'A' || str[i] > 'z') && str[i] != '_' && (str[i] < '0' || str[i] > '9'))
+		if ((str[i] < 'A' || str[i] > 'z') && str[i] != '_' \
+			&& (str[i] < '0' || str[i] > '9'))
 			return (1);
 		i += 1;
 	}

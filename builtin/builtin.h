@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:48 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:47:03 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 22:27:02 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,5 @@ int	builtin_env(t_envp *env);
 //builtin_echo.c
 int	check_n(char *str);
 int	builtin_echo(t_node *command, t_envp *env);
-
 
 #endif

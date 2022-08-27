@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 17:39:53 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 22:26:38 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	add_to_env(char *str, t_envp *env)
 	t_envp	*new;
 	t_envp	*prev;
 	char	*key;
-	char	*value;
 
 	key = envp_split_key(str);
 	if (key == NULL)
@@ -38,10 +37,14 @@ int	add_to_env(char *str, t_envp *env)
 	while (env)
 	{
 		if (ft_strequal(env->key, key))
+		{	
+			free(key);
 			return (change_env_value(str, env));
+		}
 		prev = env;
 		env = env->next;
 	}
+	free(key);
 	if (env == NULL)
 	{
 		new = make_new_envp(str);
@@ -116,3 +119,4 @@ int	builtin_export(t_node *command, t_envp *env)
 //export TEST+=100 -> 원래 TEST환경변수의 value뒤에 추가되어야함.
 
 // 환경변수 key한글자 한글자에 대해서 모두 valid체크 해줘야할까?
+//export 에서 에러가 나면 exit해버릴까???

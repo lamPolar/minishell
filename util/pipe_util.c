@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:52:21 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 22:35:11 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*find_path(char **env_path, char *command)
 {
-	struct stat buf;
-	char	*path;
-	int		i;
+	struct stat	buf;
+	char		*path;
+	int			i;
 
 	if (stat(command, &buf) != -1)
 		return (command);
@@ -50,7 +50,6 @@ char	**get_path(t_envp *env)
 		env = NULL; // 일단 아무거나 써둠
 		//path환경변수 없으면? 어떻게 할까?
 		//없는채로 넘겨줘라...?
-		
 	else
 	{
 		path_array = ft_split(env->value, ':');

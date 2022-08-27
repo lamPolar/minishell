@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:28 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 20:59:20 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/27 22:34:25 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ t_envp	*make_new_envp(char *str)
 	new->value = envp_split_val(str);
 	new->next = NULL;
 	new->display = SHOW;
-	if (new->key == NULL || new->value == NULL) //둘중 하나가 말록 되었을 수도 있으므로 프리 필요
+	if (new->key == NULL || new->value == NULL)
+	{
+		free_both(new->key, new->value);
 		return (NULL);
+	}
 	return (new);
 }
 
@@ -91,4 +94,46 @@ t_envp	*free_envp(t_envp *head)
 		free(prev);
 	}
 	return (NULL);
+}
+
+char	**dearrange_envp(t_envp *env)
+{
+	char	**envp;
+	int		size;
+	int		i;
+
+	size = get_env_size(env);
+	envp = (char **)ft_calloc(sizeof(char *), size + 1);
+	if (envp == NULL)
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		if (env->display == SHOW)
+		{	
+			envp[i] = ft_strjoin_three(env->key, "=", env->value);
+			if (envp[i] == NULL)
+			{
+				free_double_array(envp);
+				return (NULL);
+			}
+			i += 1;
+		}
+		env = env->next;
+	}
+	return (envp);
+}
+
+int	get_env_size(t_envp *env)
+{
+	int	i;
+
+	i = 0;
+	while (env)
+	{
+		if (env->display == SHOW)
+			i += 1;
+		env = env->next;
+	}
+	return (i);
 }
