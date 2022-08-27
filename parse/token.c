@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 04:22:37 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/28 04:49:48 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	execute_str(char *str, t_envp *env)
 	// 	printf("value:%s\ntype:%d\n\n", tokenlist->value, tokenlist->type);
 	// 	tokenlist = tokenlist->next;
 	// }
+	free_tree(ast);
+	free_tokenlist(tokenlist);
 }
 
 t_token	*tokenize(char *str)
