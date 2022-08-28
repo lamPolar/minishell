@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:59:19 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 15:39:47 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 12:36:15 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	make_new_command(t_node *prev, t_token *token)
 {
 	t_node	*new;
 
-	if (token->value[0] == '\0')
+	if (token->is_env == 1 && token->value[0] == '\0')
 		return (1);
 	while (prev->right != NULL)
 		prev = prev->right;

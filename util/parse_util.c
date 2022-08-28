@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 00:40:26 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:45:59 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 16:04:54 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,12 @@ int	check_valid(int i, int j, char *str)
 	i += 1;
 	if (str[i] == '?')
 		return (i + 1);
+	if (str[i] > '0' || str[i] < '9')
+		return (i + 1);
 	while (i <= j)
 	{
 		if ((str[i] < 'A' || str[i] > 'z') && str[i] != '_' && \
-			(str[i] < '0' || str[i] > '9'))
+			(str[i] < '0' || str[i] > '9') && str[i] == '=')
 			return (i);
 		i += 1;
 	}

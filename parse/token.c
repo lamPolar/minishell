@@ -3,18 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2022/08/28 04:49:48 by sojoo            ###   ########.fr       */
-=======
-/*   Updated: 2022/08/28 04:32:29 by heeskim          ###   ########.fr       */
->>>>>>> df05211eb4f147ab5b7fc6d01f98abeac76b3d14
-=======
-/*   Updated: 2022/08/28 13:37:21 by heeskim          ###   ########.fr       */
->>>>>>> d72f3592e6b9d51185d5a56245380c3833ecdb2c
+/*   Updated: 2022/08/28 16:10:16 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +34,14 @@ void	execute_str(char *str, t_envp *env)
 	}
 	// preorder(ast);
 	execute_tree(ast, env);
-
 	// int i = 0;
 	// while (tokenlist != NULL)
 	// {
 	// 	printf("value:%s\ntype:%d\n\n", tokenlist->value, tokenlist->type);
 	// 	tokenlist = tokenlist->next;
 	// }
-	free_tree(ast);
-	free_tokenlist(tokenlist);
+	// free_tree(ast);
+	// free_tokenlist(tokenlist);
 }
 
 t_token	*tokenize(char *str)
@@ -91,6 +82,7 @@ t_token	*make_new_token(int type, char *value)
 	new->value = value;
 	new->type = type;
 	new->next = NULL;
+	new->is_env = 0;
 	return (new);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 15:27:25 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 13:16:29 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,18 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <string.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
 //envp.c
 t_envp	*arrange_envp(char **envp);
+
+//signal.c
+void    signal_set(void);
+void    signal_handler(int signum);
+void    c_handler(int signum);
+void    q_handler(int signum);
 
 //token.c
 void	execute_str(char *str, t_envp *env);
@@ -39,11 +46,11 @@ int		change_dollar_single_quotes(t_token *tokenlist, int i);
 
 //token_env.c
 int		delete_quotes(t_token *token, int idx1, int idx2, char ch);
-int		replace_value(t_token *tokenlist, t_envp *env, int i, int j);
-int		no_env_key(t_token *tokenlist, int i, int j);
+int		replace_value(t_token *tokenlist, t_envp *env, int i, int *j);
+int		no_env_key(t_token *tokenlist, int i, int *j);
 
 //token_find.c
-int		envp_in_value(t_token *tokenlist, t_envp *env, int i, int j);
+int		envp_in_value(t_token *tokenlist, t_envp *env, int i, int *j);
 int		find_word(char *str, int i);
 void	free_tokenlist(t_token *tokenlist);
 void	preorder(t_node *root);
