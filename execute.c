@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:42:36 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:46:59 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,9 @@ void	execute_with_fork(t_node *command, t_envp *env)
 	}
 	waitpid(pid, &status, 0);
 	update_exitcode(status, env);
+}
+
+void	execute_without_fork(t_node *command, t_envp *env)
+{
+	execute_process(command, env);
 }

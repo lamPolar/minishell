@@ -6,11 +6,13 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:42:34 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:48:14 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
+# define FD_READ 0
+# define FD_WRITE 1
 
 void	execute_tree(t_node *root, t_envp *env)
 {
@@ -87,8 +89,11 @@ int	update_exitcode(int status, t_envp *env) // 만약 ?를 언셋한 상태라�
 			env = env->next;
 		}
 	}
+	else
+		return (1);
 	return (0);
 }
+
 //left right를 제대로 확인하고 진입할것
 //만약에 left면, 
 void	execute_pipe(t_node *root, t_envp *env)
@@ -188,6 +193,7 @@ void	execute_pipe(t_node *root, t_envp *env)
 		printf("wrong ast2\n");
 	}
  }
+
 
 void	make_process(t_node *line, t_envp *env)
 {
