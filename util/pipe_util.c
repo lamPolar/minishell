@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 05:59:17 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:30:35 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char	**get_path(t_envp *env)
 			return (NULL);
 		return (path_array);
 	}
+	return (NULL); //error로 인한 삽입
 }
 
 char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3)

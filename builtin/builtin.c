@@ -6,22 +6,23 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 03:29:40 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:34:24 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	builtin_pwd(t_node *command)
+int	builtin_pwd(void)
 {
 	char	*buf;
 	size_t	size;
 
 	buf = NULL;
+	size = 0;
 	buf = getcwd(buf, size);
 	if (buf == NULL)
 	{
-		printf("KINDER: pwd: %s", strerror(errno));
+		printf("KINDER: pwd: %s\n", strerror(errno));
 		return (1);
 	}
 	printf("%s\n", buf);
@@ -68,4 +69,5 @@ int	builtin_exit(t_node *command, t_envp *env)
 		}
 		printf("KINDER: exit: too many arguments\n");
 	}
+	return (0); // error로 인한 삽입
 }

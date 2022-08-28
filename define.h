@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   define.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:36:09 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:24:50 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/28 15:42:36 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINE_H
 # define DEFINE_H
+
+//pipe fd 
+# define FD_READ 0 //process 기준 읽기 
+# define FD_WRITE 1 //process 기준 쓰기
 
 // t_node.type
 # define PIPE 1

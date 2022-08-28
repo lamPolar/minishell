@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:44:16 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:25:55 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		change_env_value_plus(char *str, t_envp *env, int display);
 int		add_to_env_plus(char *str, t_envp *env, int display);
 
 //libft_util.c
-size_t	ft_strlen(const char *s);
+int		ft_strlen(const char *s);
 void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strdup(const char *s1);

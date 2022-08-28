@@ -7,5 +7,5 @@
 */*.gch
 *.gch
 kinder
-test
+test*
 *.dSYM

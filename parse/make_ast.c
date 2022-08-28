@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:59:19 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 05:59:42 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:39:47 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	make_new_command(t_node *prev, t_token *token)
 	t_node	*new;
 
 	if (token->value[0] == '\0')
-        return (1);
+		return (1);
 	while (prev->right != NULL)
 		prev = prev->right;
 	new = (t_node *)ft_calloc(1, sizeof(t_node));

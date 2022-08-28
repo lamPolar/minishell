@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:21:18 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 06:14:01 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:40:24 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	*make_pwd(char *str, char **pwd)
 	*pwd = ft_strjoin("PWD=", str, 0);
 	free(save);
 	temp = NULL;
+	size = 0;
 	temp = getcwd(temp, size);
 	if (temp == NULL)
 		return (NULL);
@@ -120,3 +121,5 @@ int	builtin_cd(t_node *command, t_envp *env)
 	}
 	return (change_pwd(oldpwd, pwd, env));
 }
+//mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ;
+// pwd ; cd . ; pwd ; cd .. ; pwd

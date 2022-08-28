@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:48:05 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 03:26:25 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:32:40 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,5 @@ int	builtin_env(t_envp *env)
 			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
+	return (0);//error로 삽입
 }

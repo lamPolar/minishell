@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 04:32:29 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 13:37:21 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	execute_str(char *str, t_envp *env)
 	}
 	// preorder(ast);
 	execute_tree(ast, env);
+
 	// int i = 0;
 	// while (tokenlist != NULL)
 	// {

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:32:02 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 05:46:56 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:29:58 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,6 @@ int	add_to_env_plus(char *str, t_envp *env, int display)
 	t_envp	*new;
 	t_envp	*prev;
 	char	*key;
-	char	*value;
 
 	key = envp_split_key(str);
 	if (key == NULL)

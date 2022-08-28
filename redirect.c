@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 03:15:46 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:36:20 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	check_redirection(t_node *re, int fd[2])
 void	here_doc(int fd, char *delimiter)
 {
 	char	*line;
-	int		i;
 	int		len;
 
 	line = readline("HERE_DOC > ");

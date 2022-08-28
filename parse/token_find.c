@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_find.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:18:06 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 04:21:35 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/28 15:29:06 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	envp_in_value(t_token *tokenlist, t_envp *env, int i, int j)
 {
 	char	*envp;
-	char	*new_value;
 
 	envp = ft_strdup_idx(i + 1, j - 1, tokenlist->value);
 	if (envp == NULL)
