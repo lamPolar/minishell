@@ -6,15 +6,15 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:28:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 00:27:34 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:39:12 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "util.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
-	size_t	count;
+	int	count;
 
 	count = 0;
 	while (s[count])
@@ -85,7 +85,7 @@ char	*ft_strdup(const char *s1)
 static char	**ft_free_result(char **result, int total)
 {
 	int	index;
-	int i;
+	int	i;
 
 	index = 0;
 	while (index < total)

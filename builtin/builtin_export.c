@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:46:51 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:33:32 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,13 @@ int	export_with_argument(t_node *argument, t_envp *env)
 		}
 		env = env->next;
 	}
+	return (0); // error로 인한 삽입
 }
 
 	//t_node	*argument;
 	//argument = command->right;
 int	builtin_export(t_node *argument, t_envp *env)
 {
-	t_envp	*new;
-
 	//env 오름차순 sorting??
 	if (argument == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:45:54 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/27 22:52:04 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:32:11 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_n(char *str)
 	return (1);
 }
 
-int	builtin_echo(t_node *command, t_envp *env)
+int	builtin_echo(t_node *command)
 {
 	int	flag;
 
@@ -50,4 +50,5 @@ int	builtin_echo(t_node *command, t_envp *env)
 	}
 	if (flag)
 		printf("\n");
+	return (0); //error때문에 삽입
 }

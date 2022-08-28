@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:44:45 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:30:35 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*find_path(char **env_path, char *command)
 	if (env_path[i] == NULL)
 	{
 		printf("KINDER: %s: command not found\n", command);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	free_double_array(env_path);
 	return (path);
@@ -57,6 +57,7 @@ char	**get_path(t_envp *env)
 			return (NULL);
 		return (path_array);
 	}
+	return (NULL); //error로 인한 삽입
 }
 
 char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3)

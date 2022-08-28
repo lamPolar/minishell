@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:48 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 02:59:12 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 15:34:31 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 //builtin.c
 int	builtin_cd(t_node *command, t_envp *env);
-int	builtin_pwd(t_node *command);
+int	builtin_pwd(void);
 int	builtin_exit(t_node *command, t_envp *env);
 
 //builtin_export.c
@@ -36,6 +36,6 @@ int	builtin_env(t_envp *env);
 
 //builtin_echo.c
 int	check_n(char *str);
-int	builtin_echo(t_node *command, t_envp *env);
+int	builtin_echo(t_node *command);
 
 #endif
