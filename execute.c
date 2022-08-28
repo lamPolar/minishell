@@ -6,20 +6,20 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 05:51:10 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 09:05:12 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 
-int	execute_function(t_node *command, t_envp *env)
+int	execute_function(t_node *command, t_envp *env, int fork)
 {
 	if (ft_strequal("pwd", command->str) || ft_strequal("PWD", command->str))
 		return (builtin_pwd(command));
 	if (ft_strequal("cd", command->str))
 		return (builtin_cd(command, env));
 	if (ft_strequal("exit", command->str))
-		return (builtin_exit(command, env));
+		return (builtin_exit(command, env)); // return이 있나..?
 	if (ft_strequal("env", command->str) || ft_strequal("ENV", command->str))
 		return (builtin_env(env));
 	if (ft_strequal("export", command->str))
@@ -35,7 +35,10 @@ int	execute_function(t_node *command, t_envp *env)
 		else if (check_invalid(command->str) == 0)
 			return (add_to_env(command->str, env, HIDE));
 	}
-	execute_with_fork(command, env);
+	if (fork == 1)
+		execute_with_fork(command, env);
+	else
+		execute_process(command, env);
 }
                
 void	execute_process(t_node *command, t_envp *env)
@@ -92,4 +95,9 @@ void	execute_with_fork(t_node *command, t_envp *env)
 			env = env->next;
 		}
 	}
+}
+
+void	execute_without_fork(t_node *command, t_envp *env)
+{
+	execute_process(command, env);
 }

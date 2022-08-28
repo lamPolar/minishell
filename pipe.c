@@ -6,28 +6,123 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 05:56:56 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 10:08:50 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
+# define FD_READ 0
+# define FD_WRITE 1
 
 void	execute_tree(t_node *root, t_envp *env)
 {
+	if (root->type == LINE)
+		make_process(root, env);
+	//ㅇㅕ기서 heredoc이 있으면 먼저 실행
+	else if (root->type == PIPE)
+		execute_pipe(root, env);
+	else{
+		printf("wrong ast\n");
+	}
+}
+
+//left right를 제대로 확인하고 진입할것
+//만약에 left면, 
+void	execute_pipe(t_node *root, t_envp *env)
+{
 	int	process;
+	int	**fd;
+	pid_t	*pid;
+	int	i;
 
 	process = count_process(root);
-	//ㅇㅕ기서 heredoc이 있으면 먼저 실행
-	if (root->type == LINE)
+	fd = (int **)ft_calloc(sizeof(int *), process);
+	if (fd == NULL)
+		return ;
+	i = 0;
+	while (i < process)
 	{
-		make_process(root, env);
+		fd[i] = (int *)ft_calloc(sizeof(int), 2);
+		if (fd[i] == NULL)
+			return ;
+		i += 1;
 	}
-	if (root->type == PIPE)
+	pid = (pid_t *)ft_calloc(sizeof(pid_t), process);
+	if (pid == NULL)
+		return ;
+	i = 0;
+	while (root->type != PIPE)
 	{
-		execute_tree(root->left, env);
-		execute_tree(root->right, env);
-	}	
+		pid[i] = fork();
+		if (pid[i] < 0)
+		{
+			printf("error\n");
+			return ;
+		}
+		if (pid[i])
+		{
+			if (root->left)
+			{
+				execute_process(root, env); // execute_line
+			}
+			//부모 프로세스
+			if (root->right)
+			{
+				root = root->right;
+				i += 1;
+				continue ;
+			}
+			close(fd[i][FD_READ]);
+			close(fd[i][FD_WRITE]);
+			if (i == process - 1)
+			{
+				i = 0;
+				while (i < process)
+				{
+					waitpid(pid[i], NULL, 0);
+					i += 1;
+				}
+			}
+		}
+		else
+		{
+			if (i == 0)
+			{
+				close(fd[0][FD_READ]);
+			}
+			else{
+				dup2(fd[i - 1][FD_READ], STDIN_FILENO);
+			}
+			if (root->right)
+			{
+				close(fd[i][FD_WRITE]);
+			}
+			else
+			{
+				dup2(fd[i][FD_WRITE], STDOUT_FILENO);
+			}
+			int j = 0;
+			while (j < i)
+			{
+				close(fd[i][FD_READ]);
+				close(fd[i][FD_WRITE]);
+			}
+			//자식 프로세스
+			execute_function(root, env, 1);
+		}
+	}
+	// if (root->type == LINE)
+	// 	execute_line(root, env);
+	// if (root->type == PIPE)
+	// {
+	// 	execute_pipe(root->left, env);
+	// 	execute_pipe(root->right, env);
+	// }
+	// else{
+	// 	printf("wrong ast2\n");
+	// }
 }
+
 
 void	make_process(t_node *line, t_envp *env)
 {
@@ -39,14 +134,7 @@ void	make_process(t_node *line, t_envp *env)
 		check_redirection(line->left, fd);
 	if (line->right)
 	{
-		// if (line->right->str[0] == '\0')
-		// {
-		// 	add_to_env("?=0", env, HIDE); //$?만 0으로 초기화
-		// }
-		// else
-		// {
-			execute_function(line->right, env);
-		//}
+		execute_function(line->right, env, 1);
 	}
 	else
 		add_to_env("?=0", env, HIDE); //$?만 0으로 초기화
