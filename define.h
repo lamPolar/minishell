@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:36:09 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:42:36 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 16:11:06 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct token
 	int				type;
 	char			*value;
 	struct token	*next;
+	int				is_env;
 }	t_token;
 
 typedef struct node

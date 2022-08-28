@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:15:30 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 04:21:14 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/28 15:59:13 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	change_dollar(t_token *tokenlist, t_envp *env)
 		else if (tokenlist->value[i] == '$')
 		{
 			j = check_valid(i, ft_strlen(tokenlist->value), tokenlist->value);
-			if (envp_in_value(tokenlist, env, i, j) == 0)
+			if (envp_in_value(tokenlist, env, i, &j) == 0)
 				return (0);
-			i = j;
+			i = j - 1;
 		}
 	}
 	return (1);
@@ -86,9 +86,11 @@ int	find_double_quotes(t_token *tokenlist, t_envp *env, int i)
 			if (tokenlist->value[i] == '$')
 			{
 				name_end = check_valid(i, j, tokenlist->value);
-				if (envp_in_value(tokenlist, env, i, name_end) == 0)
+				if (name_end == i + 1)
+					return (j);
+				if (envp_in_value(tokenlist, env, i, &name_end) == 0)
 					return (-1);
-				break ;
+				i = name_end - 1;
 			}
 			i++;
 		}

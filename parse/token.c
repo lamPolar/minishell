@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 13:37:21 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/28 16:10:16 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ void	execute_str(char *str, t_envp *env)
 	}
 	// preorder(ast);
 	execute_tree(ast, env);
-
 	// int i = 0;
 	// while (tokenlist != NULL)
 	// {
 	// 	printf("value:%s\ntype:%d\n\n", tokenlist->value, tokenlist->type);
 	// 	tokenlist = tokenlist->next;
 	// }
+	// free_tree(ast);
+	// free_tokenlist(tokenlist);
 }
 
 t_token	*tokenize(char *str)
@@ -81,6 +82,7 @@ t_token	*make_new_token(int type, char *value)
 	new->value = value;
 	new->type = type;
 	new->next = NULL;
+	new->is_env = 0;
 	return (new);
 }
 
