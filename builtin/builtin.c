@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:34:24 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 01:39:39 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,19 @@ int	builtin_exit(t_node *command, t_envp *env)
 	argument = command->right;
 	if (argument == NULL)
 		exit(0);
+	if (argument->right != NULL)
+	{
+		printf("KINDER: exit: too many arguments\n");
+		return (0); // error로 인한 삽입
+	}
 	else
 	{
-		if (argument->right == NULL)
-		{
-			if (ft_isnum(argument->str))
-				exit(ft_atoi(argument->str));
-			printf("KINDER: exit: %s: numeric argument required\n" \
-					, argument->str);
-			free_envp(env);
-			//free_tree(head);
-			exit(255);
-		}
-		printf("KINDER: exit: too many arguments\n");
+		if (ft_isnum(argument->str))
+			exit(ft_atoi(argument->str));
+		printf("KINDER: exit: %s: numeric argument required\n" \
+				, argument->str);
+		free_envp(env);
+		//free_tree(head);
+		exit(255);
 	}
-	return (0); // error로 인한 삽입
 }

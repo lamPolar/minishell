@@ -9,3 +9,5 @@
 kinder
 test*
 *.dSYM
+*.o
+minishell

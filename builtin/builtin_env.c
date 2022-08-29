@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:48:05 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:32:40 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/29 22:13:28 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ char	*get_env_value(char *key, t_envp *env)
 
 static void	delete_env(char *str, t_envp **head)
 {
-	int		len1;
-	int		len2;
+	//int		len1;
+	//int		len2;
 	t_envp	*env;
 	t_envp	*prev;
 
-	len1 = ft_strlen(str);
+	//len1 = ft_strlen(str);
 	env = *head;
 	while (env)
 	{
-		len2 = ft_strlen(env->key);
+		//len2 = ft_strlen(env->key);
 		if (ft_strequal(str, env->key))
 		{
 			if (prev == env)

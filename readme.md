@@ -1,9 +1,9 @@
 MINISHELL
 ---
-### made by [sojoo](https://github.com/zoovely) && heeskim
-  welcome to kindershell
+### made by [sojoo](https://github.com/zoovely) && [heeskim](https://github.com/lamPolar)
+  Welcome to KINDERshell🥚
   [사진 삽입 예정]
-  개발 기간 : 8/24 ~
+  개발 기간 : 8/24 ~ 
 
 
 ### 1. Introduction

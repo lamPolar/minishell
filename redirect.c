@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:36:20 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/29 22:29:15 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,17 @@ int	check_redirection(t_node *re, int fd[2])
 			open_redirection_file(re->left, APPEND_OUT, &outfile);
 		re = re->right;
 	}
-	//만약 infile == STDIN_FILENO면?
-	if (dup2(infile, STDIN_FILENO) == -1 || close(infile) == -1)
-		return (1); // error시 출력??
-	//oufile == STDOUT_FILENO 면?
-	if (dup2(outfile, STDOUT_FILENO) == -1 || close(outfile) == -1)
+	if (infile != STDIN_FILENO)
+	{
+		if (dup2(infile, STDIN_FILENO) == -1 || close(infile) == -1)
+			return (1); // error시 출력?
+	}
+	if (outfile != STDOUT_FILENO)
+	{
+		if (dup2(outfile, STDOUT_FILENO) == -1 || close(outfile) == -1)
 		return (1);
-	return (0);
+	}
+return (0);
 }
 //나머지 fd처리 어떻게 할건지?
 

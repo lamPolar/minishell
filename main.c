@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:50 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 16:11:02 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/29 22:16:57 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	main(int argc, char *argv[], char *envp[])
 	t_envp	*env;
 	char	*str;
 
-	(void) argc;
+	if (argc != 1)
+		exit(1);
 	(void) argv;
 	print_start_shell();
 	env = arrange_envp(envp);

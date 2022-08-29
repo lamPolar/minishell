@@ -6,13 +6,13 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:46:59 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 01:31:18 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 
-int	execute_function(t_node *command, t_envp *env, int fork)
+int	execute_function(t_node *command, t_envp *env)
 {
 	if (ft_strequal("pwd", command->str) || ft_strequal("PWD", command->str))
 		return (builtin_pwd());
@@ -35,13 +35,33 @@ int	execute_function(t_node *command, t_envp *env, int fork)
 		else if (check_invalid(command->str) == 0)
 			return (add_to_env(command->str, env, HIDE));
 	}
-	if (fork == 1)
-		execute_with_fork(command, env);
-	else
-		execute_process(command, env);
+	execute_process(command, env);
 	return (0);//error로 인한 삽입
 }
-       
+             
+void	execute(t_node *command, t_envp *env)
+{
+	char	**path_array;
+	char	**command_array;
+	char	*path;
+	char	**envp;
+
+	path_array = get_path(env);
+	if (path_array == NULL)
+		ft_error();
+	path = find_path(path_array, command->str);
+	if (path == NULL)
+		ft_error();
+	command_array = make_command_array(command);
+	if (command_array == NULL)
+		ft_error();
+	envp = dearrange_envp(env);
+	if (envp == NULL)
+		exit(EXIT_FAILURE);
+	if (execve(path, command_array, envp) == -1)
+		ft_error();
+}
+
 void	execute_process(t_node *command, t_envp *env)
 {
 	char	**path_array;

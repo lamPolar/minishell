@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:48:14 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 01:51:46 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,12 @@ void	execute_tree(t_node *root, t_envp *env)
 	if (root == NULL)
 		return ;
 	if (root->type == LINE)
-		make_process(root, env);
+		execute_line(root, env);
 	//ㅇㅕ기서 heredoc이 있으면 먼저 실행
 	else if (root->type == PIPE)
 		execute_pipe(root, env);
 	else
 		printf("wrong ast\n");
-}
-
-void	print_node(t_node *root)
-{
-	if (root->papa != NULL)
-		printf("papa : %d / %s\n", root->papa->type, root->papa->str);
-	printf("str : %s ", root->str);
-	printf("type : %d \n", root->type);
-	if (root->left)
-	{
-		printf("<");
-		print_node(root->left);
-	}
-	if (root->right)
-	{
-		printf(">");
-		print_node(root->right);
-	}
 }
 
 int	initial_pipe(int process, int ***fd, pid_t **pid)
@@ -60,13 +42,16 @@ int	initial_pipe(int process, int ***fd, pid_t **pid)
 			return (1);
 		i += 1;
 	}
+	(*fd)[0][FD_READ] = STDIN_FILENO;
+	(*fd)[process - 1][FD_WRITE] = STDOUT_FILENO;
 	*pid = (pid_t *)ft_calloc(sizeof(pid_t), process);
 	if (*pid == NULL)
 		return (1);
 	return (0);
 }
 
-int	update_exitcode(int status, t_envp *env) // 만약 ?를 언셋한 상태라면?
+int	update_exitcode(int status, t_envp *env) 
+// 만약 ?를 언셋한 상태라면? 아니지 unset 할 수 없지 키값에서 걸리니까??아닌가? 언셋도 키값을 보나??
 {
 	char	*exitcode;
 	char	*save;
@@ -94,78 +79,43 @@ int	update_exitcode(int status, t_envp *env) // 만약 ?를 언셋한 상태라�
 	return (0);
 }
 
-//left right를 제대로 확인하고 진입할것
-//만약에 left면, 
 void	execute_pipe(t_node *root, t_envp *env)
 {
-	t_node *line;
-	int		process;
-	int		**fd;
-	int		temp_fd[2];
-	pid_t	*pid;
-	int		status;
-	int		i;
+    int **fd;
+    pid_t *pid;
+    int status;
+    int process;
+    int temp_fd[2];
+    int i;
+    t_node *line;
 
-	process = count_process(root);
+    process = count_process(root);
 	if (initial_pipe(process, &fd, &pid))
 		return ;
-	fd[0][FD_READ] = STDIN_FILENO;
-	fd[process - 1][FD_WRITE] = STDOUT_FILENO;
-	i = 0;
-	while (root->type == PIPE)
-	{
-		i = 0;
- 		temp_fd[0] = fd[i][FD_WRITE];
-		temp_fd[1] = fd[i+1][FD_READ];
-		pipe(temp_fd);
-		pid[i] = fork();
-		if (pid[i] < 0)
+    i = 0;
+    while (root->type == PIPE)
+    {
+        temp_fd[0] = fd[i][FD_WRITE];
+        temp_fd[1] = fd[i+1][FD_READ];
+        pipe(temp_fd);
+        pid[i] = fork();
+        if (pid[i] < 0)
 		{
 			printf("error\n");
 			return ;
 		}
-		if (pid[i])
-		{
-			if (root->right)
-				root = root->right;
-			if (i != 0)
+        else if (pid[i])
+        {
+            if (i != 0)
 				close(fd[i][FD_READ]);
-			close(fd[i][FD_WRITE]);
-			i += 1;
-		}
-		else
-		{
-			//redirection 진행
-			if (i != 0)
-			{
-				dup2(fd[i - 1][FD_READ], STDIN_FILENO);
-				close(fd[i - 1][FD_READ]);
-			}
-			dup2(fd[i][FD_WRITE], STDOUT_FILENO);
-			close(fd[i][FD_WRITE]);
-			close(fd[i + 1][FD_READ]);
-			close(fd[process -1][FD_WRITE]);
-			line = root->left;
-			execute_function(line->right, env, 0);
-			return ;
-		}
-	}
-	if (root->type == LINE)
-	{
-		pid[i] = fork();
-		if (pid[i] < 0)
-		{
-			printf("fork error\n");
-			return ;
-		}
-		if (pid[i])
-		{
-			close(fd[i][FD_READ]);
-			if (i != process - 1)
+            if (i != process - 1)
 				close(fd[i][FD_WRITE]);
-			if (i == process - 1)
-			{
-				i = 0;
+            if (root->right)
+                root = root->right;
+            i += 1;
+            if (i == process -1)
+            {
+                i = 0;
 				while (i < process)
 				{
 					waitpid(pid[i], &status, 0);
@@ -173,91 +123,110 @@ void	execute_pipe(t_node *root, t_envp *env)
 				}
 				if (update_exitcode(status, env))
 					return ;
-			}
-		}
-		else
-		{
-			line = root;
-			//redirection
-			dup2(fd[i - 1][FD_READ], STDIN_FILENO);
-			close(fd[i - 1][FD_READ]);
-			dup2(fd[i][FD_WRITE], STDOUT_FILENO);
-			//자식 프로세스
-			execute_function(line->right, env, 0);
-			return ;
-		}
-	}
-	else{
-		print_node(root);
-		printf("root->str : %s, root->type : %d\n", root->str, root->type);
-		printf("wrong ast2\n");
-	}
- }
+            }
+        }
+        else
+        {
+            if (i == process -1)
+                //마지막 라인이라는 뜻 : root->right에 대해서 진행
+            {
+                if (root->right->type == LINE)
+                {
+                    line = root->right;
+                    //내부를 함수로 빼면 밑에 root->left와 합치기 가능할지도
+                    if (line->left)
+                    	check_redirection(line->left, fd[i]);
+                    dup2(fd[i - 1][FD_READ], STDIN_FILENO);
+                    close(fd[i - 1][FD_READ]);
+                    dup2(fd[i][FD_WRITE], STDOUT_FILENO);
+                    if (line->right)
+                        execute(line, env);
+                }
+            }
+            if (root->left->type == LINE)
+            {
+                line = root->left;
+                if (line->left)
+                    check_redirection(line->left, fd[i]);
+                if (i != 0)
+                {
+                    dup2(fd[i - 1][FD_READ], STDIN_FILENO);
+                    close(fd[i - 1][FD_READ]);
+                }
+                dup2(fd[i][FD_WRITE], STDOUT_FILENO);
+                close(fd[i][FD_WRITE]);
+                close(fd[i + 1][FD_READ]);
+                close(fd[process -1][FD_WRITE]);
+                if (line->right)
+                    execute(line, env);
+            }
+        }
+    }
+}
 
-
-void	make_process(t_node *line, t_envp *env)
+int run_builtin(t_node *command, t_envp *env)
 {
-	int		fd[2];
+	if (ft_strequal("pwd", command->str) || ft_strequal("PWD", command->str))
+		return (builtin_pwd());
+	if (ft_strequal("cd", command->str))
+		return (builtin_cd(command, env));
+	if (ft_strequal("exit", command->str))
+		return (builtin_exit(command, env));
+	if (ft_strequal("env", command->str) || ft_strequal("ENV", command->str))
+		return (builtin_env(env));
+	if (ft_strequal("export", command->str))
+		return (builtin_export(command->right, env)); // 얘만 command->right
+	if (ft_strequal("echo", command->str) || ft_strequal("ECHO", command->str))
+		return (builtin_echo(command));
+	if (ft_strequal("unset", command->str))
+		return (builtin_unset(command, env));
+	if (check_equal(command->str))
+	{
+		if (check_invalid(command->str) == 2)
+			return (add_to_env_plus(command->str, env, SHOW));
+		else if (check_invalid(command->str) == 0)
+			return (add_to_env(command->str, env, HIDE));
+	}
+	return (0);
+}
+
+void    execute_line(t_node *line, t_envp *env)
+{
+    int save_fd[2];
+	int	fd[2];
 
 	fd[0] = STDIN_FILENO;
 	fd[1] = STDOUT_FILENO;
-	if (line->left)
-		check_redirection(line->left, fd);
-	if (line->right)
-	{
-		execute_function(line->right, env, 1);
-	}
-	else
-		add_to_env("?=0", env, HIDE); //$?만 0으로 초기화
-}
-
-int	count_process(t_node *root)
-{
-	int	i;
-
-	i = 1;
-	while (root->type == PIPE)
-	{
-		i += 1;
-		root = root->right;
-	}
-	return (i);
-}
-
-int	get_command_size(t_node *command)
-{
-	int	size;
-
-	size = 0;
-	while (command)
-	{
-		size += 1;
-		command = command->right;
-	}
-	return (size);
-}
-
-char	**make_command_array(t_node *command)
-{
-	int		size;
-	int		i;
-	char	**command_array;
-
-	size = get_command_size(command);
-	command_array = (char **)ft_calloc(sizeof(char *), size + 1);
-	if (command_array == NULL)
-		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		command_array[i] = ft_strdup(command->str);
-		if (command_array[i] == NULL)
-		{
-			free_double_array(command_array);
-			return (NULL);
-		}
-		i += 1;
-		command = command->right;
-	}
-	return (command_array);
+    if (check_builtin(line->right))
+    {
+        save_fd[0] = dup(STDIN_FILENO);
+        save_fd[1] = dup(STDOUT_FILENO);
+        if (line->left)
+            check_redirection(line->left, fd);
+        if (line->right)
+        run_builtin(line->right, env);
+        dup2(save_fd[0], STDIN_FILENO);
+        dup2(save_fd[1], STDOUT_FILENO);
+        close(save_fd[0]);
+        close(save_fd[1]);
+		//빌트인 정상실행시 -> exitcode update필요
+    }
+    else
+    {
+        pid_t pid;
+        int status;
+        pid = fork();
+        if(pid)
+        {
+            waitpid(pid, &status, 0);
+            update_exitcode(status, env);
+        }
+        else
+        {
+            if (line->left)
+                check_redirection(line->left, fd);
+            if (line->right)
+                execute(line->right, env);
+        }
+    }
 }
