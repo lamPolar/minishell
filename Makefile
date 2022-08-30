@@ -14,7 +14,7 @@ LIBS = pipe.h define.h parse/parse.h builtin/builtin.h util/util.h
 NAME = minishell
 
 #token: parse/*.c util/*.c main.c
-#	gcc $^ -lreadline -L~/.brew/opt/readline/lib -o kinder
+#	gcc $^ -lreadline -L/Users/sojoo/.brew/opt/readline/lib -I/Users/sojoo/.brew/opt/readline/include -o kinder
 
 #test : main.c pipe.c redirect.c execute.c builtin/*.c util/*.c parse/*.c
 #gcc -g $^ -lreadline -o test
@@ -22,10 +22,10 @@ NAME = minishell
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $^ -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $^ -lreadline -L/Users/sojoo/.brew/opt/readline/lib -o $(NAME)
 
 .c.o : %.c $(LIBS)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I/Users/sojoo/.brew/opt/readline/include -c $< -o $@
 
 clean :
 	rm -f $(OBJS)

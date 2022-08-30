@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 21:58:22 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 23:20:26 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		find_double_quotes(t_token *tokenlist, int i);
 int		change_dollar_single_quotes(t_token *tokenlist, int i);
 
 //token_env.c
-int		delete_quotes(t_token *token, int idx1, int idx2, char ch);
+int		delete_quotes(t_token *token, char ch);
 int		replace_value(t_token *tokenlist, t_envp *env, int i, int *j);
 int		no_env_key(t_token *tokenlist, int i, int *j);
 

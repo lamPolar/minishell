@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:15:30 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 21:17:12 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 23:20:44 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	after_tokenize(t_token *tokenlist)
 			ch = find_quotes(tokenlist->value, &idx1, &idx2);
 			while (ch != 0)
 			{
-				if (delete_quotes(tokenlist, idx1, idx2, ch) == 0)
+				if (delete_quotes(tokenlist, ch) == 0)
 					return (0);
 				idx1 = idx2 - 1;
 				idx2 = 0;
