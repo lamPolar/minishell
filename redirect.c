@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 17:45:25 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 00:22:29 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,27 @@ int	check_redirection(t_node *re, int fd[2])
 	}
 	if (infile != STDIN_FILENO)
 	{
-		if (dup2(infile, STDIN_FILENO) == -1 || close(infile) == -1)
-			return (1); // error시 출력?
+		if (dup2(infile, STDIN_FILENO) == -1)
+			return (1);
+		if (close(infile) == -1)
+			return (1);
 	}
 	if (outfile != STDOUT_FILENO)
 	{
-		if (dup2(outfile, STDOUT_FILENO) == -1 || close(outfile) == -1)
-		return (1);
+		if (dup2(outfile, STDOUT_FILENO) == -1)
+			return (1);
+		if (close(outfile) == -1)
+			return (1);
 	}
-return (0);
+	return (0);
 }
-//나머지 fd처리 어떻게 할건지?
 
 void	here_doc(int fd, char *delimiter)
 {
 	char	*line;
 	int		len;
 
-	line = readline("HERE_DOC > ");
+	line = readline("> ");
 	while (line)
 	{
 		if (ft_strequal(delimiter, line))
@@ -62,12 +65,15 @@ void	here_doc(int fd, char *delimiter)
 		write(fd, line, len);
 		write(fd, "\n", 1);
 		free(line);
-		line = readline("HERE_DOC > ");
+		line = readline("> ");
 	}
 }
 
 void	open_redirection_file(t_node *file, int MODE, int *fd)
 {
+	int temp;
+
+	temp = *fd;
 	if (MODE == HEREDOC)
 		here_doc(*fd, file->str);
 	else if (MODE == INFILE)
@@ -81,4 +87,6 @@ void	open_redirection_file(t_node *file, int MODE, int *fd)
 		printf("KINDER: %s\n", strerror(errno));
 		exit(127);
 	}
+	if (temp != STDIN_FILENO && temp != STDOUT_FILENO)
+		close(temp);
 }

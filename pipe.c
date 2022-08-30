@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 21:52:05 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 00:21:16 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	execute_tree(t_node *root, t_node *ast, t_token *token)
 		return ;
 	if (root->type == LINE)
 		execute_line(root, ast, token);
-	//ㅇㅕ기서 heredoc이 있으면 먼저 실행
 	else if (root->type == PIPE)
 		execute_pipe(root, ast, token);
 	else
@@ -40,8 +39,8 @@ int	initial_pipe(int process, int ***fd, pid_t **pid)
 			return (1);
 		i += 1;
 	}
-	(*fd)[0][FD_READ] = STDIN_FILENO;
-	(*fd)[process - 1][FD_WRITE] = STDOUT_FILENO;
+	// (*fd)[0][FD_READ] = STDIN_FILENO;
+	// (*fd)[process - 1][FD_WRITE] = STDOUT_FILENO;
 	*pid = (pid_t *)ft_calloc(sizeof(pid_t), process);
 	if (*pid == NULL)
 		return (1);
@@ -49,7 +48,6 @@ int	initial_pipe(int process, int ***fd, pid_t **pid)
 }
 
 int	update_exitcode(int status) 
-// 만약 ?를 언셋한 상태라면? 아니지 unset 할 수 없지 키값에서 걸리니까??아닌가? 언셋도 키값을 보나??
 {
 	char	*exitcode;
 	char	*save;
@@ -79,93 +77,6 @@ int	update_exitcode(int status)
 	return (0);
 }
 
-void	execute_pipe(t_node *root, t_node *ast, t_token *token)
-{
-    int **fd;
-    pid_t *pid;
-    int status;
-    int process;
-    int temp_fd[2];
-    int i;
-    t_node *line;
-
-    (void)ast;
-    (void)token;
-    process = count_process(root);
-	if (initial_pipe(process, &fd, &pid))
-		return ;
-    i = 0;
-    while (root->type == PIPE)
-    {
-        temp_fd[0] = fd[i][FD_WRITE];
-        temp_fd[1] = fd[i+1][FD_READ];
-        pipe(temp_fd);
-        pid[i] = fork();
-        if (pid[i] < 0)
-		{
-			printf("error\n");
-			return ;
-		}
-        else if (pid[i])
-        {
-            if (i != 0)
-				close(fd[i][FD_READ]);
-            if (i != process - 1)
-				close(fd[i][FD_WRITE]);
-            if (root->right)
-                root = root->right;
-            i += 1;
-            if (i == process -1)
-            {
-                i = 0;
-				while (i < process)
-				{
-					waitpid(pid[i], &status, 0);
-					i += 1;
-				}
-				if (update_exitcode(status))
-					return ;
-            }
-        }
-        else
-        {
-            if (i == process -1)
-                //마지막 라인이라는 뜻 : root->right에 대해서 진행
-            {
-                if (root->right->type == LINE)
-                {
-                    line = root->right;
-                    //내부를 함수로 빼면 밑에 root->left와 합치기 가능할지도
-                    if (line->left)
-                    	check_redirection(line->left, fd[i]);
-                    dup2(fd[i - 1][FD_READ], STDIN_FILENO);
-                    close(fd[i - 1][FD_READ]);
-                    dup2(fd[i][FD_WRITE], STDOUT_FILENO);
-                    if (line->right)
-                        execute(line);
-                }
-            }
-            if (root->left->type == LINE)
-            {
-                line = root->left;
-                if (line->left)
-                    check_redirection(line->left, fd[i]);
-                if (i != 0)
-                {
-                    dup2(fd[i - 1][FD_READ], STDIN_FILENO);
-                    close(fd[i - 1][FD_READ]);
-                }
-                dup2(fd[i][FD_WRITE], STDOUT_FILENO);
-                close(fd[i][FD_WRITE]);
-                close(fd[i + 1][FD_READ]);
-                close(fd[process -1][FD_WRITE]);
-                if (line->right)
-                    execute(line);
-            }
-        }
-    }
-}
-
 int run_builtin(t_node *command, t_node *ast, t_token *token)
 {
 	if (ft_strequal("pwd", command->str) || ft_strequal("PWD", command->str))
@@ -192,31 +103,98 @@ int run_builtin(t_node *command, t_node *ast, t_token *token)
 	return (0);
 }
 
+void	execute_pipe(t_node *root, t_node *ast, t_token *token)
+{
+	int		fd[2];
+	int		fd2[2];
+	int		temp[2];
+	int		save[2];
+	t_node *line;
+	pid_t	pid1;
+	pid_t	pid2;
+
+	save[0] = dup(STDIN_FILENO);
+	save[1] = dup(STDOUT_FILENO);
+	pipe(temp);
+	fd[0] = STDIN_FILENO;
+	fd[1] = temp[0];
+	fd2[0] = temp[1];
+	fd2[1] = STDOUT_FILENO;
+	
+	pid1 = fork();
+	if (pid1 == -1)
+		ft_error();
+	else if (pid1 == 0)
+	{
+		line = root->left;
+		check_redirection(line->left, fd);
+		if (line->right)
+		{
+			if (check_builtin(line->right))
+				run_builtin(line->right, ast, token);
+			else
+				execute(line->right);
+		}
+		dup2(save[0], STDIN_FILENO);
+		dup2(save[1], STDOUT_FILENO);
+		close(save[0]);
+		close(save[1]);
+	}
+	else
+	{
+		pid2 = fork();
+		if (pid2 == -1)
+			ft_error();
+		else if (pid2 == 0)
+		{
+			line = root->right;
+			check_redirection(line->left, fd2);
+			if (line->right)
+			{
+				if (check_builtin(line->right))
+					run_builtin(line->right, ast, token);
+				else
+					execute(line->right);
+			}
+			dup2(save[0], STDIN_FILENO);
+			dup2(save[1], STDOUT_FILENO);
+			close(save[0]);
+			close(save[1]);
+		}
+		else
+		{
+			dup2(save[0], STDIN_FILENO);
+			dup2(save[1], STDOUT_FILENO);
+			close(save[0]);
+			close(save[1]);
+			close(fd[1]);
+			close(fd2[0]);
+			waitpid(pid1, NULL, 0);
+			waitpid(pid2, NULL, 0);
+		}
+	}
+}
+	
 void    execute_line(t_node *line, t_node *ast, t_token *token)
 {
     int save_fd[2];
 	int	fd[2];
+    pid_t pid;
+    int status;
 
 	fd[0] = STDIN_FILENO;
 	fd[1] = STDOUT_FILENO;
+    save_fd[0] = dup(STDIN_FILENO);
+	save_fd[1] = dup(STDOUT_FILENO);
     if (check_builtin(line->right))
     {
-        save_fd[0] = dup(STDIN_FILENO);
-        save_fd[1] = dup(STDOUT_FILENO);
-        if (line->left)
-            check_redirection(line->left, fd);
+        check_redirection(line->left, fd);
         if (line->right)
-        run_builtin(line->right, ast, token);
-        dup2(save_fd[0], STDIN_FILENO);
-        dup2(save_fd[1], STDOUT_FILENO);
-        close(save_fd[0]);
-        close(save_fd[1]);
+            run_builtin(line->right, ast, token);
 		//빌트인 정상실행시 -> exitcode update필요
     }
     else
     {
-        pid_t pid;
-        int status;
         pid = fork();
         if(pid)
         {
@@ -231,4 +209,8 @@ void    execute_line(t_node *line, t_node *ast, t_token *token)
                 execute(line->right);
         }
     }
+    dup2(save_fd[0], STDIN_FILENO);
+    dup2(save_fd[1], STDOUT_FILENO);
+    close(save_fd[0]);
+    close(save_fd[1]);
 }
