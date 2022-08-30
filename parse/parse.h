@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 23:20:26 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 00:31:33 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 t_envp	*arrange_envp(char **envp);
 
 //signal.c
-void    signal_set(void);
-void    signal_handler(int signum);
-void    c_handler(int signum);
-void    q_handler(int signum);
+void	signal_set(void);
+void	signal_handler(int signum);
+void	c_handler(int signum);
+void	q_handler(int signum);
 
 //token.c
 void	execute_str(char *str);
@@ -54,7 +54,6 @@ int		no_env_key(t_token *tokenlist, int i, int *j);
 //token_find.c
 int		envp_in_value(t_token *tokenlist, int i, int *j);
 int		find_word(char *str, int i);
-void	preorder(t_node *root);
 
 //token_what.c
 int		tokenize_detail(char *str, int i, t_token **prev);
@@ -78,9 +77,9 @@ int		make_new_redirect(t_node *prev, t_token *token, int direct);
 t_node	*make_new_filename(t_node *prev, t_token *token);
 
 //signal.c
-void    signal_set(void);
-void    signal_handler(int signum);
-void    c_handler(int pid);
-void    q_handler(int pid);
+void	signal_set(void);
+void	signal_handler(int signum);
+void	c_handler(int pid);
+void	q_handler(int pid);
 
 #endif

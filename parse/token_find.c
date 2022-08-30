@@ -6,11 +6,18 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:18:06 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 21:55:45 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 00:39:14 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+
+static int	free_and_return(char *str, int i)
+{
+	if (str != NULL)
+		free(str);
+	return (i);
+}
 
 int	envp_in_value(t_token *tokenlist, int i, int *j)
 {
@@ -28,7 +35,7 @@ int	envp_in_value(t_token *tokenlist, int i, int *j)
 		if (ft_strequal(envp, env->key))
 		{
 			if (replace_value(tokenlist, env, i, j) == 0)
-				return (0);
+				return (free_and_return(envp, 0));
 			break ;
 		}
 		env = env->next;
@@ -36,10 +43,9 @@ int	envp_in_value(t_token *tokenlist, int i, int *j)
 	if (env == NULL)
 	{
 		if (no_env_key(tokenlist, i, j) == 0)
-			return (0);
+			return (free_and_return(envp, 0));
 	}
-	free(envp);
-	return (1);
+	return (free_and_return(envp, 1));
 }
 
 int	find_word(char *str, int i)
@@ -49,22 +55,4 @@ int	find_word(char *str, int i)
 		&& str[i] != '<' && str[i] != '\'' && str[i] != '\"')
 		i++;
 	return (i);
-}
-
-void	preorder(t_node *root)
-{
-	if (root->papa != NULL)
-		printf("papa : %d / %s\n", root->papa->type, root->papa->str);
-	printf("str : %s ", root->str);
-	printf("type : %d \n", root->type);
-	if (root->left)
-	{
-		printf("<");
-		preorder(root->left);
-	}
-	if (root->right)
-	{
-		printf(">");
-		preorder(root->right);
-	}
 }

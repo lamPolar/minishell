@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:28:59 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 22:04:05 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 00:42:01 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ int	syntax_check_pipe(t_token *token, t_node *head)
 int	syntax_check_redirect(t_token *token)
 {
 	if (token->next == NULL)
-		print_error("KINDER: syntax error near unexpected token 'newline'", 0, 0, 0);
+		print_error("KINDER: syntax error near unexpected token 'newline'" \
+			, 0, 0, 0);
 	else if (token->next->type == REDIRECT)
-		print_error("KINDER: syntax error near unexpected token \'", token->next->value, "\'", 0);		
+		print_error("KINDER: syntax error near unexpected token \'", \
+			token->next->value, "\'", 0);
 	else if (token->next->type == PIPE_T)
 		printf("KINDER: syntax error near unexpected token '|'\n");
 	else
