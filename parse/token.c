@@ -6,14 +6,14 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 16:10:16 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:45:37 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 #include "../pipe.h"
 
-void	execute_str(char *str, t_envp *env)
+void	execute_str(char *str)
 {
 	t_token	*tokenlist;
 	t_node	*ast;
@@ -21,7 +21,7 @@ void	execute_str(char *str, t_envp *env)
 	tokenlist = tokenize(str);
 	if (tokenlist == NULL)
 		return ;
-	if (after_tokenize(tokenlist, env) == 0 || tokenlist->next == NULL)
+	if (after_tokenize(tokenlist) == 0 || tokenlist->next == NULL)
 	{
 		free_tokenlist(tokenlist);
 		return ;
@@ -33,15 +33,15 @@ void	execute_str(char *str, t_envp *env)
 		return ;
 	}
 	// preorder(ast);
-	execute_tree(ast, env);
+	execute_tree(ast, ast, tokenlist);
 	// int i = 0;
 	// while (tokenlist != NULL)
 	// {
 	// 	printf("value:%s\ntype:%d\n\n", tokenlist->value, tokenlist->type);
 	// 	tokenlist = tokenlist->next;
 	// }
-	// free_tree(ast);
-	// free_tokenlist(tokenlist);
+	free_tree(ast);
+	free_tokenlist(tokenlist);
 }
 
 t_token	*tokenize(char *str)

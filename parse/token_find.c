@@ -6,17 +6,26 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:18:06 by sojoo             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/08/29 22:12:12 by heeskim          ###   ########.fr       */
+=======
+/*   Updated: 2022/08/30 21:55:45 by sojoo            ###   ########.fr       */
+>>>>>>> 7e7e10b8717b24c9d1fdf983a2c4d730c8aee686
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-int	envp_in_value(t_token *tokenlist, t_envp *env, int i, int *j)
+int	envp_in_value(t_token *tokenlist, int i, int *j)
 {
 	char	*envp;
+<<<<<<< HEAD
 	//char	*new_value;
+=======
+	t_envp	*env;
+>>>>>>> 7e7e10b8717b24c9d1fdf983a2c4d730c8aee686
 
+	env = g_env;
 	if (*j == i + 1)
 		return (1);
 	envp = ft_strdup_idx(i + 1, *j - 1, tokenlist->value);
@@ -48,20 +57,6 @@ int	find_word(char *str, int i)
 		&& str[i] != '<' && str[i] != '\'' && str[i] != '\"')
 		i++;
 	return (i);
-}
-
-void	free_tokenlist(t_token *tokenlist)
-{
-	t_token	*prev;
-
-	while (tokenlist != NULL)
-	{
-		if (tokenlist->value)
-			free(tokenlist->value);
-		prev = tokenlist;
-		tokenlist = tokenlist->next;
-		free(prev);
-	}
 }
 
 void	preorder(t_node *root)

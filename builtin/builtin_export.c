@@ -3,31 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:33:32 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 21:31:17 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	export_with_argument(t_node *argument, t_envp *env)
+int	export_with_argument(t_node *argument)
 {
 	int	check;
+	t_envp	*env;
 
+	env = g_env;
 	if (check_equal(argument->str))
 	{
 		check = check_invalid(argument->str);
 		if (check == 1)
 		{
-			printf("KINDER: export: \'%s\': not a valid identifier\n", \
-			argument->str);
+			print_error("KINDER: export: \'", argument->str, \
+				"\': not a valid identifier", 0);
 			return (1);
 		}
 		else if (check == 2)
-			return (add_to_env_plus(argument->str, env, SHOW));
-		return (add_to_env(argument->str, env, SHOW));
+			return (add_to_env_plus(argument->str, SHOW));
+		return (add_to_env(argument->str, SHOW));
 	}
 	while (env)
 	{
@@ -38,14 +40,14 @@ int	export_with_argument(t_node *argument, t_envp *env)
 		}
 		env = env->next;
 	}
-	return (0); // error로 인한 삽입
+	return (0);
 }
 
-	//t_node	*argument;
-	//argument = command->right;
-int	builtin_export(t_node *argument, t_envp *env)
+int	builtin_export(t_node *argument)
 {
+	t_envp	*env;
 	//env 오름차순 sorting??
+	env = g_env;
 	if (argument == NULL)
 	{
 		while (env)
@@ -60,7 +62,7 @@ int	builtin_export(t_node *argument, t_envp *env)
 	}
 	while (argument)
 	{
-		if (export_with_argument(argument, env))
+		if (export_with_argument(argument))
 			return (1);
 		argument = argument->right;
 	}

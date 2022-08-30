@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:36:09 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 16:11:06 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 17:38:17 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,7 @@ typedef struct node
 	char		*str;
 	int			type;
 }	t_node;
+
+t_envp	*g_env;
 
 #endif

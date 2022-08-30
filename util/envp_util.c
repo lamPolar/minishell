@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:28 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:14:15 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 18:25:43 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,14 @@ t_envp	*free_envp(t_envp *head)
 	return (NULL);
 }
 
-char	**dearrange_envp(t_envp *env)
+char	**dearrange_envp()
 {
 	char	**envp;
 	int		size;
 	int		i;
+	t_envp	*env;
 
+	env = g_env;
 	size = get_env_size(env);
 	envp = (char **)ft_calloc(sizeof(char *), size + 1);
 	if (envp == NULL)
@@ -124,16 +126,16 @@ char	**dearrange_envp(t_envp *env)
 	return (envp);
 }
 
-int	get_env_size(t_envp *env)
+int	get_env_size(t_envp *head)
 {
 	int	i;
 
 	i = 0;
-	while (env)
+	while (head)
 	{
-		if (env->display == SHOW)
+		if (head->display == SHOW)
 			i += 1;
-		env = env->next;
+		head = head->next;
 	}
 	return (i);
 }

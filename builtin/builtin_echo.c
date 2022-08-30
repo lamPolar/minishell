@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:45:54 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 01:38:24 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 21:29:20 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ int	builtin_echo(t_node *command)
 	}
 	if (flag)
 		printf("\n");
-	return (0); //error때문에 삽입
+	return (0);
 }

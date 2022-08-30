@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:50 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 10:12:49 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 20:56:42 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,42 @@ void	print_start_shell(void)
 	printf("                                    █▄▄▄▄▄▄▄▄▄▄▄▄█\n\n");
 }
 
-int	main(int argc, char *argv[], char *envp[])
+void	first_init(int argc, char *argv[], struct termios *term)
 {
-	t_envp	*env;
-	char	*str;
-
 	if (argc != 1)
 		exit(1);
 	(void) argv;
 	print_start_shell();
-	env = arrange_envp(envp);
-	if (env == NULL)
+	tcgetattr(STDIN_FILENO, term);
+	term->c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, term);
+	signal_set();
+}
+
+int	main(int argc, char *argv[], char *envp[])
+{
+	char	*str;
+	struct termios	term;
+
+	first_init(argc, argv, &term);
+	g_env = arrange_envp(envp);
+	if (g_env == NULL)
 		return (1);
 	while (1)
 	{
 		str = readline("KINDER🥚 > "); // 디렉토리를 확인?
 		if (str == NULL)
+		{
+			write(1, "\x1b[1A", ft_strlen("\x1b[1A")); //커서를 윗줄로 이동
+			write(1, "\033[10C", ft_strlen("\033[10C")); //커서를 10만큼 뒤로 이동
+			printf("exit\n");
 			break ;
-		add_history(str);
-		execute_str(str, env);
+		}
+		else if (str[0] != '\0')
+			add_history(str);
+		execute_str(str);
 		free(str);
 	}
-	free_envp(env);
+	free_envp(g_env);
 	return (0);
 }

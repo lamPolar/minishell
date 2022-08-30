@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 00:04:02 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 23:39:49 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,19 @@ char	*find_path(char **env_path, char *command)
 	{
 		if (stat(command, &buf) != -1)
 			return (command);
-		printf("KINDER: %s: command not found\n", command);
+		print_error("KINDER: ", command, ": command not found", 0);
 		exit(127);
 	}
 	free_double_array(env_path);
 	return (path);
 }
 
-char	**get_path(t_envp *env)
+char	**get_path(void)
 {
 	char	**path_array;
+	t_envp	*env;
 
+	env = g_env;
 	while (env && ft_strequal(env->key, "PATH") == 0)
 		env = env->next;
 	if (env == NULL)
@@ -71,18 +73,12 @@ char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3)
 	len2 = ft_strlen(s2);
 	len3 = ft_strlen(s3);
 	new = (char *)ft_calloc(len1 + len2 + len3 + 1, sizeof(char));
-	if (!new)
-		return (0);
+	if (new == NULL)
+		return (NULL);
 	ft_strlcat(new, s1, len1 + 1);
 	ft_strlcat(new, s2, len1 + len2 + 1);
 	ft_strlcat(new, s3, len1 + len2 + len3 + 1);
 	return (new);
-}
-
-void	ft_error(void)
-{
-	printf("\e[1;31mError: \e[0m %s\n", strerror(errno));
-	exit(EXIT_FAILURE);
 }
 
 void	ft_free(char *str)
@@ -108,7 +104,7 @@ void	free_double_array(char **string)
 	free(string);
 	string = NULL;
 }
-#include <unistd.h>
+
 void	print_error(char *str1, char *str2, char *str3, char *str4)
 {
 	//여기에 KINDER:를 무조건 찍어주는걸로 할건지?
@@ -120,16 +116,5 @@ void	print_error(char *str1, char *str2, char *str3, char *str4)
 		write(2, str3, ft_strlen(str3));
 	if (str4)
 		write(2, str4, ft_strlen(str4));
+	write(2, "\n", 1);
 }
-
-/*
-void	print_strs_fd(char *str1, char *str2, char *str3, int fd)
-{
-	if (str1)
-		write(fd, str1, ft_strlen(str1));
-	if (str2)
-		write(fd, str2, ft_strlen(str2));
-	if (str3)
-		write(fd, str3, ft_strlen(str3));
-}
-*/

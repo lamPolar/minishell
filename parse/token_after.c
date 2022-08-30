@@ -6,13 +6,13 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:15:30 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 15:59:13 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 23:20:44 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-int	after_tokenize(t_token *tokenlist, t_envp *env)
+int	after_tokenize(t_token *tokenlist)
 {
 	int		idx1;
 	int		idx2;
@@ -22,14 +22,14 @@ int	after_tokenize(t_token *tokenlist, t_envp *env)
 	{
 		if (tokenlist->type == WORD)
 		{
-			if (change_dollar(tokenlist, env) == 0)
+			if (change_dollar(tokenlist) == 0)
 				return (0);
 			idx1 = 0;
 			idx2 = 0;
 			ch = find_quotes(tokenlist->value, &idx1, &idx2);
 			while (ch != 0)
 			{
-				if (delete_quotes(tokenlist, idx1, idx2, ch) == 0)
+				if (delete_quotes(tokenlist, ch) == 0)
 					return (0);
 				idx1 = idx2 - 1;
 				idx2 = 0;
@@ -41,7 +41,7 @@ int	after_tokenize(t_token *tokenlist, t_envp *env)
 	return (1);
 }
 
-int	change_dollar(t_token *tokenlist, t_envp *env)
+int	change_dollar(t_token *tokenlist)
 {
 	int	i;
 	int	j;
@@ -51,7 +51,7 @@ int	change_dollar(t_token *tokenlist, t_envp *env)
 	{
 		if (tokenlist->value[i] == '\"')
 		{
-			i = find_double_quotes(tokenlist, env, i);
+			i = find_double_quotes(tokenlist, i);
 			if (i == -1)
 				return (0);
 		}
@@ -60,7 +60,7 @@ int	change_dollar(t_token *tokenlist, t_envp *env)
 		else if (tokenlist->value[i] == '$')
 		{
 			j = check_valid(i, ft_strlen(tokenlist->value), tokenlist->value);
-			if (envp_in_value(tokenlist, env, i, &j) == 0)
+			if (envp_in_value(tokenlist, i, &j) == 0)
 				return (0);
 			i = j - 1;
 		}
@@ -68,7 +68,7 @@ int	change_dollar(t_token *tokenlist, t_envp *env)
 	return (1);
 }
 
-int	find_double_quotes(t_token *tokenlist, t_envp *env, int i)
+int	find_double_quotes(t_token *tokenlist, int i)
 {
 	int	j;
 	int	name_end;
@@ -86,9 +86,7 @@ int	find_double_quotes(t_token *tokenlist, t_envp *env, int i)
 			if (tokenlist->value[i] == '$')
 			{
 				name_end = check_valid(i, j, tokenlist->value);
-				if (name_end == i + 1)
-					return (j);
-				if (envp_in_value(tokenlist, env, i, &name_end) == 0)
+				if (envp_in_value(tokenlist, i, &name_end) == 0)
 					return (-1);
 				i = name_end - 1;
 			}

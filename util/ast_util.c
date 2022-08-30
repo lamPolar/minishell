@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:28:59 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:02:59 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 22:04:05 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ t_node	*make_root_node(int i)
 
 int	syntax_check_pipe(t_token *token, t_node *head)
 {
-	if (token->next->type == PIPE_T)
+	if (token->next == NULL || token->next->type == PIPE_T)
 	{
-		printf("KINDER: syntax error near unexpected token '|'\n");
+		print_error("KINDER: syntax error near unexpected token \'|\'", 0, 0, 0);
 		free_tree(head);
 		return (0);
 	}
@@ -59,10 +59,9 @@ int	syntax_check_pipe(t_token *token, t_node *head)
 int	syntax_check_redirect(t_token *token)
 {
 	if (token->next == NULL)
-		printf("KINDER: syntax error near unexpected token 'newline'\n");
+		print_error("KINDER: syntax error near unexpected token 'newline'", 0, 0, 0);
 	else if (token->next->type == REDIRECT)
-		printf("KINDER: syntax error near unexpected token '%s'\n", \
-				token->next->value);
+		print_error("KINDER: syntax error near unexpected token \'", token->next->value, "\'", 0);		
 	else if (token->next->type == PIPE_T)
 		printf("KINDER: syntax error near unexpected token '|'\n");
 	else

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 21:47:38 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 04:58:28 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPE_H
 # define PIPE_H
 
-# include "define.h"
-# include "util/util.h"
-# include "builtin/builtin.h"
+# include "../define.h"
+# include "../util/util.h"
+# include "../builtin/builtin.h"
 # include <sys/wait.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -43,7 +43,9 @@ int		get_command_size(t_node *command);
 //redirect.c
 int		check_redirection(t_node *re, int fd[2]);
 void	here_doc(int fd, char *delimiter);
-void	open_redirection_file(t_node *file, int MODE, int *fd);
+int		open_redirection_file(t_node *file, int MODE, int fd);
+int check_infile(t_node *re, int fd);
+int check_outfile(t_node *re, int fd);
 
 //execute.c
 void	execute(t_node *command);
