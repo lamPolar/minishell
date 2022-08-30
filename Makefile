@@ -8,7 +8,7 @@ UTIL = 	util/ast_util.c util/builtin_util.c util/envp_util.c \
 BUILTIN = 	builtin/builtin_cd.c builtin/builtin_echo.c \
 			builtin/builtin_env.c builtin/builtin_export.c \
 			builtin/builtin.c
-SRCS = $(PARSE) $(UTIL) $(BUILTIN) execute.c main.c pipe.c redirect.c
+SRCS = $(PARSE) $(UTIL) $(BUILTIN) execute.c main.c pipe.c redirect.c pipe_util2.c
 OBJS = $(SRCS:.c=.o)
 LIBS = pipe.h define.h parse/parse.h builtin/builtin.h util/util.h
 NAME = minishell

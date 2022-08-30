@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:48:05 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/29 22:13:28 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 10:33:44 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	builtin_unset(t_node *command, t_envp *env)
 		{
 			if (check_invalid(argument->str))
 			{
-				printf("KINDER: unset: %s: not a valid identifier", \
+				printf("KINDER: unset: %s: not a valid identifier\n", \
 						argument->str);
 				return (1);
 			}

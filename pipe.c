@@ -6,13 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 01:51:46 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 10:10:21 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-# define FD_READ 0
-# define FD_WRITE 1
 
 void	execute_tree(t_node *root, t_envp *env)
 {

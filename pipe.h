@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 01:53:10 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 10:10:19 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void    execute_line(t_node *line, t_envp *env);
 
 //pipe_util2.c
 //void	print_node(t_node *root)
+int     check_builtin(t_node *command);
 int		count_process(t_node *root);
 char	**make_command_array(t_node *command);
 int		get_command_size(t_node *command);

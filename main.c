@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:50 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/29 22:16:57 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 10:12:49 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char *argv[], char *envp[])
 		return (1);
 	while (1)
 	{
-		str = readline("KINDER🥚 > ");
+		str = readline("KINDER🥚 > "); // 디렉토리를 확인?
 		if (str == NULL)
 			break ;
 		add_history(str);

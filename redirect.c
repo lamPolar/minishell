@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/29 22:29:15 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 10:33:37 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	open_redirection_file(t_node *file, int MODE, int *fd)
 		*fd = open(file->str, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (*fd == -1)
 	{
-		printf("KINDER: %s", strerror(errno));
+		printf("KINDER: %s\n", strerror(errno));
 		exit(127);
 	}
 }
