@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:25:55 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 17:59:36 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int		ft_isnum(char *str);
 int		max(int len1, int len2);
 int		ft_atoi(const char *str);
 int		free_both(char *s1, char *s2);
-int		change_env_value(char *str, t_envp *env, int display);
-int		add_to_env(char *str, t_envp *env, int display);
-int		change_env_value_plus(char *str, t_envp *env, int display);
-int		add_to_env_plus(char *str, t_envp *env, int display);
+int		change_env_value(char *str, int display, t_envp *env);
+int		add_to_env(char *str, int display);
+int		change_env_value_plus(char *str, int display, t_envp *env);
+int		add_to_env_plus(char *str, int display);
 
 //libft_util.c
 int		ft_strlen(const char *s);
@@ -50,7 +50,7 @@ int		check_valid(int i, int j, char *str);
 
 //pipe_util.c
 char	*find_path(char **env_path, char *command);
-char	**get_path(t_envp *env);
+char	**get_path(void);
 char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
 void	ft_error(void);
 void	ft_free(char *str);
@@ -61,9 +61,9 @@ t_envp	*make_new_envp(char *str, int display);
 char	*envp_split_key(char *str);
 char	*envp_split_val(char *str);
 t_envp	*free_envp(t_envp *head);
-char	**dearrange_envp(t_envp *env);
-int		get_env_size(t_envp *env);
-char	*get_env_value(char *key, t_envp *env);
+char	**dearrange_envp(void);
+int		get_env_size(t_envp *head);
+char	*get_env_value(char *key);
 
 //ast_util.h
 t_node	*make_new_node(char *str, int type, t_node *papa);

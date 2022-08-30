@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 15:19:21 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 18:02:17 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ void    c_handler(int signum);
 void    q_handler(int signum);
 
 //token.c
-void	execute_str(char *str, t_envp *env);
+void	execute_str(char *str);
 t_token	*tokenize(char *str);
 t_token	*make_new_token(int type, char *value);
 int		make_quotes_token(char *str, int i, int j, t_token **prev);
 
 //token_after.c
-int		after_tokenize(t_token *tokenlist, t_envp *env);
-int		change_dollar(t_token *tokenlist, t_envp *env);
-int		find_double_quotes(t_token *tokenlist, t_envp *env, int i);
+int		after_tokenize(t_token *tokenlist);
+int		change_dollar(t_token *tokenlist);
+int		find_double_quotes(t_token *tokenlist, int i);
 int		change_dollar_single_quotes(t_token *tokenlist, int i);
 
 //token_env.c
@@ -52,7 +52,7 @@ int		replace_value(t_token *tokenlist, t_envp *env, int i, int *j);
 int		no_env_key(t_token *tokenlist, int i, int *j);
 
 //token_find.c
-int		envp_in_value(t_token *tokenlist, t_envp *env, int i, int *j);
+int		envp_in_value(t_token *tokenlist, int i, int *j);
 int		find_word(char *str, int i);
 void	free_tokenlist(t_token *tokenlist);
 void	preorder(t_node *root);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 01:39:39 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 18:12:39 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	builtin_pwd(void)
 	//exit하기 전에 exitcode를 env에 저장하기로 xx-> wait에서 끝난 process의 
 	//종료코드를 보고, 그걸 읽어서 env에 넣어주기로
 
-int	builtin_exit(t_node *command, t_envp *env)
+int	builtin_exit(t_node *command)
 {
 	t_node	*argument;
 
@@ -66,7 +66,7 @@ int	builtin_exit(t_node *command, t_envp *env)
 			exit(ft_atoi(argument->str));
 		printf("KINDER: exit: %s: numeric argument required\n" \
 				, argument->str);
-		free_envp(env);
+		free_envp(g_env);
 		//free_tree(head);
 		exit(255);
 	}

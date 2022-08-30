@@ -6,21 +6,21 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 17:09:12 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 18:22:39 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 
-void	execute_tree(t_node *root, t_envp *env)
+void	execute_tree(t_node *root)
 {
 	if (root == NULL)
 		return ;
 	if (root->type == LINE)
-		execute_line(root, env);
+		execute_line(root);
 	//ㅇㅕ기서 heredoc이 있으면 먼저 실행
 	else if (root->type == PIPE)
-		execute_pipe(root, env);
+		execute_pipe(root);
 	else
 		printf("wrong ast\n");
 }
@@ -48,12 +48,14 @@ int	initial_pipe(int process, int ***fd, pid_t **pid)
 	return (0);
 }
 
-int	update_exitcode(int status, t_envp *env) 
+int	update_exitcode(int status) 
 // 만약 ?를 언셋한 상태라면? 아니지 unset 할 수 없지 키값에서 걸리니까??아닌가? 언셋도 키값을 보나??
 {
 	char	*exitcode;
 	char	*save;
+    t_envp  *env;
 	
+    env = g_env;
 	if (WIFEXITED(status))
 	{
 		status = WEXITSTATUS(status);
@@ -77,7 +79,7 @@ int	update_exitcode(int status, t_envp *env)
 	return (0);
 }
 
-void	execute_pipe(t_node *root, t_envp *env)
+void	execute_pipe(t_node *root)
 {
     int **fd;
     pid_t *pid;
@@ -119,7 +121,7 @@ void	execute_pipe(t_node *root, t_envp *env)
 					waitpid(pid[i], &status, 0);
 					i += 1;
 				}
-				if (update_exitcode(status, env))
+				if (update_exitcode(status))
 					return ;
             }
         }
@@ -138,7 +140,7 @@ void	execute_pipe(t_node *root, t_envp *env)
                     close(fd[i - 1][FD_READ]);
                     dup2(fd[i][FD_WRITE], STDOUT_FILENO);
                     if (line->right)
-                        execute(line, env);
+                        execute(line);
                 }
             }
             if (root->left->type == LINE)
@@ -156,39 +158,39 @@ void	execute_pipe(t_node *root, t_envp *env)
                 close(fd[i + 1][FD_READ]);
                 close(fd[process -1][FD_WRITE]);
                 if (line->right)
-                    execute(line, env);
+                    execute(line);
             }
         }
     }
 }
 
-int run_builtin(t_node *command, t_envp *env)
+int run_builtin(t_node *command)
 {
 	if (ft_strequal("pwd", command->str) || ft_strequal("PWD", command->str))
 		return (builtin_pwd());
 	if (ft_strequal("cd", command->str))
-		return (builtin_cd(command, env));
+		return (builtin_cd(command));
 	if (ft_strequal("exit", command->str))
-		return (builtin_exit(command, env));
+		return (builtin_exit(command));
 	if (ft_strequal("env", command->str) || ft_strequal("ENV", command->str))
-		return (builtin_env(env));
+		return (builtin_env());
 	if (ft_strequal("export", command->str))
-		return (builtin_export(command->right, env)); // 얘만 command->right
+		return (builtin_export(command->right)); // 얘만 command->right
 	if (ft_strequal("echo", command->str) || ft_strequal("ECHO", command->str))
 		return (builtin_echo(command));
 	if (ft_strequal("unset", command->str))
-		return (builtin_unset(command, env));
+		return (builtin_unset(command));
 	if (check_equal(command->str))
 	{
 		if (check_invalid(command->str) == 2)
-			return (add_to_env_plus(command->str, env, SHOW));
+			return (add_to_env_plus(command->str, SHOW));
 		else if (check_invalid(command->str) == 0)
-			return (add_to_env(command->str, env, HIDE));
+			return (add_to_env(command->str, HIDE));
 	}
 	return (0);
 }
 
-void    execute_line(t_node *line, t_envp *env)
+void    execute_line(t_node *line)
 {
     int save_fd[2];
 	int	fd[2];
@@ -202,7 +204,7 @@ void    execute_line(t_node *line, t_envp *env)
         if (line->left)
             check_redirection(line->left, fd);
         if (line->right)
-        run_builtin(line->right, env);
+        run_builtin(line->right);
         dup2(save_fd[0], STDIN_FILENO);
         dup2(save_fd[1], STDOUT_FILENO);
         close(save_fd[0]);
@@ -217,14 +219,14 @@ void    execute_line(t_node *line, t_envp *env)
         if(pid)
         {
             waitpid(pid, &status, 0);
-            update_exitcode(status, env);
+            update_exitcode(status);
         }
         else
         {
             if (line->left)
                 check_redirection(line->left, fd);
             if (line->right)
-                execute(line->right, env);
+                execute(line->right);
         }
     }
 }
