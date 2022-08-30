@@ -6,21 +6,21 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 18:22:39 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:52:05 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 
-void	execute_tree(t_node *root)
+void	execute_tree(t_node *root, t_node *ast, t_token *token)
 {
 	if (root == NULL)
 		return ;
 	if (root->type == LINE)
-		execute_line(root);
+		execute_line(root, ast, token);
 	//ㅇㅕ기서 heredoc이 있으면 먼저 실행
 	else if (root->type == PIPE)
-		execute_pipe(root);
+		execute_pipe(root, ast, token);
 	else
 		printf("wrong ast\n");
 }
@@ -79,7 +79,7 @@ int	update_exitcode(int status)
 	return (0);
 }
 
-void	execute_pipe(t_node *root)
+void	execute_pipe(t_node *root, t_node *ast, t_token *token)
 {
     int **fd;
     pid_t *pid;
@@ -89,6 +89,8 @@ void	execute_pipe(t_node *root)
     int i;
     t_node *line;
 
+    (void)ast;
+    (void)token;
     process = count_process(root);
 	if (initial_pipe(process, &fd, &pid))
 		return ;
@@ -164,14 +166,14 @@ void	execute_pipe(t_node *root)
     }
 }
 
-int run_builtin(t_node *command)
+int run_builtin(t_node *command, t_node *ast, t_token *token)
 {
 	if (ft_strequal("pwd", command->str) || ft_strequal("PWD", command->str))
 		return (builtin_pwd());
 	if (ft_strequal("cd", command->str))
 		return (builtin_cd(command));
 	if (ft_strequal("exit", command->str))
-		return (builtin_exit(command));
+		return (builtin_exit(command, ast, token));
 	if (ft_strequal("env", command->str) || ft_strequal("ENV", command->str))
 		return (builtin_env());
 	if (ft_strequal("export", command->str))
@@ -190,7 +192,7 @@ int run_builtin(t_node *command)
 	return (0);
 }
 
-void    execute_line(t_node *line)
+void    execute_line(t_node *line, t_node *ast, t_token *token)
 {
     int save_fd[2];
 	int	fd[2];
@@ -204,7 +206,7 @@ void    execute_line(t_node *line)
         if (line->left)
             check_redirection(line->left, fd);
         if (line->right)
-        run_builtin(line->right);
+        run_builtin(line->right, ast, token);
         dup2(save_fd[0], STDIN_FILENO);
         dup2(save_fd[1], STDOUT_FILENO);
         close(save_fd[0]);

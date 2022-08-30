@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:18:06 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 18:03:39 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:55:45 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,6 @@ int	find_word(char *str, int i)
 		&& str[i] != '<' && str[i] != '\'' && str[i] != '\"')
 		i++;
 	return (i);
-}
-
-void	free_tokenlist(t_token *tokenlist)
-{
-	t_token	*prev;
-
-	while (tokenlist != NULL)
-	{
-		if (tokenlist->value)
-			free(tokenlist->value);
-		prev = tokenlist;
-		tokenlist = tokenlist->next;
-		free(prev);
-	}
 }
 
 void	preorder(t_node *root)

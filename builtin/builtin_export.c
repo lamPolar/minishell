@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 18:11:44 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:31:17 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	export_with_argument(t_node *argument)
 		check = check_invalid(argument->str);
 		if (check == 1)
 		{
-			printf("KINDER: export: \'%s\': not a valid identifier\n", \
-			argument->str);
+			print_error("KINDER: export: \'", argument->str, \
+				"\': not a valid identifier", 0);
 			return (1);
 		}
 		else if (check == 2)
@@ -40,11 +40,9 @@ int	export_with_argument(t_node *argument)
 		}
 		env = env->next;
 	}
-	return (0); // error로 인한 삽입
+	return (0);
 }
 
-	//t_node	*argument;
-	//argument = command->right;
 int	builtin_export(t_node *argument)
 {
 	t_envp	*env;

@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:48:05 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 18:19:55 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:28:25 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_env_value(char *key)
 		env = env->next;
 	if (env == NULL)
 	{
-		printf("KINDER: cd: %s not set\n", key);
+		print_error("KINDER: cd: ", key, " not set", 0);
 		return (NULL);
 	}
 	value = ft_strdup(env->value);
@@ -59,18 +59,15 @@ int	builtin_unset(t_node *command)
 
 	argument = command->right;
 	if (argument == NULL)
-	{
-		printf("USAGE: unset [KEY]\n");
 		return (1);
-	}
 	else
 	{
 		while (argument != NULL)
 		{
 			if (check_invalid(argument->str))
 			{
-				printf("KINDER: unset: %s: not a valid identifier\n", \
-						argument->str);
+				print_error("KINDER: unset: \'", argument->str, \
+					"\': not a valid identifier", 0);
 				return (1);
 			}
 			delete_env(argument->str);
@@ -91,5 +88,5 @@ int	builtin_env(void)
 			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
-	return (0);//error로 삽입
+	return (0);
 }

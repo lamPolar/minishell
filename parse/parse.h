@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 18:02:17 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:58:22 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int		no_env_key(t_token *tokenlist, int i, int *j);
 //token_find.c
 int		envp_in_value(t_token *tokenlist, int i, int *j);
 int		find_word(char *str, int i);
-void	free_tokenlist(t_token *tokenlist);
 void	preorder(t_node *root);
 
 //token_what.c
@@ -77,5 +76,11 @@ int		make_pipe_node(t_node *prev, t_token *token);
 int		make_new_command(t_node *prev, t_token *token);
 int		make_new_redirect(t_node *prev, t_token *token, int direct);
 t_node	*make_new_filename(t_node *prev, t_token *token);
+
+//signal.c
+void    signal_set(void);
+void    signal_handler(int signum);
+void    c_handler(int pid);
+void    q_handler(int pid);
 
 #endif
