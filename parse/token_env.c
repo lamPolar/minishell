@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:16:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 23:20:17 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 00:40:36 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	delete_quotes(t_token *token, char ch)
 	char	*new;
 	int		i;
 	int		j;
-	
+
 	new = (char *)ft_calloc(ft_strlen(token->value) - 1, sizeof(char));
 	if (new == NULL)
 		return (0);

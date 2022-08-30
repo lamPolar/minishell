@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 21:58:46 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 01:08:02 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,9 @@
 # include <readline/readline.h>
 
 //builtin_util.c
-int		ft_strequal(char *s1, char *s2);
-int		check_equal(char *str);
-int		check_invalid(char *str);
-int		ft_isnum(char *str);
-int		max(int len1, int len2);
-int		ft_atoi(const char *str);
-int		free_both(char *s1, char *s2);
 int		change_env_value(char *str, int display, t_envp *env);
-int		add_to_env(char *str, int display);
 int		change_env_value_plus(char *str, int display, t_envp *env);
+int		add_to_env(char *str, int display);
 int		add_to_env_plus(char *str, int display);
 
 //libft_util.c
@@ -40,22 +33,38 @@ int		ft_strlen(const char *s);
 void	*ft_calloc(size_t count, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strdup(const char *s1);
-char	**ft_split(char const *s, char c);
+int		ft_strequal(char *s1, char *s2);
+
+//libft_util2.c
 char	*ft_itoa(int n);
+int		ft_isnum(char *str);
+int		ft_atoi(const char *str);
+
+//libft_util3.c
+int		check_equal(char *str);
+int		check_invalid(char *str);
+int		max(int len1, int len2);
+int		free_both(char *s1, char *s2);
+
+//split_util.c
+char	**ft_split(char const *s, char c);
 
 //parse_util.c
 char	*ft_strdup_idx(int i, int j, char *str);
 char	*ft_strjoin(char *s1, char *s2, int flag);
 char	find_quotes(char *str, int *first, int *second);
+
+//prase_util2.c
 int		check_valid(int i, int j, char *str);
 void	free_tokenlist(t_token *tokenlist);
-void    signal_exit_code(char *exitcode);
+void	signal_exit_code(char *exitcode);
 
 //pipe_util.c
 char	*find_path(char **env_path, char *command);
 char	**get_path(void);
 char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
-void	ft_error(void);
+
+//pipe_util2.c
 void	ft_free(char *str);
 void	free_double_array(char **string);
 void	print_error(char *str1, char *str2, char *str3, char *str4);
@@ -64,10 +73,11 @@ void	print_error(char *str1, char *str2, char *str3, char *str4);
 t_envp	*make_new_envp(char *str, int display);
 char	*envp_split_key(char *str);
 char	*envp_split_val(char *str);
-t_envp	*free_envp(t_envp *head);
+
+//envp_util2.h
 char	**dearrange_envp(void);
 int		get_env_size(t_envp *head);
-char	*get_env_value(char *key);
+t_envp	*free_envp(t_envp *head);
 
 //ast_util.h
 t_node	*make_new_node(char *str, int type, t_node *papa);

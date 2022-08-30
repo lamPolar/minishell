@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 21:31:17 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 00:22:46 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	export_with_argument(t_node *argument)
 {
-	int	check;
-	t_envp	*env;
+	int		check;
 
-	env = g_env;
 	if (check_equal(argument->str))
 	{
 		check = check_invalid(argument->str);
@@ -31,9 +29,17 @@ int	export_with_argument(t_node *argument)
 			return (add_to_env_plus(argument->str, SHOW));
 		return (add_to_env(argument->str, SHOW));
 	}
+	return (change_env_show(argument->str));
+}
+
+int	change_env_show(char *str)
+{
+	t_envp	*env;
+
+	env = g_env;
 	while (env)
 	{
-		if (ft_strequal(env->key, argument->str))
+		if (ft_strequal(env->key, str))
 		{
 			env->display = SHOW;
 			return (0);
@@ -46,7 +52,7 @@ int	export_with_argument(t_node *argument)
 int	builtin_export(t_node *argument)
 {
 	t_envp	*env;
-	//env 오름차순 sorting??
+
 	env = g_env;
 	if (argument == NULL)
 	{

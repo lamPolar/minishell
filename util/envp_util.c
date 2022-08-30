@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:28 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 18:25:43 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 00:56:54 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,65 +77,4 @@ char	*envp_split_val(char *str)
 	}
 	res[j] = '\0';
 	return (res);
-}
-
-t_envp	*free_envp(t_envp *head)
-{
-	t_envp	*prev;
-
-	while (head != NULL)
-	{
-		if (head->key)
-			free(head->key);
-		if (head->value)
-			free(head->value);
-		prev = head;
-		head = head->next;
-		free(prev);
-	}
-	return (NULL);
-}
-
-char	**dearrange_envp()
-{
-	char	**envp;
-	int		size;
-	int		i;
-	t_envp	*env;
-
-	env = g_env;
-	size = get_env_size(env);
-	envp = (char **)ft_calloc(sizeof(char *), size + 1);
-	if (envp == NULL)
-		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		if (env->display == SHOW)
-		{	
-			envp[i] = ft_strjoin_three(env->key, "=", env->value);
-			if (envp[i] == NULL)
-			{
-				free_double_array(envp);
-				return (NULL);
-			}
-			i += 1;
-		}
-		env = env->next;
-	}
-	return (envp);
-}
-
-int	get_env_size(t_envp *head)
-{
-	int	i;
-
-	i = 0;
-	while (head)
-	{
-		if (head->display == SHOW)
-			i += 1;
-		head = head->next;
-	}
-	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 00:21:16 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 00:28:37 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token)
 	
 	pid1 = fork();
 	if (pid1 == -1)
-		ft_error();
+		print_error("KINDER: Failed to fork child process", 0, 0, 0);
 	else if (pid1 == 0)
 	{
 		line = root->left;
@@ -144,7 +144,7 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token)
 	{
 		pid2 = fork();
 		if (pid2 == -1)
-			ft_error();
+			print_error("KINDER: Failed to fork child process", 0, 0, 0);
 		else if (pid2 == 0)
 		{
 			line = root->right;

@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 22:01:33 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 00:07:02 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,20 @@ int	builtin_exit(t_node *command, t_node *ast, t_token *token)
 	{
 		print_error("KINDER: exit: too many arguments", 0, 0, 0);
 		signal_exit_code(ft_strdup("1"));
-		return (0);
 	}
 	else
-	{
-		if (ft_isnum(argument->str))
-			exit(ft_atoi(argument->str));
-		print_error("KINDER: exit: ", argument->str, \
-			": numeric argument required", 0);
-		free_tree(ast);
-		free_tokenlist(token);
-		free_envp(g_env);
-		exit(255);
-	}
+		numeric_exit(argument->str, ast, token);
+	return (0);
+}
+
+void	numeric_exit(char *str, t_node *ast, t_token *token)
+{
+	if (ft_isnum(str) == 0)
+		print_error("KINDER: exit: ", str, ": numeric argument required", 0);
+	free_tree(ast);
+	free_tokenlist(token);
+	free_envp(g_env);
+	if (ft_isnum(str) == 1)
+		exit(ft_atoi(str));
+	exit(255);
 }
