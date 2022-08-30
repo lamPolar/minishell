@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:21:18 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 18:08:37 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:29:26 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	builtin_cd(t_node *command)
 		return (free_both(pwd, oldpwd));
 	if (chdir(argument->str) == -1)
 	{
-		printf("KINDER: cd: %s: %s\n", argument->str, strerror(errno));
+		print_error("KINDER: cd: ", argument->str, ": ", strerror(errno));
 		return (1);
 	}
 	return (change_pwd(oldpwd, pwd));

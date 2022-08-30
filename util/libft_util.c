@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:28:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:39:12 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 22:05:05 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*ft_calloc(size_t count, size_t size)
 	new = (void *)malloc(count * size);
 	if (new == NULL)
 	{
-		printf("KINDER: %s\n", strerror(errno));
+		print_error("KINDER: ", strerror(errno), 0, 0);
 		return (NULL);
 	}
 	index = 0;

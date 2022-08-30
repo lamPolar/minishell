@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 05:16:45 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 19:47:03 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:58:33 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,5 @@ void    q_handler(int pid)
     {
         printf("^\\Quit: 3\n");
         signal_exit_code(ft_strdup("131"));
-    }
-}
-
-void    signal_exit_code(char *exitcode)
-{
-    t_envp  *env;
-    char    *save;
-
-    env = g_env;
-    while (env)
-    {
-        if (ft_strequal(env->key, "?"))
-        {
-            save = env->value;
-            env->value = exitcode;
-            free(save);
-            break ;
-        }
-        env = env->next;
     }
 }

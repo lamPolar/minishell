@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 17:59:36 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:58:46 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/stat.h>
 # include <string.h>
 # include <stdio.h>
+# include <unistd.h>
 # include <readline/readline.h>
 
 //builtin_util.c
@@ -47,6 +48,8 @@ char	*ft_strdup_idx(int i, int j, char *str);
 char	*ft_strjoin(char *s1, char *s2, int flag);
 char	find_quotes(char *str, int *first, int *second);
 int		check_valid(int i, int j, char *str);
+void	free_tokenlist(t_token *tokenlist);
+void    signal_exit_code(char *exitcode);
 
 //pipe_util.c
 char	*find_path(char **env_path, char *command);
@@ -55,6 +58,7 @@ char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
 void	ft_error(void);
 void	ft_free(char *str);
 void	free_double_array(char **string);
+void	print_error(char *str1, char *str2, char *str3, char *str4);
 
 //envp_util.h
 t_envp	*make_new_envp(char *str, int display);

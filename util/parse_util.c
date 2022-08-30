@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 00:40:26 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 16:04:54 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 21:58:44 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,47 @@ char	find_quotes(char *str, int *first, int *second)
 int	check_valid(int i, int j, char *str)
 {
 	i += 1;
-	if (str[i] == '?')
-		return (i + 1);
-	if (str[i] > '0' || str[i] < '9')
+	if (str[i] == '?' || str[i] == '$' || (str[i] >= '0' && str[i] <= '9'))
 		return (i + 1);
 	while (i <= j)
 	{
-		if ((str[i] < 'A' || str[i] > 'z') && str[i] != '_' && \
-			(str[i] < '0' || str[i] > '9') && str[i] == '=')
+		if ((str[i] < 'A' || str[i] > 'Z') && (str[i] < 'a' || str[i] > 'z') \
+			&& str[i] != '_' && (str[i] <= '0' || str[i] >= '9') || str[i] == '=')
 			return (i);
 		i += 1;
 	}
 	return (j);
+}
+
+void	free_tokenlist(t_token *tokenlist)
+{
+	t_token	*prev;
+
+	while (tokenlist != NULL)
+	{
+		if (tokenlist->value)
+			free(tokenlist->value);
+		prev = tokenlist;
+		tokenlist = tokenlist->next;
+		free(prev);
+	}
+}
+
+void    signal_exit_code(char *exitcode)
+{
+    t_envp  *env;
+    char    *save;
+
+    env = g_env;
+    while (env)
+    {
+        if (ft_strequal(env->key, "?"))
+        {
+            save = env->value;
+            env->value = exitcode;
+            free(save);
+            break ;
+        }
+        env = env->next;
+    }
 }

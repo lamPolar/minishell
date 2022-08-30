@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:48 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 18:19:56 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 22:01:52 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,26 @@
 # include <string.h>
 
 //builtin.c
-int	builtin_pwd(void);
-int	builtin_exit(t_node *command);
+int	    builtin_pwd(void);
+int	    builtin_exit(t_node *command, t_node *ast, t_token *token);
 
 //builtin_cd.c
-int	check_home(t_node *command);
-int	check_oldpwd(t_node *command);
-char	*make_pwd(char *str, char **pwd);
-int	change_pwd(char *oldpwd, char *pwd);
-int	builtin_cd(t_node *command);
+int	    check_home(t_node *command);
+int	    check_oldpwd(t_node *command);
+char    *make_pwd(char *str, char **pwd);
+int	    change_pwd(char *oldpwd, char *pwd);
+int	    builtin_cd(t_node *command);
 
 //builtin_export.c
-int	export_with_argument(t_node *argument);
-int	builtin_export(t_node *command);
+int	    export_with_argument(t_node *argument);
+int	    builtin_export(t_node *command);
 
 //builtin_env.c
-int	builtin_unset(t_node *command);
-int	builtin_env(void);
+int	    builtin_unset(t_node *command);
+int	    builtin_env(void);
 
 //builtin_echo.c
-int	check_n(char *str);
-int	builtin_echo(t_node *command);
+int	    check_n(char *str);
+int	    builtin_echo(t_node *command);
 
 #endif
