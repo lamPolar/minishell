@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 23:17:22 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 23:37:49 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	execute(t_node *command)
 
 	path_array = get_path();
 	if (path_array == NULL)
-		print_error("KINDER: Failed to fork child process", 0, 0, 0);
+		print_error("KINDER: ", command->str, ": No such file or directory", 0);
 	path = find_path(path_array, command->str);
 	if (path == NULL)
 		return ;

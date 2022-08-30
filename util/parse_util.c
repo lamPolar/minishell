@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 00:40:26 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 21:58:44 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 23:33:31 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ int	check_valid(int i, int j, char *str)
 		return (i + 1);
 	while (i <= j)
 	{
-		if ((str[i] < 'A' || str[i] > 'Z') && (str[i] < 'a' || str[i] > 'z') \
-			&& str[i] != '_' && (str[i] <= '0' || str[i] >= '9') || str[i] == '=')
+		if (((str[i] < 'A' || str[i] > 'Z') && (str[i] < 'a' || str[i] > 'z') \
+			&& str[i] != '_' && (str[i] <= '0' || str[i] >= '9')) || str[i] == '=')
 			return (i);
 		i += 1;
 	}
