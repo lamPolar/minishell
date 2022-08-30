@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:15:30 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 15:59:13 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/28 16:16:10 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ int	find_double_quotes(t_token *tokenlist, t_envp *env, int i)
 			if (tokenlist->value[i] == '$')
 			{
 				name_end = check_valid(i, j, tokenlist->value);
-				if (name_end == i + 1)
-					return (j);
 				if (envp_in_value(tokenlist, env, i, &name_end) == 0)
 					return (-1);
 				i = name_end - 1;

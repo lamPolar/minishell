@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:28:59 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 04:02:59 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 17:22:09 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_node	*make_root_node(int i)
 
 int	syntax_check_pipe(t_token *token, t_node *head)
 {
-	if (token->next->type == PIPE_T)
+	if (token->next == NULL || token->next->type == PIPE_T)
 	{
 		printf("KINDER: syntax error near unexpected token '|'\n");
 		free_tree(head);
