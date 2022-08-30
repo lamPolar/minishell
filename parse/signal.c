@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 05:16:45 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 17:18:10 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 19:47:03 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ void    c_handler(int pid)
     if (pid == -1)
 	{	
         printf("\n");
-		rl_on_new_line(); //새로운 줄을 띄웠다고 생각하고 프롬프트를 띄움
-		rl_replace_line("", 0); // 프롬프트에 이미 있던 문자열을 날려줌 (커서이동)
-		rl_redisplay(); //replace의 text를 실제로 띄워줌
+		rl_on_new_line(); //새로운 줄을 띄웠다고 알림 (실제로 뉴라인이 생기는것이 아니므로 개행 후 사용)
+		rl_replace_line("", 0); // 프롬프트에 사용자가 적어놓았던 문자열을 담은 rl_line_buffer의 내용을 빈 문자열로 바꿔 줌
+		rl_redisplay(); //바뀌거나 그대로인 rl_line_buffer의 내용을 띄워줌
+        signal_exit_code(ft_strdup("1"));
 	}
 	else
 	{
 		printf("^C\n");
+        signal_exit_code(ft_strdup("130"));
 	}
 }
 
@@ -55,10 +57,25 @@ void    q_handler(int pid)
     else
     {
         printf("^\\Quit: 3\n");
+        signal_exit_code(ft_strdup("131"));
     }
 }
 
-// int signal_exit_code(char *exitcode)
-// {
+void    signal_exit_code(char *exitcode)
+{
+    t_envp  *env;
+    char    *save;
 
-// }
+    env = g_env;
+    while (env)
+    {
+        if (ft_strequal(env->key, "?"))
+        {
+            save = env->value;
+            env->value = exitcode;
+            free(save);
+            break ;
+        }
+        env = env->next;
+    }
+}
