@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 16:49:48 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 15:22:23 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/29 22:11:16 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_node	*root_node(t_token *token)
 
 int	complete_line_node(t_node *prev, t_token *token, t_node *head)
 {
-	t_node	*new;
+//	t_node	*new;
 
 	if (prev->type == PIPE)
 	{
