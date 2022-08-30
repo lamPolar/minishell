@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:18:06 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/28 16:04:43 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 13:56:42 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	envp_in_value(t_token *tokenlist, t_envp *env, int i, int *j)
 {
 	char	*envp;
-	char	*new_value;
 
 	if (*j == i + 1)
 		return (1);
