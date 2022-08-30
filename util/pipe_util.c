@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:54:57 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 00:04:02 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 18:20:50 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ char	*find_path(char **env_path, char *command)
 	return (path);
 }
 
-char	**get_path(t_envp *env)
+char	**get_path(void)
 {
 	char	**path_array;
+	t_envp	*env;
 
+	env = g_env;
 	while (env && ft_strequal(env->key, "PATH") == 0)
 		env = env->next;
 	if (env == NULL)

@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:21:18 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 01:39:18 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 18:08:37 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	check_home(t_node *command, t_envp *env)
+int	check_home(t_node *command)
 {
 	char	*home;
 	char	*path;
 	char	*save;
 
-	home = get_env_value("HOME", env);
+	home = get_env_value("HOME");
 	if (home == NULL)
 		return (1);
 	if (ft_strequal(command->str, "~") || ft_strequal(command->str, "--"))
@@ -41,12 +41,12 @@ int	check_home(t_node *command, t_envp *env)
 	return (0);
 }
 
-int	check_oldpwd(t_node *command, t_envp *env)
+int	check_oldpwd(t_node *command)
 {
 	char	*oldpwd;
 	char	*save;
 
-	oldpwd = get_env_value("OLDPWD", env);
+	oldpwd = get_env_value("OLDPWD");
 	if (oldpwd == NULL)
 		return (1);
 	if (ft_strequal(command->str, "-"))
@@ -80,14 +80,14 @@ char	*make_pwd(char *str, char **pwd)
 	return (oldpwd);
 }
 
-int	change_pwd(char *oldpwd, char *pwd, t_envp *env)
+int	change_pwd(char *oldpwd, char *pwd)
 {
 	int	flag;
 
 	flag = 0;
-	if (add_to_env(oldpwd, env, SHOW))
+	if (add_to_env(oldpwd, SHOW))
 		flag = 1;
-	if (add_to_env(pwd, env, SHOW))
+	if (add_to_env(pwd, SHOW))
 		flag = 1;
 	free_both(pwd, oldpwd);
 	if (flag)
@@ -95,7 +95,7 @@ int	change_pwd(char *oldpwd, char *pwd, t_envp *env)
 	return (0);
 }
 
-int	builtin_cd(t_node *command, t_envp *env)
+int	builtin_cd(t_node *command)
 {
 	char	*oldpwd;
 	char	*pwd;
@@ -108,7 +108,7 @@ int	builtin_cd(t_node *command, t_envp *env)
 		if (argument == NULL)
 			return (1);
 	}
-	if (check_home(argument, env) || check_oldpwd(argument, env))
+	if (check_home(argument) || check_oldpwd(argument))
 		return (1);
 	pwd = (char *)ft_calloc(sizeof(char), 1);
 	oldpwd = make_pwd(argument->str, &pwd);
@@ -119,7 +119,7 @@ int	builtin_cd(t_node *command, t_envp *env)
 		printf("KINDER: cd: %s: %s\n", argument->str, strerror(errno));
 		return (1);
 	}
-	return (change_pwd(oldpwd, pwd, env));
+	return (change_pwd(oldpwd, pwd));
 }
 //mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ;
 // pwd ; cd . ; pwd ; cd .. ; pwd

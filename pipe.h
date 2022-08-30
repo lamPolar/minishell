@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 10:10:19 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 18:22:44 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@
 //# include <sys/stat.h>
 
 //pipe.c
-void	execute_tree(t_node *root, t_envp *env);
-//void	make_process(t_node *line, t_envp *env);
-//int		run_pipe(t_node *root, t_envp *env);
-//void	ft_command(t_node *line, t_envp *env);
-void	execute_pipe(t_node *root, t_envp *env);
-void	execute_tree(t_node *root, t_envp *env);
-int		update_exitcode(int status, t_envp *env);
-void    execute_line(t_node *line, t_envp *env);
+void	execute_tree(t_node *root);
+//void	make_process(t_node *line);
+//int		run_pipe(t_node *root);
+//void	ft_command(t_node *line);
+void	execute_pipe(t_node *root);
+void	execute_tree(t_node *root);
+int		update_exitcode(int status);
+void    execute_line(t_node *line);
 
 //pipe_util2.c
 //void	print_node(t_node *root)
@@ -46,9 +46,9 @@ void	here_doc(int fd, char *delimiter);
 void	open_redirection_file(t_node *file, int MODE, int *fd);
 
 //execute.c
-int		execute_function(t_node *command, t_envp *env);
-void	execute_process(t_node *command, t_envp *env);
-void	execute_with_fork(t_node *command, t_envp *env);
-void	execute(t_node *command, t_envp *env);
+int		execute_function(t_node *command);
+void	execute_process(t_node *command);
+void	execute_with_fork(t_node *command);
+void	execute(t_node *command);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:50 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 16:52:56 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 18:20:17 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	print_start_shell(void)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_envp	*env;
 	char	*str;
 	struct termios	term;
 
@@ -42,8 +41,8 @@ int	main(int argc, char *argv[], char *envp[])
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	signal_set();
-	env = arrange_envp(envp);
-	if (env == NULL)
+	g_env = arrange_envp(envp);
+	if (g_env == NULL)
 		return (1);
 	while (1)
 	{
@@ -57,9 +56,9 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		else if (str[0] != '\0')
 			add_history(str);
-		execute_str(str, env);
+		execute_str(str);
 		free(str);
 	}
-	free_envp(env);
+	free_envp(g_env);
 	return (0);
 }

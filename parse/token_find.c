@@ -6,16 +6,18 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:18:06 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 13:56:42 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/30 18:03:39 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-int	envp_in_value(t_token *tokenlist, t_envp *env, int i, int *j)
+int	envp_in_value(t_token *tokenlist, int i, int *j)
 {
 	char	*envp;
+	t_envp	*env;
 
+	env = g_env;
 	if (*j == i + 1)
 		return (1);
 	envp = ft_strdup_idx(i + 1, *j - 1, tokenlist->value);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:32:02 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/28 15:29:58 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/30 17:59:26 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	ft_atoi(const char *str)
 	return ((int)(result * sign));
 }
 
-int	change_env_value(char *str, t_envp *env, int display)
+int	change_env_value(char *str, int display, t_envp	*env)
 {
 	char	*save;
 	char	*value;
@@ -145,12 +145,14 @@ int	change_env_value(char *str, t_envp *env, int display)
 	return (0);
 }
 
-int	add_to_env(char *str, t_envp *env, int display)
+int	add_to_env(char *str, int display)
 {
 	t_envp	*new;
 	t_envp	*prev;
+	t_envp	*env;
 	char	*key;
 
+	env = g_env;
 	key = envp_split_key(str);
 	if (key == NULL)
 		return (1);
@@ -159,7 +161,7 @@ int	add_to_env(char *str, t_envp *env, int display)
 		if (ft_strequal(env->key, key))
 		{	
 			free(key);
-			return (change_env_value(str, env, display));
+			return (change_env_value(str, display, env));
 		}
 		prev = env;
 		env = env->next;
@@ -175,7 +177,7 @@ int	add_to_env(char *str, t_envp *env, int display)
 	return (0);
 }
 
-int	change_env_value_plus(char *str, t_envp *env, int display)
+int	change_env_value_plus(char *str, int display, t_envp *env)
 {
 	char	*value;
 
@@ -191,12 +193,14 @@ int	change_env_value_plus(char *str, t_envp *env, int display)
 	return (0);
 }
 
-int	add_to_env_plus(char *str, t_envp *env, int display)
+int	add_to_env_plus(char *str, int display)
 {
 	t_envp	*new;
 	t_envp	*prev;
+	t_envp	*env;
 	char	*key;
 
+	env = g_env;
 	key = envp_split_key(str);
 	if (key == NULL)
 		return (1);
@@ -205,7 +209,7 @@ int	add_to_env_plus(char *str, t_envp *env, int display)
 		if (ft_strequal(env->key, key))
 		{
 			free(key);
-			return (change_env_value_plus(str, env, display));
+			return (change_env_value_plus(str, display, env));
 		}
 		prev = env;
 		env = env->next;
