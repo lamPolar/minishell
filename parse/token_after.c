@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:15:30 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 13:29:28 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 14:28:57 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	change_dollar(t_token *tokenlist)
 int	find_double_quotes(t_token *tokenlist, int i)
 {
 	int	j;
-	int	name_end;
 
 	j = i;
 	while (tokenlist->value[++j] != '\0')
@@ -85,10 +84,10 @@ int	find_double_quotes(t_token *tokenlist, int i)
 		{
 			if (tokenlist->value[i] == '$')
 			{
-				name_end = check_valid_in_quotes(i, j, tokenlist->value);
-				if (envp_in_value(tokenlist, i, &name_end, 1) == 0)
+				j = check_valid_in_quotes(i, j, tokenlist->value);
+				if (envp_in_value(tokenlist, i, &j, 1) == 0)
 					return (-1);
-				i = name_end - 1;
+				i = j;
 			}
 			i++;
 		}
