@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:15:30 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 14:28:57 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 17:42:22 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	after_tokenize(t_token *tokenlist)
 			ch = find_quotes(tokenlist->value, &idx1, &idx2);
 			while (ch != 0)
 			{
-				if (delete_quotes(tokenlist, ch) == 0)
+				if (delete_quotes(tokenlist, ch, idx1, idx2) == 0)
 					return (0);
 				idx1 = idx2 - 1;
 				idx2 = 0;
@@ -71,6 +71,7 @@ int	change_dollar(t_token *tokenlist)
 int	find_double_quotes(t_token *tokenlist, int i)
 {
 	int	j;
+	int	end;
 
 	j = i;
 	while (tokenlist->value[++j] != '\0')
@@ -84,10 +85,10 @@ int	find_double_quotes(t_token *tokenlist, int i)
 		{
 			if (tokenlist->value[i] == '$')
 			{
-				j = check_valid_in_quotes(i, j, tokenlist->value);
-				if (envp_in_value(tokenlist, i, &j, 1) == 0)
+				end = check_valid_in_quotes(i, j, tokenlist->value);
+				if (envp_in_value(tokenlist, i, &end, 1) == 0)
 					return (-1);
-				i = j;
+				i = end - 1;
 			}
 			i++;
 		}

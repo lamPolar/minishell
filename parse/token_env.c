@@ -6,13 +6,13 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:16:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 00:40:36 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 17:42:39 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-int	delete_quotes(t_token *token, char ch)
+int	delete_quotes(t_token *token, char ch, int idx1, int idx2)
 {
 	char	*new;
 	int		i;
@@ -25,7 +25,7 @@ int	delete_quotes(t_token *token, char ch)
 	j = 0;
 	while (token->value[i] != '\0')
 	{
-		if (token->value[i] != ch)
+		if (token->value[i] != ch || (i > idx2 || idx1 > i))
 			new[j++] = token->value[i];
 		i++;
 	}

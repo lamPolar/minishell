@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:47:20 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 17:36:05 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,15 @@ int		find_double_quotes(t_token *tokenlist, int i);
 int		change_dollar_single_quotes(t_token *tokenlist, int i);
 
 //token_env.c
-int		delete_quotes(t_token *token, char ch);
+int		delete_quotes(t_token *token, char ch, int idx1, int idx2);
 int		replace_value(t_token *tokenlist, t_envp *env, int i, int *j);
 int		no_env_key(t_token *tokenlist, int i, int *j);
+int	    cal_quotes_size(int i, int j, char *str);
 
 //token_find.c
 int		envp_in_value(t_token *tokenlist, int i, int *j, int is_inquotes);
 int		find_word(char *str, int i);
-int	    dollar_next_quotes(t_token *tokenlist, int i, int *j, int is_inquotes);
+int		dollar_next_quotes(t_token *tokenlist, int i, int *j, int is_inquotes);
 
 //token_what.c
 int		tokenize_detail(char *str, int i, t_token **prev);
