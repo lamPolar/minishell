@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:50 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 17:14:54 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 19:46:17 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse/parse.h"
-// #include "builtin.h"
-// #include "pipe.h"
 
 void	print_start_shell(void)
 {
@@ -51,11 +49,11 @@ int	main(int argc, char *argv[], char *envp[])
 		return (1);
 	while (1)
 	{
-		str = readline("KINDER🥚 > "); // 디렉토리를 확인?
+		str = readline("KINDER🥚 > ");
 		if (str == NULL)
 		{
-			write(1, "\x1b[1A", ft_strlen("\x1b[1A")); //커서를 윗줄로 이동
-			write(1, "\033[11C", ft_strlen("\033[11C")); //커서를 10만큼 뒤로 이동
+			write(1, "\x1b[1A", ft_strlen("\x1b[1A"));
+			write(1, "\033[11C", ft_strlen("\033[11C"));
 			printf("exit\n");
 			break ;
 		}

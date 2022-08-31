@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 17:12:01 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 20:27:58 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process)
 	if (initial_pipe(process, &pipes, &pid, &line))
 		return ;
 	i = 0;
+	//ㅅㅣ그널 무시
 	while (i < process)
 	{
 		pid[i] = fork();

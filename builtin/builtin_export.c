@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 03:31:48 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 20:27:50 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ int	change_env_show(char *str)
 int	builtin_export(t_node *argument)
 {
 	t_envp	*env;
+	t_envp	*free;
 
 	env = sort_envp(get_env_size(g_env));
+	free = env;
 	if (argument == NULL)
 	{
 		while (env)
@@ -62,7 +64,6 @@ int	builtin_export(t_node *argument)
 				printf("declare -x %s = \"%s\"\n", env->key, env->value);
 			env = env->next;
 		}
-		free(env);
 		return (0);
 	}
 	while (argument)
@@ -71,6 +72,7 @@ int	builtin_export(t_node *argument)
 			return (1);
 		argument = argument->right;
 	}
+	free_envp(free);
 	return (0);
 }
 
@@ -100,6 +102,14 @@ t_envp	*sort_envp(int size)
 		}
 	}
 	res = arrange_envp(env);
+
+	int k = 0;
+	while (env[k] != NULL)
+	{
+		free(env[k]);
+		k++;
+	}
+	free(env);
 	return (res);
 }
 
