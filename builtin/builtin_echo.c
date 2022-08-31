@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:45:54 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 21:29:20 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 10:29:44 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	check_n(char *str)
 	if (str[0] != '-')
 		return (0);
 	i = 1;
+	if (str[i] == '\0')
+		return (0);
 	while (str[i])
 	{
 		if (str[i] != 'n')

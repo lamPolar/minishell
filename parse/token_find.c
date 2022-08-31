@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:18:06 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 00:39:14 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 13:29:20 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static int	free_and_return(char *str, int i)
 	return (i);
 }
 
-int	envp_in_value(t_token *tokenlist, int i, int *j)
+int	envp_in_value(t_token *tokenlist, int i, int *j, int is_inquotes)
 {
 	char	*envp;
 	t_envp	*env;
 
 	env = g_env;
 	if (*j == i + 1)
-		return (1);
+		return (dollar_next_quotes(tokenlist, i, j, is_inquotes));
 	envp = ft_strdup_idx(i + 1, *j - 1, tokenlist->value);
 	if (envp == NULL)
 		return (0);
@@ -46,6 +46,19 @@ int	envp_in_value(t_token *tokenlist, int i, int *j)
 			return (free_and_return(envp, 0));
 	}
 	return (free_and_return(envp, 1));
+}
+
+int	dollar_next_quotes(t_token *tokenlist, int i, int *j, int is_inquotes)
+{
+	if (is_inquotes == 1)
+		return (1);
+	if (tokenlist->value[i + 1] == '\"' || tokenlist->value[i + 1] == '\'')
+	{
+		if (no_env_key(tokenlist, i, j) == 0)
+			return (0);
+		return (1);
+	}
+	return (1);
 }
 
 int	find_word(char *str, int i)

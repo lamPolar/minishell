@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 01:08:02 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 13:23:53 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		change_env_value(char *str, int display, t_envp *env);
 int		change_env_value_plus(char *str, int display, t_envp *env);
 int		add_to_env(char *str, int display);
 int		add_to_env_plus(char *str, int display);
+int		append_envp(t_envp *env, t_envp *prev, char *str, int display);
 
 //libft_util.c
 int		ft_strlen(const char *s);
@@ -58,6 +59,7 @@ char	find_quotes(char *str, int *first, int *second);
 int		check_valid(int i, int j, char *str);
 void	free_tokenlist(t_token *tokenlist);
 void	signal_exit_code(char *exitcode);
+int	    check_valid_in_quotes(int i, int j, char *str);
 
 //pipe_util.c
 char	*find_path(char **env_path, char *command);
@@ -73,6 +75,7 @@ void	print_error(char *str1, char *str2, char *str3, char *str4);
 t_envp	*make_new_envp(char *str, int display);
 char	*envp_split_key(char *str);
 char	*envp_split_val(char *str);
+t_envp	*arrange_envp(char **envp);
 
 //envp_util2.h
 char	**dearrange_envp(void);

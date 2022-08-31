@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 00:31:33 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 13:28:56 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <readline/history.h>
 
 //envp.c
-t_envp	*arrange_envp(char **envp);
+// t_envp	*arrange_envp(char **envp);
 
 //signal.c
 void	signal_set(void);
@@ -52,8 +52,9 @@ int		replace_value(t_token *tokenlist, t_envp *env, int i, int *j);
 int		no_env_key(t_token *tokenlist, int i, int *j);
 
 //token_find.c
-int		envp_in_value(t_token *tokenlist, int i, int *j);
+int		envp_in_value(t_token *tokenlist, int i, int *j, int is_inquotes);
 int		find_word(char *str, int i);
+int	    dollar_next_quotes(t_token *tokenlist, int i, int *j, int is_inquotes);
 
 //token_what.c
 int		tokenize_detail(char *str, int i, t_token **prev);

@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:50 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 00:19:19 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 10:12:37 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (str == NULL)
 		{
 			write(1, "\x1b[1A", ft_strlen("\x1b[1A")); //커서를 윗줄로 이동
-			write(1, "\033[10C", ft_strlen("\033[10C")); //커서를 10만큼 뒤로 이동
+			write(1, "\033[11C", ft_strlen("\033[11C")); //커서를 10만큼 뒤로 이동
 			printf("exit\n");
 			break ;
 		}

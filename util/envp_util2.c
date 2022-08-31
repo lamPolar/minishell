@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 00:55:51 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 01:05:35 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 03:28:03 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ char	**dearrange_envp(void)
 	envp = (char **)ft_calloc(sizeof(char *), size + 1);
 	if (envp == NULL)
 		return (NULL);
-	i = -1;
-	while (++i < size)
+	i = 0;
+	while (i < size)
 	{
 		if (env->display == SHOW)
 		{	
 			envp[i] = ft_strjoin_three(env->key, "=", env->value);
-			if (envp[i] == NULL)
+			if (envp[i++] == NULL)
 			{
 				free_double_array(envp);
 				return (NULL);
