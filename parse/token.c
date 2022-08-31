@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 00:40:04 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 10:30:06 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	execute_str(char *str)
 		return ;
 	}
 	execute_tree(ast, ast, tokenlist);
+	// preorder(ast);
 	free_tree(ast);
 	free_tokenlist(tokenlist);
 }

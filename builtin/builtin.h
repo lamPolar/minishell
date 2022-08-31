@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:48 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 00:28:38 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 03:30:38 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ int		builtin_cd(t_node *command);
 int		export_with_argument(t_node *argument);
 int		builtin_export(t_node *command);
 int		change_env_show(char *str);
+t_envp	*sort_envp(int size);
 
 //builtin_env.c
+char	*get_env_value(char *key);
 int		builtin_unset(t_node *command);
 int		builtin_env(void);
 

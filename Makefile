@@ -1,10 +1,12 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
-PARSE = parse/envp.c parse/into_ast.c parse/token_after.c \
+PARSE = parse/into_ast.c parse/token_after.c \
 		parse/token_env.c parse/token_find.c parse/token_what.c \
 		parse/token.c parse/make_ast.c parse/signal.c
 UTIL = 	util/ast_util.c util/builtin_util.c util/envp_util.c \
-		util/libft_util.c util/parse_util.c util/pipe_util.c
+		util/envp_util2.c util/libft_util.c util/libft_util2.c \
+		util/libft_util3.c util/parse_util.c util/parse_util2.c \
+		util/pipe_util.c util/pipe_util2.c util/split_util.c
 BUILTIN = 	builtin/builtin_cd.c builtin/builtin_echo.c \
 			builtin/builtin_env.c builtin/builtin_export.c \
 			builtin/builtin.c

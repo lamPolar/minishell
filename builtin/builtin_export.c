@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:46:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 00:22:46 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 03:31:48 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	builtin_export(t_node *argument)
 {
 	t_envp	*env;
 
-	env = g_env;
+	env = sort_envp(get_env_size(g_env));
 	if (argument == NULL)
 	{
 		while (env)
@@ -62,9 +62,8 @@ int	builtin_export(t_node *argument)
 				printf("declare -x %s = \"%s\"\n", env->key, env->value);
 			env = env->next;
 		}
-		if (env == NULL)
-			return (0);
-		return (1);
+		free(env);
+		return (0);
 	}
 	while (argument)
 	{
@@ -72,9 +71,36 @@ int	builtin_export(t_node *argument)
 			return (1);
 		argument = argument->right;
 	}
-	if (argument == NULL)
-		return (0);
-	return (1);
+	return (0);
+}
+
+t_envp	*sort_envp(int size)
+{
+	t_envp	*res;
+	char	**env;
+	char	*temp;
+	int		i;
+	int		j;
+
+	env = dearrange_envp();
+	i = -1;
+	while (++i < size)
+	{
+		j = -1;
+		while (++j < size - 1 - i)
+		{
+			if (env[j][0] > env[j + 1][0])
+			{
+				temp = ft_strdup(env[j]);
+				free(env[j]);
+				env[j] = ft_strdup(env[j + 1]);
+				free(env[j + 1]);
+				env[j + 1] = temp;
+			}
+		}
+	}
+	res = arrange_envp(env);
+	return (res);
 }
 
 //만약 파이프 뒤에 export를 호출하면, 자식프로세스에 대한 export이므로 환경변수에 대해서 변경하지 않음

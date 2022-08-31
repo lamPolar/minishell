@@ -6,13 +6,30 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 00:52:18 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 01:07:08 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 13:23:31 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "util.h"
 
 int	check_valid(int i, int j, char *str)
+{
+	i += 1;
+	if (str[i] == '\"' || str[i] == '\'')
+		return (i);
+	if (str[i] == '?' || str[i] == '$' || (str[i] >= '0' && str[i] <= '9'))
+		return (i + 1);
+	while (i <= j)
+	{
+		if (((str[i] < 'A' || str[i] > 'Z') && (str[i] < 'a' || str[i] > 'z') \
+		&& str[i] != '_' && (str[i] <= '0' || str[i] >= '9')) || str[i] == '=')
+			return (i);
+		i += 1;
+	}
+	return (j);
+}
+
+int	check_valid_in_quotes(int i, int j, char *str)
 {
 	i += 1;
 	if (str[i] == '?' || str[i] == '$' || (str[i] >= '0' && str[i] <= '9'))
