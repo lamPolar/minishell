@@ -6,17 +6,18 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 15:40:15 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 17:06:44 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 
-int	initial_pipe(int process, int **pipes, pid_t **pid)
+int	initial_pipe(int process, int **pipes, pid_t **pid, t_node **line)
 {
 	int	i;
 
-	*pipes = (int *)ft_calloc(sizeof(pid_t), (process - 1) * 2);
+	*line = NULL;
+	*pipes = (int *)ft_calloc(sizeof(int), (process - 1) * 2);
 	if (*pipes == NULL)
 		return (1);
 	i = 0;
@@ -50,23 +51,18 @@ t_node	*child_process(int *pipes, int i, int process, t_node *root)
 	int		fd[2];
 
 	line = NULL;
+	if (i != process -1)
+		line = root->left;
+	else if (i == process - 1)
+		line = root;
 	fd[0] = STDIN_FILENO;
 	fd[1] = STDOUT_FILENO;
 	if (i != 0)
 		fd[0] = pipes[(i - 1) * 2];
 	if (i != process - 1)
-	{
 		fd[1] = pipes[(i * 2) + 1];
-	}
-	//check_redirection(line->left, fd); 
-	if (i != process -1)
-	{
-		line = root->left;
-	}
-	else if (i == process - 1)
-	{
-		line = root;
-	}
+	fd[0] = check_infile(line->left, fd[0]);
+	fd[1] = check_outfile(line->left, fd[1]);
 	ft_dup2(fd[0], 0);
 	ft_dup2(fd[1], 1);
 	return (line);

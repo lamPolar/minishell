@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 15:38:00 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 17:12:01 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,27 @@
 
 void	execute_tree(t_node *root, t_node *ast, t_token *token)
 {
+	int	process;
+
 	if (root->type == LINE)
 		execute_line(root, ast, token);
 	else if (root->type == PIPE)
-		execute_pipe(root, ast, token);
+	{
+		process = count_process(root);
+		execute_pipe(root, ast, token, process);
+	}
 	else
 		print_error("KINDER: Wrong AST", 0, 0, 0);
 }
 
-void	execute_pipe(t_node *root, t_node *ast, t_token *token)
+void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process)
 {
 	int		i;
 	t_node	*line;
 	int		*pipes;
 	pid_t	*pid;
-	int		process;
 
-	line = NULL;
-	process = count_process(root);
-	if (initial_pipe(process, &pipes, &pid))
+	if (initial_pipe(process, &pipes, &pid, &line))
 		return ;
 	i = 0;
 	while (i < process)
@@ -56,82 +58,54 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token)
 
 void	execute_line(t_node *line, t_node *ast, t_token *token)
 {
-	int		save_fd[2];
 	int		fd[2];
-	pid_t	pid;
 	int		status;
 
 	if (check_builtin(line->right))
-	{
-		save_fd[0] = dup(STDIN_FILENO);
-		save_fd[1] = dup(STDOUT_FILENO);
-		//check_redirection(line->left, fd);
-		if (line->right)
-			run_builtin(line->right, ast, token);
-		dup2(save_fd[0], STDIN_FILENO);
-		dup2(save_fd[1], STDOUT_FILENO);
-		close(save_fd[0]);
-		close(save_fd[1]);
-		//빌트인 정상실행시 -> exitcode update필요
-	}
+		execute_builtin(line, ast, token);
 	else
 	{
-		pid = fork();
-		if (pid)
+		if (fork())
 		{
-			if (waitpid(pid, &status, 0) == pid)
+			if (wait(&status))
 				update_exitcode(status);
 		}
 		else
 		{
 			fd[0] = STDIN_FILENO;
 			fd[1] = STDOUT_FILENO;
-			//fd[0] = check_infile(line->left, STDIN_FILENO);
-			//fd[1] = check_outfile(line->right, STDOUT_FILENO);
-			// check_redirection(line->left, fd);
+			fd[0] = check_infile(line->left, fd[0]);
+			fd[1] = check_outfile(line->left, fd[1]);
 			ft_dup2(fd[0], STDIN_FILENO);
 			ft_dup2(fd[1], STDOUT_FILENO);
 			if (line->right)
-			{
 				execute(line->right);
-			}
 		}
 	}
 }
 
-void	execute_function(t_node *line, t_node *ast, t_token *token)
+void	execute_builtin(t_node *line, t_node *ast, t_token *token)
 {
-	if (check_builtin(line->right))
-	{
-		run_builtin(line->right, ast, token);
-		exit(0);
-	}
-	else
-	{
-		if (line->right)
-			execute(line->right);
-	}
-}
+	int	save_fd[2];
+	int	fd[2];
 
-void	execute(t_node *command)
-{
-	char	**path_array;
-	char	**command_array;
-	char	*path;
-	char	**envp;
-
-	path_array = get_path();
-	if (path_array == NULL)
-		print_error("KINDER: ", command->str, ": No such file or directory", 0);
-	path = find_path(path_array, command->str);
-	if (path == NULL)
-		return ;
-	command_array = make_command_array(command);
-	if (command_array == NULL)
-		return ;
-	envp = dearrange_envp();
-	if (envp == NULL)
-		exit(EXIT_FAILURE);
-	if (execve(path, command_array, envp) == -1)
-		print_error("KINDER: execve failed", 0, 0, 0);
+	save_fd[0] = dup(STDIN_FILENO);
+	save_fd[1] = dup(STDOUT_FILENO);
+	fd[0] = STDIN_FILENO;
+	fd[1] = STDOUT_FILENO;
+	fd[0] = check_infile(line->left, fd[0]);
+	fd[1] = check_outfile(line->left, fd[1]);
+	ft_dup2(fd[0], STDIN_FILENO);
+	ft_dup2(fd[1], STDOUT_FILENO);
+	if (line->right)
+	{
+		if (run_builtin(line->right, ast, token))
+			signal_exit_code(ft_strdup("1"));
+		else
+			signal_exit_code(ft_strdup("0"));
+	}	
+	dup2(save_fd[0], STDIN_FILENO);
+	dup2(save_fd[1], STDOUT_FILENO);
+	close(save_fd[0]);
+	close(save_fd[1]);
 }

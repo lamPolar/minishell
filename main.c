@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:50 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 10:12:37 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 17:14:54 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	first_init(int argc, char *argv[], struct termios *term)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	*str;
+	char			*str;
 	struct termios	term;
 
 	first_init(argc, argv, &term);

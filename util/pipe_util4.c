@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:19:01 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 15:20:12 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 17:14:26 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ int	update_exitcode(int status)
 			}
 			env = env->next;
 		}
+		return (0);
 	}
-	else
-		return (1);
-	return (0);
+	return (1);
 }

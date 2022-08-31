@@ -11,7 +11,7 @@ UTIL = 	util/ast_util.c util/builtin_util.c util/envp_util.c \
 BUILTIN = 	builtin/builtin_cd.c builtin/builtin_echo.c \
 			builtin/builtin_env.c builtin/builtin_export.c \
 			builtin/builtin.c
-EXECUTE = execute/execute.c execute/pipe.c execute/redirect.c
+EXECUTE = execute/execute.c execute/execute2.c execute/pipe.c execute/redirect.c
 SRCS = $(PARSE) $(UTIL) $(BUILTIN) $(EXECUTE) main.c
 OBJS = $(SRCS:.c=.o)
 LIBS = define.h util/util.h execute/pipe.h parse/parse.h builtin/builtin.h
