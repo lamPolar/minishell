@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 15:22:57 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 15:38:00 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token)
 		{
 			line = child_process(pipes, i, process, root);
 			close_pipe(process, pipes);
-			execute_funtion(line, ast, token);
+			execute_function(line, ast, token);
 		}
 		else
 		{

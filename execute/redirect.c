@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 15:26:50 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 15:27:49 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	check_redirection(t_node *re, int fd[2])
 			outfile = open_redirection_file(re->left, APPEND_OUT, outfile);
 		re = re->right;
 	}
-	if (infile != STDIN_FILENO)
-		ft_dup2(infile, STDIN_FILENO);
-	if (outfile != STDOUT_FILENO)
-		ft_dup2(outfile, STDOUT_FILENO);
+	// if (infile != STDIN_FILENO)
+	// 	ft_dup2(infile, STDIN_FILENO);
+	// if (outfile != STDOUT_FILENO)
+	// 	ft_dup2(outfile, STDOUT_FILENO);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 15:23:59 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 15:40:15 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	initial_pipe(int process, int **pipes, pid_t **pid)
 
 void	close_pipe(int process, int *pipes)
 {
-	int	j;
+	int	i;
 
-	j = 0;
-	while (j < process -1)
+	i = 0;
+	while (i < process -1)
 	{
-		close(pipes[j * 2]);
-		close(pipes[(j * 2) + 1]);
-		j += 1;
+		close(pipes[i * 2]);
+		close(pipes[(i * 2) + 1]);
+		i += 1;
 	}
 }
 

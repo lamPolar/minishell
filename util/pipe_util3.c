@@ -6,11 +6,12 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 01:46:17 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 15:18:52 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 15:30:10 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "util.h"
+#include "../builtin/builtin.h"
 
 int	check_builtin(t_node *command)
 {

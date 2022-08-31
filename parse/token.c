@@ -6,16 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/08/31 10:30:06 by sojoo            ###   ########.fr       */
-=======
-/*   Updated: 2022/08/31 11:32:05 by heeskim          ###   ########.fr       */
->>>>>>> test
+/*   Updated: 2022/08/31 15:36:48 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
-#include "../execute/pipe.h"
 
 void	execute_str(char *str)
 {
