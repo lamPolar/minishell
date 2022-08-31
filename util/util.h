@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 13:23:53 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 15:20:47 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	find_quotes(char *str, int *first, int *second);
 int		check_valid(int i, int j, char *str);
 void	free_tokenlist(t_token *tokenlist);
 void	signal_exit_code(char *exitcode);
-int	    check_valid_in_quotes(int i, int j, char *str);
+int		check_valid_in_quotes(int i, int j, char *str);
 
 //pipe_util.c
 char	*find_path(char **env_path, char *command);
@@ -70,6 +70,18 @@ char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
 void	ft_free(char *str);
 void	free_double_array(char **string);
 void	print_error(char *str1, char *str2, char *str3, char *str4);
+
+//pipe_util3.c
+int		check_builtin(t_node *command);
+int		run_builtin(t_node *command, t_node *ast, t_token *token);
+int		count_process(t_node *root);
+char	**make_command_array(t_node *command);
+int		get_command_size(t_node *command);
+
+//pipe_util4.c
+int		ft_dup2(int fd1, int fd2);
+void	ft_close(int fd);
+int		update_exitcode(int status);
 
 //envp_util.h
 t_envp	*make_new_envp(char *str, int display);

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 11:53:38 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 15:26:50 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ int	check_redirection(t_node *re, int fd[2])
 	if (infile != STDIN_FILENO)
 		ft_dup2(infile, STDIN_FILENO);
 	if (outfile != STDOUT_FILENO)
-		ft_dup2(outfile, STDOUT_FILENO);	
+		ft_dup2(outfile, STDOUT_FILENO);
 	return (0);
 }
 
-int check_infile(t_node *re, int fd)
+int	check_infile(t_node *re, int fd)
 {
-	int infile;
+	int	infile;
 
 	infile = fd;
 	while (re && re->type == REDIRECTION)
@@ -60,9 +60,7 @@ int check_infile(t_node *re, int fd)
 	return (0);
 }
 
-
-
-int check_outfile(t_node *re, int fd)
+int	check_outfile(t_node *re, int fd)
 {
 	int	outfile;
 
@@ -79,10 +77,9 @@ int check_outfile(t_node *re, int fd)
 		fd = outfile;
 		re = re->right;
 	}
-	ft_dup2(fd, STDOUT_FILENO);	
+	ft_dup2(fd, STDOUT_FILENO);
 	return (0);
 }
-
 
 void	here_doc(int fd, char *delimiter)
 {
@@ -107,7 +104,7 @@ void	here_doc(int fd, char *delimiter)
 
 int	open_redirection_file(t_node *file, int MODE, int fd)
 {
-	int temp;
+	int	temp;
 
 	if (MODE == HEREDOC)
 	{

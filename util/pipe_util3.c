@@ -1,51 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_util2.c                                       :+:      :+:    :+:   */
+/*   pipe_util3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 01:46:17 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 11:30:47 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 15:18:52 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipe.h"
-
-void	print_node(t_node *root)
-{
-	if (root->papa != NULL)
-		printf("papa : %d / %s\n", root->papa->type, root->papa->str);
-	printf("str : %s ", root->str);
-	printf("type : %d \n", root->type);
-	if (root->left)
-	{
-		printf("<");
-		print_node(root->left);
-	}
-	if (root->right)
-	{
-		printf(">");
-		print_node(root->right);
-	}
-}
+#include "util.h"
 
 int	check_builtin(t_node *command)
 {
 	if (ft_strequal(command->str, "echo"))
 		return (1);
-	 if (ft_strequal(command->str, "exit"))
+	if (ft_strequal(command->str, "exit"))
 		return (1);
-	 if (ft_strequal(command->str, "env"))
+	if (ft_strequal(command->str, "env"))
 		return (1);
-	 if (ft_strequal(command->str, "pwd"))
+	if (ft_strequal(command->str, "pwd"))
 		return (1);
-	 if (ft_strequal(command->str, "cd"))
+	if (ft_strequal(command->str, "cd"))
 		return (1);
-	 if (ft_strequal(command->str, "unset"))
+	if (ft_strequal(command->str, "unset"))
 		return (1);
-	 if (ft_strequal(command->str, "export"))
+	if (ft_strequal(command->str, "export"))
 		return (1);
+	return (0);
+}
+
+int	run_builtin(t_node *command, t_node *ast, t_token *token)
+{
+	if (ft_strequal("pwd", command->str) || ft_strequal("PWD", command->str))
+		return (builtin_pwd());
+	if (ft_strequal("cd", command->str))
+		return (builtin_cd(command));
+	if (ft_strequal("exit", command->str))
+		return (builtin_exit(command, ast, token));
+	if (ft_strequal("env", command->str) || ft_strequal("ENV", command->str))
+		return (builtin_env());
+	if (ft_strequal("export", command->str))
+		return (builtin_export(command->right));
+	if (ft_strequal("echo", command->str) || ft_strequal("ECHO", command->str))
+		return (builtin_echo(command));
+	if (ft_strequal("unset", command->str))
+		return (builtin_unset(command));
+	if (check_equal(command->str))
+	{
+		if (check_invalid(command->str) == 2)
+			return (add_to_env_plus(command->str, SHOW));
+		else if (check_invalid(command->str) == 0)
+			return (add_to_env(command->str, HIDE));
+	}
 	return (0);
 }
 
@@ -60,19 +68,6 @@ int	count_process(t_node *root)
 		root = root->right;
 	}
 	return (i);
-}
-
-int	get_command_size(t_node *command)
-{
-	int	size;
-
-	size = 0;
-	while (command)
-	{
-		size += 1;
-		command = command->right;
-	}
-	return (size);
 }
 
 char	**make_command_array(t_node *command)
@@ -98,4 +93,17 @@ char	**make_command_array(t_node *command)
 		command = command->right;
 	}
 	return (command_array);
+}
+
+int	get_command_size(t_node *command)
+{
+	int	size;
+
+	size = 0;
+	while (command)
+	{
+		size += 1;
+		command = command->right;
+	}
+	return (size);
 }
