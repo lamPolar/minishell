@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 14:42:22 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 14:49:41 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	execute_tree(t_node *root, t_node *ast, t_token *token)
 	if (root->type == LINE)
 		execute_line(root, ast, token);
 	else if (root->type == PIPE)
-		// print_node(root);
         execute_pipe(root, ast, token);
 	else
-		printf("wrong ast\n");
+		print_error("KINDER: Wrong AST", 0, 0, 0);
 }
 
 int	update_exitcode(int status) 
@@ -88,7 +87,7 @@ void	ft_close(int fd)
     else
         return ;
 	if (result == -1)
-		print_error("KINDER: close failes\n", 0, 0, 0);
+		print_error("KINDER: close failed", 0, 0, 0);
 }
 
 int	ft_dup2(int fd1, int fd2)
@@ -102,7 +101,7 @@ int	ft_dup2(int fd1, int fd2)
 		ft_close(fd1);
 	}
 	if (result < 0)
-		print_error("KINDER: dup2 failed\n", 0, 0, 0);
+		print_error("KINDER: dup2 failed", 0, 0, 0);
 	return (result);
 }
 
