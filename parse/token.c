@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/30 21:45:37 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 11:32:05 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
-#include "../pipe.h"
+#include "../execute/pipe.h"
 
 void	execute_str(char *str)
 {

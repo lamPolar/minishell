@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 04:58:28 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 13:11:32 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token);
 int		update_exitcode(int status);
 void    execute_line(t_node *line, t_node *ast, t_token *token);
 int     run_builtin(t_node *command, t_node *ast, t_token *token);
+int		ft_dup2(int fd1, int fd2);
+void	ft_close(int fd);
 
 //pipe_util2.c
 //void	print_node(t_node *root)
@@ -39,6 +41,7 @@ int     check_builtin(t_node *command);
 int		count_process(t_node *root);
 char	**make_command_array(t_node *command);
 int		get_command_size(t_node *command);
+void	print_node(t_node *root);
 
 //redirect.c
 int		check_redirection(t_node *re, int fd[2]);

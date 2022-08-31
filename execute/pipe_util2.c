@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 01:46:17 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 01:52:10 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 11:30:47 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ int	check_builtin(t_node *command)
 {
 	if (ft_strequal(command->str, "echo"))
 		return (1);
-	if (ft_strequal(command->str, "exit"))
+	 if (ft_strequal(command->str, "exit"))
 		return (1);
-	if (ft_strequal(command->str, "env"))
+	 if (ft_strequal(command->str, "env"))
 		return (1);
-	if (ft_strequal(command->str, "pwd"))
+	 if (ft_strequal(command->str, "pwd"))
 		return (1);
-	if (ft_strequal(command->str, "cd"))
+	 if (ft_strequal(command->str, "cd"))
 		return (1);
-	if (ft_strequal(command->str, "unset"))
+	 if (ft_strequal(command->str, "unset"))
 		return (1);
-	if (ft_strequal(command->str, "export"))
+	 if (ft_strequal(command->str, "export"))
 		return (1);
 	return (0);
 }

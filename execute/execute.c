@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 23:37:49 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 11:30:16 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execute(t_node *command)
 	path = find_path(path_array, command->str);
 	if (path == NULL)
 		return ;
- 	command_array = make_command_array(command);
+	 command_array = make_command_array(command);
 	if (command_array == NULL)
 		return ;
 	envp = dearrange_envp();

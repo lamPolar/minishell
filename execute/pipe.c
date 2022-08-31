@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 04:59:43 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 14:42:22 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,13 @@
 
 void	execute_tree(t_node *root, t_node *ast, t_token *token)
 {
-	if (root == NULL)
-		return ;
 	if (root->type == LINE)
 		execute_line(root, ast, token);
 	else if (root->type == PIPE)
-		execute_pipe(root, ast, token);
+		// print_node(root);
+        execute_pipe(root, ast, token);
 	else
 		printf("wrong ast\n");
-}
-
-int	initial_pipe(int process, int ***fd, pid_t **pid)
-{
-	int i;
-
-	*fd = (int **)ft_calloc(sizeof(int *), process);
-	if (*fd == NULL)
-		return (1);
-	i = 0;
-	while (i < process)
-	{
-		(*fd)[i] = (int *)ft_calloc(sizeof(int), 2);
-		if ((*fd)[i] == NULL)
-			return (1);
-		i += 1;
-	}
-	// (*fd)[0][FD_READ] = STDIN_FILENO;
-	// (*fd)[process - 1][FD_WRITE] = STDOUT_FILENO;
-	*pid = (pid_t *)ft_calloc(sizeof(pid_t), process);
-	if (*pid == NULL)
-		return (1);
-	return (0);
 }
 
 int	update_exitcode(int status) 
@@ -103,16 +79,16 @@ int run_builtin(t_node *command, t_node *ast, t_token *token)
 	return (0);
 }
 
-int	ft_close(int fd)
+void	ft_close(int fd)
 {
 	int	result;
 
-	result = 0;
 	if (fd > 2)
 		result = close(fd);
+    else
+        return ;
 	if (result == -1)
 		print_error("KINDER: close failes\n", 0, 0, 0);
-	return (result);
 }
 
 int	ft_dup2(int fd1, int fd2)
@@ -130,98 +106,129 @@ int	ft_dup2(int fd1, int fd2)
 	return (result);
 }
 
+void clean_pipe(int process, int *pipes)
+{
+    int j;
+
+    j = 0;
+    while (j < process -1)
+    {
+        close(pipes[j * 2]);
+        close(pipes[(j * 2) + 1]);
+        j += 1;
+    }
+}
+
+void execute_l(t_node *line, t_node *ast, t_token *token)
+{
+    if (check_builtin(line->right))
+    {
+        run_builtin(line->right, ast, token);
+        exit(0);
+    }
+    else
+    {
+        if (line->right)
+            execute(line->right);
+    }
+}
+
+void    parent_process(int *pipes, pid_t *pid, int i, int process)
+{
+    int status;
+    
+    if (i == process - 1)
+    {
+        clean_pipe(process, pipes);
+        int j = 0;
+        while (j < process)
+        {
+            if (waitpid(pid[j], &status, 0) == pid[j])
+                update_exitcode(status);
+            j += 1;
+        }
+    }
+}
+
+t_node *child_process(int *pipes, int i, int process, t_node *root)
+{
+    t_node  *line;
+    int     fd[2];
+    
+    line = NULL;
+    fd[0] = STDIN_FILENO;
+    fd[1] = STDOUT_FILENO;
+    if (i != 0)
+        fd[0] = pipes[(i - 1) * 2];
+    if (i != process - 1)
+    {
+        fd[1] = pipes[(i * 2) + 1];
+    }
+    //check_redirection(line->left, fd); 
+    if (i != process -1)
+    {
+        line =root->left;
+    }
+    else if (i == process - 1)
+    {
+        line = root;
+    }
+    ft_dup2(fd[0], 0);
+    ft_dup2(fd[1], 1);
+    return (line);
+}
+
+int	initial_pipe(int process, int **pipes, pid_t **pid)
+{
+	int i;
+
+	*pipes = (int *)ft_calloc(sizeof(pid_t), (process - 1) * 2);
+    if (*pipes == NULL)
+        return (1);
+	i = 0;
+    while (i < process - 1)
+    {
+        pipe((*pipes) + (i * 2));
+        i += 1;
+    }
+	*pid = (pid_t *)ft_calloc(sizeof(pid_t), process);
+	if (*pid == NULL)
+		return (1);
+	return (0);
+}
+
 void    execute_pipe(t_node *root, t_node *ast, t_token *token)
 {
-    int **fd;
-    pid_t *pid;
-    int status;
-    int process;
-    int i;
-    int j;
-    t_node *line;
+    int     i;
+    t_node  *line;
+    int     *pipes;
+    pid_t   *pid;
+    int     process;
+    
+    line = NULL;
     process = count_process(root);
-    if (initial_pipe(process, &fd, &pid))
+    if (initial_pipe(process, &pipes, &pid))
         return ;
     i = 0;
     while (i < process)
     {
         pid[i] = fork();
-        if (pid[i] < 0)
+        if (pid[i] == 0)
         {
-            printf("error\n");
-            return ;
-        }
-        else if (pid[i])
-        {
-            if (i > 0)
-            {
-                close(fd[i-1][FD_WRITE]);
-                close(fd[i][FD_READ]);
-            }
-            if (root->right)
-                root = root->right;
-            i += 1;
-            if (i == process -1)
-            {
-                j = 0;
-                while (j < process)
-                {
-                    waitpid(pid[j], &status, 0);
-                    j += 1;
-                }
-                if (update_exitcode(status)) // 항상 마지막 프로세스 값을 업데이트
-                    return ;
-            }
+            line = child_process(pipes, i, process, root);
+            clean_pipe(process, pipes);
+            execute_l(line, ast, token);
         }
         else
         {
-            if (i == process -1)
-            {
-                if (root->right->type == LINE)
-                {
-                    line = root->right;
-                    if (line->left)
-                        check_redirection(line->left, fd[i]);
-                    if (i > 0)
-                    {
-                        ft_dup2(fd[i - 1][FD_READ], STDIN_FILENO);
-                        ft_close(fd[i - 1][FD_READ]);
-                    }
-                    ft_dup2(fd[i][FD_WRITE], STDOUT_FILENO);
-                    if (line->right)
-                    {
-                        if (check_builtin(line->right))
-                            run_builtin(line->right, ast, token);
-                        else
-                            execute(line);
-                    }
-                }
-            }
-            if (root->left->type == LINE)
-            {
-                line = root->left;
-                if (line->left)
-                    check_redirection(line->left, fd[i]);
-                if (i != 0)
-                {
-                    ft_dup2(fd[i - 1][FD_READ], STDIN_FILENO);
-                    ft_close(fd[i - 1][FD_READ]);
-                }
-                ft_dup2(fd[i][FD_WRITE], STDOUT_FILENO);
-                ft_close(fd[i][FD_WRITE]);
-                if (i != process -1)
-                    ft_close(fd[i + 1][FD_READ]);
-                if (line->right)
-                    {
-                        if (check_builtin(line->right))
-                            run_builtin(line->right, ast, token);
-                        else
-                            execute(line);
-                    }
-            }
+            parent_process(pipes, pid, i, process);
+            if (root->right)
+                root = root->right;
+            i += 1;
         }
     }
 }
+
 void    execute_line(t_node *line, t_node *ast, t_token *token)
 {
     int save_fd[2];
@@ -233,7 +240,7 @@ void    execute_line(t_node *line, t_node *ast, t_token *token)
 	{
 		save_fd[0] = dup(STDIN_FILENO);
 		save_fd[1] = dup(STDOUT_FILENO);
-        check_redirection(line->left, fd);
+        //check_redirection(line->left, fd);
         if (line->right)
             run_builtin(line->right, ast, token);
 		dup2(save_fd[0], STDIN_FILENO);
@@ -247,16 +254,18 @@ void    execute_line(t_node *line, t_node *ast, t_token *token)
         pid = fork();
         if (pid)
         {
-			printf("now\n");
             if (waitpid(pid, &status, 0) == pid)
 				update_exitcode(status);
         }
         else
         {
-			fd[0] = check_infile(line->left, 0);
-			fd[1] = check_outfile(line->left, 1);
-			//close (fd[1]);
-//			check_redirection(line->left, fd);
+            fd[0] = STDIN_FILENO;
+            fd[1] = STDOUT_FILENO;
+            //fd[0] = check_infile(line->left, STDIN_FILENO);
+            //fd[1] = check_outfile(line->right, STDOUT_FILENO);
+            // check_redirection(line->left, fd);
+			ft_dup2(fd[0], STDIN_FILENO);
+            ft_dup2(fd[1], STDOUT_FILENO);
             if (line->right)
 			{
                 execute(line->right);
@@ -264,23 +273,3 @@ void    execute_line(t_node *line, t_node *ast, t_token *token)
         }
     }
 }
-
-
-
-
-/*
-//line이 루트노드일때, 
-//1.빌트인인지 확인해
-//빌트인이면 리다이렉션 할 때 메인을 유지하기 위한 fd를 저장해줘.(dup(0), dup(1)하고 저장)
-//빌트인 바로실행
-//끝나면, fd복원
-//2. 나머지는 모두 포크가능
-//리다이렉션 해주고, 실행
-*/
-
-//만약 pipe가 루트노드이면, 
-//파이프 연결해
-//1. 포크해.
-//2. 리다이렉션해
-//나머지 필요없는 파이프 제거해
-//마지막, root->right 에 대해서 pipe, fork, redirection, execute 진행

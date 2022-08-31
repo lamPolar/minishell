@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 04:57:06 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/08/31 11:53:38 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,9 @@ int	check_redirection(t_node *re, int fd[2])
 		re = re->right;
 	}
 	if (infile != STDIN_FILENO)
-	{
-		if (dup2(infile, STDIN_FILENO) == -1)
-			return (1);
-		if (close(infile) == -1)
-			return (1);
-	}
+		ft_dup2(infile, STDIN_FILENO);
 	if (outfile != STDOUT_FILENO)
-	{
-		if (dup2(outfile, STDOUT_FILENO) == -1)
-			return (1);
-		if (close(outfile) == -1)
-			return (1);
-	}
-	
+		ft_dup2(outfile, STDOUT_FILENO);	
 	return (0);
 }
 
@@ -53,6 +42,7 @@ int check_infile(t_node *re, int fd)
 {
 	int infile;
 
+	infile = fd;
 	while (re && re->type == REDIRECTION)
 	{
 		if (ft_strequal(re->str, "<"))
@@ -61,16 +51,12 @@ int check_infile(t_node *re, int fd)
 		// {
 		// 	close(infile);
 		// }
-		if (fd != STDIN_FILENO)
-			close(fd);
+		ft_close(fd);
 		fd = infile;
 		re = re->right;
 	}
 	if (fd != STDIN_FILENO)
-	{
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
+		ft_dup2(fd, STDIN_FILENO);
 	return (0);
 }
 
@@ -80,6 +66,7 @@ int check_outfile(t_node *re, int fd)
 {
 	int	outfile;
 
+	outfile = fd;
 	while (re && re->type == REDIRECTION)
 	{
 		if (ft_strequal(re->str, "<<"))
@@ -88,16 +75,11 @@ int check_outfile(t_node *re, int fd)
 			outfile = open(re->left->str, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		else if (ft_strequal(re->str, ">>"))
 			outfile = open(re->left->str, O_CREAT | O_APPEND | O_WRONLY, 0644);
-		if (fd != STDOUT_FILENO)
-			close(fd);
+		ft_close(fd);
 		fd = outfile;
 		re = re->right;
 	}
-	if (fd != STDOUT_FILENO)
-	{
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
+	ft_dup2(fd, STDOUT_FILENO);	
 	return (0);
 }
 
