@@ -6,11 +6,29 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 16:52:27 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/08/31 20:44:28 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+
+void	print_node(t_node *root)
+{
+	if (root->papa != NULL)
+		printf("papa : %d / %s\n", root->papa->type, root->papa->str);
+	printf("str : %s ", root->str);
+	printf("type : %d \n", root->type);
+	if (root->left)
+	{
+		printf("<");
+		print_node(root->left);
+	}
+	if (root->right)
+	{
+		printf(">");
+		print_node(root->right);
+	}
+}
 
 void	execute_str(char *str)
 {
@@ -32,15 +50,8 @@ void	execute_str(char *str)
 		return ;
 	}
 	execute_tree(ast, ast, tokenlist);
-	// preorder(ast);
+	// print_node(ast);
 	free_tree(ast);
-
-	// while (tokenlist != NULL)
-	// {
-	// 	printf("%s\n", tokenlist->value);
-	// 	tokenlist = tokenlist->next;
-	// }
-
 	free_tokenlist(tokenlist);
 }
 
