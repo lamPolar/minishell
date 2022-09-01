@@ -59,3 +59,16 @@ void	signal_exit_code(char *exitcode)
 		env = env->next;
 	}
 }
+
+int	find_quotes_index(int i, t_token *tokenlist)
+{
+	int	j;
+
+	j = i;
+	while (tokenlist->value[++j] != '\0')
+	{
+		if (tokenlist->value[j] == '\"')
+			break ;
+	}
+	return (j);
+}

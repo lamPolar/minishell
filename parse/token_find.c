@@ -42,7 +42,7 @@ int	envp_in_value(t_token *tokenlist, int i, int *j, int is_inquotes)
 	}
 	if (env == NULL)
 	{
-		if (no_env_key(tokenlist, i, j) == 0)
+		if (no_env_key(tokenlist, i, j) == -1)
 			return (free_and_return(envp, 0));
 	}
 	return (free_and_return(envp, 1));
@@ -54,9 +54,8 @@ int	dollar_next_quotes(t_token *tokenlist, int i, int *j, int is_inquotes)
 		return (1);
 	if (tokenlist->value[i + 1] == '\"' || tokenlist->value[i + 1] == '\'')
 	{
-		if (no_env_key(tokenlist, i, j) == 0)
+		if (no_env_key(tokenlist, i, j) == -1)
 			return (0);
-		return (1);
 	}
 	return (1);
 }
@@ -76,6 +75,6 @@ int	face_dollar_sign(int i, int len, int is_quotes, t_token *tokenlist)
 
 	j = check_valid(i, len, tokenlist->value);
 	if (envp_in_value(tokenlist, i, &j, is_quotes) == 0)
-		return (-1);
+		return (-2);
 	return (j);
 }

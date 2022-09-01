@@ -59,6 +59,7 @@ char	find_quotes(char *str, int *first, int *second);
 int		check_valid(int i, int j, char *str);
 void	free_tokenlist(t_token *tokenlist);
 void	signal_exit_code(char *exitcode);
+int     find_quotes_index(int i, t_token *tokenlist);
 
 //pipe_util.c
 char	*find_path(char **env_path, char *command);
