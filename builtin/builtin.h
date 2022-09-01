@@ -39,7 +39,7 @@ int		builtin_cd(t_node *command);
 int		export_with_argument(t_node *argument);
 int		builtin_export(t_node *command);
 int		change_env_show(char *str);
-t_envp	*sort_envp(int size);
+t_envp	*sort_envp(int size, int i);
 
 //builtin_env.c
 char	*get_env_value(char *key);

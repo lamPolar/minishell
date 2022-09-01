@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parse/parse.h"
+#include "execute/pipe.h"
 
 void	print_start_shell(void)
 {

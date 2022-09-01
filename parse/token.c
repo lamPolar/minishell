@@ -12,24 +12,6 @@
 
 #include "parse.h"
 
-void	print_node(t_node *root)
-{
-	if (root->papa != NULL)
-		printf("papa : %d / %s\n", root->papa->type, root->papa->str);
-	printf("str : %s ", root->str);
-	printf("type : %d \n", root->type);
-	if (root->left)
-	{
-		printf("<");
-		print_node(root->left);
-	}
-	if (root->right)
-	{
-		printf(">");
-		print_node(root->right);
-	}
-}
-
 void	execute_str(char *str)
 {
 	t_token	*tokenlist;
@@ -50,7 +32,6 @@ void	execute_str(char *str)
 		return ;
 	}
 	execute_tree(ast, ast, tokenlist);
-	// print_node(ast);
 	free_tree(ast);
 	free_tokenlist(tokenlist);
 }

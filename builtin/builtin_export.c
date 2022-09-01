@@ -54,7 +54,7 @@ int	builtin_export(t_node *argument)
 	t_envp	*env;
 	t_envp	*free;
 
-	env = sort_envp(get_env_size(g_env));
+	env = sort_envp(get_env_size(g_env), -1);
 	free = env;
 	if (argument == NULL)
 	{
@@ -64,6 +64,7 @@ int	builtin_export(t_node *argument)
 				printf("declare -x %s = \"%s\"\n", env->key, env->value);
 			env = env->next;
 		}
+		free_envp(free);
 		return (0);
 	}
 	while (argument)
@@ -76,16 +77,14 @@ int	builtin_export(t_node *argument)
 	return (0);
 }
 
-t_envp	*sort_envp(int size)
+t_envp	*sort_envp(int size, int i)
 {
 	t_envp	*res;
 	char	**env;
 	char	*temp;
-	int		i;
 	int		j;
 
 	env = dearrange_envp();
-	i = -1;
 	while (++i < size)
 	{
 		j = -1;
@@ -102,16 +101,6 @@ t_envp	*sort_envp(int size)
 		}
 	}
 	res = arrange_envp(env);
-
-	int k = 0;
-	while (env[k] != NULL)
-	{
-		free(env[k]);
-		k++;
-	}
-	free(env);
+	free_double_array(env);
 	return (res);
 }
-
-//만약 파이프 뒤에 export를 호출하면, 자식프로세스에 대한 export이므로 환경변수에 대해서 변경하지 않음
-//export 에서 에러가 나면 exit해버릴까???

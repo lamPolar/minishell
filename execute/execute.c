@@ -37,7 +37,7 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process)
 	if (initial_pipe(process, &pipes, &pid, &line))
 		return ;
 	i = 0;
-	//ㅅㅣ그널 무시
+	signal(SIGINT, sigint_inpipe);
 	while (i < process)
 	{
 		pid[i] = fork();
@@ -49,10 +49,9 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process)
 		}
 		else
 		{
-			parent_process(pipes, pid, i, process);
+			parent_process(pipes, pid, i++, process);
 			if (root->right)
 				root = root->right;
-			i += 1;
 		}
 	}
 }

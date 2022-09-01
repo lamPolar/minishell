@@ -20,8 +20,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include <fcntl.h> 
-//# include <sys/stat.h>
+# include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 //pipe.c
 int		initial_pipe(int process, int **pipes, pid_t **pid, t_node **line);
@@ -46,5 +47,12 @@ void	execute_builtin(t_node *line, t_node *ast, t_token *token);
 //execute2.c
 void	execute_function(t_node *line, t_node *ast, t_token *token);
 void	execute(t_node *command);
+
+//signal.c
+void	signal_set(void);
+void	signal_handler(int signum);
+void	c_handler(int pid);
+void	q_handler(int pid);
+void	sigint_inpipe(int signum);
 
 #endif

@@ -15,23 +15,6 @@
 int	check_valid(int i, int j, char *str)
 {
 	i += 1;
-	if (str[i] == '\"' || str[i] == '\'')
-		return (i);
-	if (str[i] == '?' || (str[i] >= '0' && str[i] <= '9'))
-		return (i + 1);
-	while (i <= j)
-	{
-		if ((str[i] < '0' || (str[i] > '9' && str[i] < 'A') || \
-		(str[i] > 'Z' && str[i] < 'a') || str[i] > 'z') && str[i] != '_')
-			return (i);
-		i += 1;
-	}
-	return (j);
-}
-
-int	check_valid_in_quotes(int i, int j, char *str)
-{
-	i += 1;
 	if (str[i] == '?' || (str[i] >= '0' && str[i] <= '9'))
 		return (i + 1);
 	while (i <= j)
