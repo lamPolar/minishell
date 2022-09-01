@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 00:07:02 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/01 17:45:03 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 int	builtin_pwd(void)
 {
 	char	*buf;
-	size_t	size;
 
-	buf = NULL;
-	size = 0;
-	buf = getcwd(buf, size);
+	buf = get_env_value("PWD");
 	if (buf == NULL)
 	{
 		print_error("KINDER: pwd: ", strerror(errno), 0, 0);
