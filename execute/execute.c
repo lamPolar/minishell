@@ -49,10 +49,9 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process)
 		}
 		else
 		{
-			parent_process(pipes, pid, i, process);
+			parent_process(pipes, pid, i++, process);
 			if (root->right)
 				root = root->right;
-			i += 1;
 		}
 	}
 }
