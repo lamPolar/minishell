@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 20:27:58 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/01 15:04:08 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	execute_line(t_node *line, t_node *ast, t_token *token)
 	int		fd[2];
 	int		status;
 
-	if (check_builtin(line->right))
+	if (line->right && check_builtin(line->right))
 		execute_builtin(line, ast, token);
 	else
 	{
@@ -81,6 +81,7 @@ void	execute_line(t_node *line, t_node *ast, t_token *token)
 			ft_dup2(fd[1], STDOUT_FILENO);
 			if (line->right)
 				execute(line->right);
+			exit(0);
 		}
 	}
 }
@@ -98,15 +99,10 @@ void	execute_builtin(t_node *line, t_node *ast, t_token *token)
 	fd[1] = check_outfile(line->left, fd[1]);
 	ft_dup2(fd[0], STDIN_FILENO);
 	ft_dup2(fd[1], STDOUT_FILENO);
-	if (line->right)
-	{
-		if (run_builtin(line->right, ast, token))
-			signal_exit_code(ft_strdup("1"));
-		else
-			signal_exit_code(ft_strdup("0"));
-	}	
-	dup2(save_fd[0], STDIN_FILENO);
-	dup2(save_fd[1], STDOUT_FILENO);
-	close(save_fd[0]);
-	close(save_fd[1]);
+	if (run_builtin(line->right, ast, token))
+		signal_exit_code(ft_strdup("1"));
+	else
+		signal_exit_code(ft_strdup("0"));
+	ft_dup2(save_fd[0], STDIN_FILENO);
+	ft_dup2(save_fd[1], STDOUT_FILENO);
 }

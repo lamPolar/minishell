@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:11:19 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 20:53:47 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/01 15:04:39 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	execute_function(t_node *line, t_node *ast, t_token *token)
 {
-	if (check_builtin(line->right))
+	if (line->right && check_builtin(line->right))
 	{
 		if (run_builtin(line->right, ast, token))
 			exit(1);
@@ -25,6 +25,7 @@ void	execute_function(t_node *line, t_node *ast, t_token *token)
 	{
 		if (line->right)
 			execute(line->right);
+		exit(0);
 	}
 }
 
