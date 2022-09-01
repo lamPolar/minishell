@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "pipe.h"
 
 void	signal_set(void)
 {
@@ -59,4 +59,23 @@ void	q_handler(int pid)
 		printf("^\\Quit: 3\n");
 		signal_exit_code(ft_strdup("131"));
 	}
+}
+
+void	sigint_inpipe(int signum)
+{
+	int	pid;
+	int	status;
+
+	(void)signum;
+	pid = waitpid(-1, &status, WNOHANG);
+	if (pid == -1)
+	{	
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		signal_exit_code(ft_strdup("1"));
+	}
+	else
+		printf("^C\n");
 }

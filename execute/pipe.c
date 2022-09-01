@@ -89,6 +89,6 @@ void	parent_process(int *pipes, pid_t *pid, int i, int process)
 		}
 		free(pipes);
 		free(pid);
-		//시그널 재개(설정)
+		signal(SIGINT, signal_handler);
 	}
 }

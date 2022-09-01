@@ -69,3 +69,13 @@ int	find_word(char *str, int i)
 		i++;
 	return (i);
 }
+
+int	face_dollar_sign(int i, int len, int is_quotes, t_token *tokenlist)
+{
+	int	j;
+
+	j = check_valid(i, len, tokenlist->value);
+	if (envp_in_value(tokenlist, i, &j, is_quotes) == 0)
+		return (-1);
+	return (j);
+}
