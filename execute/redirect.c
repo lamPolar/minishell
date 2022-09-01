@@ -21,7 +21,7 @@ int	print_fd_error(int flag)
 	}
 	if (flag == 2)
 	{
-		print_error("KINDER: %s\n", strerror(errno), 0, 0, 0);
+		print_error("KINDER: %s\n", strerror(errno), 0, 0);
 		return (-2);
 	}
 	return (0);

@@ -111,9 +111,3 @@ int	builtin_cd(t_node *command)
 	ft_free(str);
 	return (update_pwd(PWD));
 }
-//mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ;
-// pwd ; cd . ; pwd ; cd .. ; pwd
-//cd ~ cd ~/desktop cd /Users/heeskim/Desktop
-//cd .. cd . cd - cd -- 
-
-//현재상황 :cd특수상황시를 위해서 str을 새로 만들어서 변형후 함수 끝나기전 free
