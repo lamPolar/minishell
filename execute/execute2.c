@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:11:19 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 00:15:03 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 02:06:46 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,8 @@ void	execute(t_node *command)
 	if (envp == NULL)
 		exit(EXIT_FAILURE);
 	if (execve(path, command_array, envp) == -1)
-		print_error("KINDER: Execve failed", 0, 0, 0);
+	{
+		print_error("KINDER: Execute failed", 0, 0, 0);
+		exit(126);
+	}
 }

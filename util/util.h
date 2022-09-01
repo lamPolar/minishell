@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/01 16:32:52 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 03:11:14 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	find_quotes(char *str, int *first, int *second);
 int		check_valid(int i, int j, char *str);
 void	free_tokenlist(t_token *tokenlist);
 void	signal_exit_code(char *exitcode);
-int     find_quotes_index(int i, t_token *tokenlist);
+int		find_quotes_index(int i, t_token *tokenlist);
 
 //pipe_util.c
 char	*find_path(char **env_path, char *command);
@@ -82,6 +82,8 @@ int		get_command_size(t_node *command);
 void	ft_dup2(int fd1, int fd2);
 int		ft_close(int fd);
 int		update_exitcode(int status);
+void	check_atoi_error(char *save, int result);
+void	print_atoi_error(char *save);
 
 //envp_util.h
 t_envp	*make_new_envp(char *str, int display);

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:19:01 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/01 14:28:42 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 03:10:43 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,39 @@ int	update_exitcode(int status)
 		return (0);
 	}
 	return (1);
+}
+
+void	print_atoi_error(char *save)
+{
+	print_error("KINDER: exit: ", save, " numeric argument required", 0);
+	free(save);
+	exit(255);
+}
+
+void	check_atoi_error(char *save, int result)
+{
+	int	flag;
+	int	i;
+
+	if (result == 0)
+	{
+		i = -1;
+		while (save[++i])
+		{
+			if (save[i] >= '1' && save[i] <= '9')
+				print_atoi_error(save);
+		}
+	}
+	if (result == -1)
+	{
+		i = -1;
+		flag = 0;
+		while (save[++i])
+		{
+			if (save[i] == '-')
+				flag = 1;
+		}
+		if (flag == 0)
+			print_atoi_error(save);
+	}
 }

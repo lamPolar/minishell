@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:31:56 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/01 17:45:03 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 03:12:46 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	builtin_exit(t_node *command, t_node *ast, t_token *token)
 	if (argument->right != NULL)
 	{
 		print_error("KINDER: exit: too many arguments", 0, 0, 0);
-		signal_exit_code(ft_strdup("1"));
+		return (1);
 	}
 	else
 		numeric_exit(argument->str, ast, token);
@@ -52,12 +52,21 @@ int	builtin_exit(t_node *command, t_node *ast, t_token *token)
 
 void	numeric_exit(char *str, t_node *ast, t_token *token)
 {
+	int		exitcode;
+	char	*save;
+
 	if (ft_isnum(str) == 0)
 		print_error("KINDER: exit: ", str, ": numeric argument required", 0);
+	exitcode = ft_atoi(str);
+	save = ft_strdup(str);
 	free_tree(ast);
 	free_tokenlist(token);
 	free_envp(g_env);
 	if (ft_isnum(str) == 1)
-		exit(ft_atoi(str));
+	{
+		check_atoi_error(save, exitcode);
+		free(save);
+		exit(exitcode);
+	}
 	exit(255);
 }
