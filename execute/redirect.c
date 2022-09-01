@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 00:48:01 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 00:53:36 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	print_fd_error(int flag)
 	}
 	if (flag == 2)
 	{
-		printf("KINDER: %s\n", strerror(errno));
+		print_error("KINDER: %s\n", strerror(errno), 0, 0, 0);
 		return (-2);
 	}
 	return (0);
