@@ -54,7 +54,7 @@ int	change_dollar(t_token *tokenlist)
 		{
 			i = face_dollar_sign(i, ft_strlen(tokenlist->value), \
 				0, tokenlist) - 1;
-			if (i == -1)
+			if (i == -2)
 				return (0);
 		}
 	}
@@ -85,12 +85,7 @@ int	find_double_quotes(t_token *tokenlist, int i)
 {
 	int	j;
 
-	j = i;
-	while (tokenlist->value[++j] != '\0')
-	{
-		if (tokenlist->value[j] == '\"')
-			break ;
-	}
+	j = find_quotes_index(i, tokenlist);
 	if (tokenlist->value[j] != '\0')
 	{
 		while (i <= j)
@@ -98,8 +93,9 @@ int	find_double_quotes(t_token *tokenlist, int i)
 			if (tokenlist->value[i] == '$')
 			{
 				i = face_dollar_sign(i, j, 1, tokenlist) - 1;
-				if (i == -1)
+				if (i == -2)
 					return (-1);
+				j = find_quotes_index(i, tokenlist);
 			}
 			i++;
 		}

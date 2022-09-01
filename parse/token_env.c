@@ -70,7 +70,7 @@ int	no_env_key(t_token *tokenlist, int i, int *j)
 	size = ft_strlen(tokenlist->value) - *j + i + 1;
 	new_value = (char *)ft_calloc(size, sizeof(char));
 	if (new_value == NULL)
-		return (0);
+		return (-1);
 	idx = -1;
 	while (++idx < i)
 		new_value[idx] = tokenlist->value[idx];
