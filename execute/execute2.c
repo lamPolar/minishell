@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:11:19 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/01 15:04:39 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/01 18:54:19 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	execute(t_node *command)
 	char	**envp;
 
 	path_array = get_path();
-	if (path_array == NULL)
+	if (path_array == NULL || path_array[0] == NULL)
 	{
 		print_error("KINDER: ", command->str, ": No such file or directory", 0);
 		return ;
