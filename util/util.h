@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 15:20:47 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/01 16:32:52 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	**get_path(void);
 char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
 
 //pipe_util2.c
-void	ft_free(char *str);
+int		ft_free(char *str);
 void	free_double_array(char **string);
 void	print_error(char *str1, char *str2, char *str3, char *str4);
 
@@ -79,8 +79,8 @@ char	**make_command_array(t_node *command);
 int		get_command_size(t_node *command);
 
 //pipe_util4.c
-int		ft_dup2(int fd1, int fd2);
-void	ft_close(int fd);
+void	ft_dup2(int fd1, int fd2);
+int		ft_close(int fd);
 int		update_exitcode(int status);
 
 //envp_util.h

@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_util2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 00:53:35 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 00:53:46 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/01 16:32:35 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "util.h"
 
-void	ft_free(char *str)
+int	ft_free(char *str)
 {
 	if (str)
 		free(str);
 	str = NULL;
+	return (1);
 }
 
 void	free_double_array(char **string)

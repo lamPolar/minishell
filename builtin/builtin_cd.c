@@ -3,45 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:21:18 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/30 21:29:26 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/01 18:26:33 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	check_home(t_node *command)
+int	check_home(char **str, char *home)
 {
-	char	*home;
-	char	*path;
 	char	*save;
+	char	*path;
 
-	home = get_env_value("HOME");
-	if (home == NULL)
-		return (1);
-	if (ft_strequal(command->str, "~") || ft_strequal(command->str, "--"))
+	if (ft_strequal(*str, "~") || ft_strequal(*str, "--"))
 	{
-		command->str = home;
+		save = *str;
+		*str = home;
+		ft_free(save);
 		return (0);
 	}
-	else if (command->str[0] == '~' && command->str[1] == '/')
+	else if (ft_strlen(*str) > 1 && str[0][0] == '~' && str[0][1] == '/')
 	{
-		path = ft_strjoin(home, &(command->str[1]), 0);
+		path = ft_strjoin(home, &(str[0][1]), 0);
+		ft_free(home);
 		if (path == NULL)
 			return (1);
-		free(home);
-		save = command->str;
-		command->str = path;
-		free(save);
+		save = *str;
+		*str = path;
+		ft_free(save);
 		return (0);
 	}
-	free(home);
+	ft_free(home);
 	return (0);
 }
 
-int	check_oldpwd(t_node *command)
+int	check_oldpwd(char **str)
 {
 	char	*oldpwd;
 	char	*save;
@@ -49,77 +47,73 @@ int	check_oldpwd(t_node *command)
 	oldpwd = get_env_value("OLDPWD");
 	if (oldpwd == NULL)
 		return (1);
-	if (ft_strequal(command->str, "-"))
+	if (ft_strequal(*str, "-"))
 	{
-		save = command->str;
-		command->str = oldpwd;
-		free(save);
+		save = *str;
+		*str = oldpwd;
+		ft_free(save);
 		return (0);
 	}
-	free(oldpwd);
+	ft_free(oldpwd);
 	return (0);
 }
 
-char	*make_pwd(char *str, char **pwd)
+int	update_pwd(int flag)
 {
+	char	*pwd;
 	char	*temp;
-	char	*oldpwd;
-	char	*save;
-	size_t	size;
 
-	save = *pwd;
-	*pwd = ft_strjoin("PWD=", str, 0);
-	free(save);
-	temp = NULL;
-	size = 0;
-	temp = getcwd(temp, size);
+	temp = (char *)ft_calloc(sizeof(char), 1096);
 	if (temp == NULL)
-		return (NULL);
-	oldpwd = ft_strjoin("OLDPWD=", temp, 0);
-	free(temp);
-	return (oldpwd);
-}
-
-int	change_pwd(char *oldpwd, char *pwd)
-{
-	int	flag;
-
-	flag = 0;
-	if (add_to_env(oldpwd, SHOW))
-		flag = 1;
-	if (add_to_env(pwd, SHOW))
-		flag = 1;
-	free_both(pwd, oldpwd);
-	if (flag)
 		return (1);
+	temp = getcwd(temp, 1096);
+	if (temp == NULL)
+	{
+		pwd = get_env_value("PWD");
+		if (pwd == NULL || add_to_env(pwd, SHOW))
+			return (ft_free(pwd));
+		ft_free(temp);
+		ft_free(pwd);
+		return (0);
+	}
+	if (flag)
+		pwd = ft_strjoin("OLDPWD=", temp, 0);
+	else
+		pwd = ft_strjoin("PWD=", temp, 0);
+	ft_free(temp);
+	if (pwd == NULL || add_to_env(pwd, SHOW))
+		return (ft_free(pwd));
+	ft_free(pwd);
 	return (0);
 }
 
 int	builtin_cd(t_node *command)
 {
-	char	*oldpwd;
-	char	*pwd;
-	t_node	*argument;
+	char	*str;
+	char	*home;
 
-	argument = command->right;
-	if (argument == NULL)
+	if (command->right == NULL)
+		str = ft_strdup("~");
+	else
+		str = ft_strdup(command->right->str);
+	home = get_env_value("HOME");
+	if (home == NULL)
+		return (ft_free(str));
+	if (check_home(&str, home) || check_oldpwd(&str))
+		return (ft_free(str));
+	if (update_pwd(OLDPWD))
+		return (ft_free(str));
+	if (chdir(str) == -1)
 	{
-		argument = make_new_node("~", COMMAND, command);
-		if (argument == NULL)
-			return (1);
+		print_error("KINDER: cd: ", str, ": ", strerror(errno));
+		return (ft_free(str));
 	}
-	if (check_home(argument) || check_oldpwd(argument))
-		return (1);
-	pwd = (char *)ft_calloc(sizeof(char), 1);
-	oldpwd = make_pwd(argument->str, &pwd);
-	if (oldpwd == NULL || pwd == NULL)
-		return (free_both(pwd, oldpwd));
-	if (chdir(argument->str) == -1)
-	{
-		print_error("KINDER: cd: ", argument->str, ": ", strerror(errno));
-		return (1);
-	}
-	return (change_pwd(oldpwd, pwd));
+	ft_free(str);
+	return (update_pwd(PWD));
 }
 //mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ;
 // pwd ; cd . ; pwd ; cd .. ; pwd
+//cd ~ cd ~/desktop cd /Users/heeskim/Desktop
+//cd .. cd . cd - cd -- 
+
+//현재상황 :cd특수상황시를 위해서 str을 새로 만들어서 변형후 함수 끝나기전 free

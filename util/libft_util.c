@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 17:28:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 00:49:50 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/01 18:04:20 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_strlen(const char *s)
 {
 	int	count;
 
+	if (s == NULL)
+		return (0);
 	count = 0;
 	while (s[count])
 		count += 1;
@@ -64,21 +66,23 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	return (dlen + slen);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *str)
 {
 	char	*new;
 	size_t	slen;
 
-	slen = ft_strlen(s1);
+	if (str == NULL)
+		return (NULL);
+	slen = ft_strlen(str);
 	new = (char *)ft_calloc(sizeof(char), slen + 1);
 	if (new == NULL)
 		return (NULL);
 	while (slen > 0)
 	{	
-		new[slen] = s1[slen];
+		new[slen] = str[slen];
 		slen -= 1;
 	}
-	new[0] = s1[0];
+	new[0] = str[0];
 	return (new);
 }
 

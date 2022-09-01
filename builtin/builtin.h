@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:48 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 03:30:38 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/01 17:30:33 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,18 @@
 # include <errno.h>
 # include <string.h>
 
+# define PWD 0
+# define OLDPWD 1
+
 //builtin.c
 int		builtin_pwd(void);
 int		builtin_exit(t_node *command, t_node *ast, t_token *token);
 void	numeric_exit(char *str, t_node *ast, t_token *token);
 
 //builtin_cd.c
-int		check_home(t_node *command);
-int		check_oldpwd(t_node *command);
-char	*make_pwd(char *str, char **pwd);
-int		change_pwd(char *oldpwd, char *pwd);
+int		check_home(char **str, char *home);
+int		check_oldpwd(char **str);
+int		update_pwd(int flag);
 int		builtin_cd(t_node *command);
 
 //builtin_export.c
