@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 13:31:39 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 13:40:24 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -53,10 +54,10 @@ void	execute_function(t_node *line, t_node *ast, t_token *token);
 void	execute(t_node *command);
 
 //signal.c
-void	signal_set(void);
 void	signal_handler(int signum);
 void	c_handler(int pid);
 void	q_handler(int pid);
 void	sigint_inpipe(int signum);
+void	signal_heredoc(int signum);
 
 #endif

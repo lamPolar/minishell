@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 13:19:57 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 13:36:41 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process)
 void	execute_executable(t_node *line)
 {
 	int	fd[2];
-
+	
+	signal(SIGINT, signal_heredoc);
+	signal(SIGQUIT, signal_heredoc);
 	fd[0] = STDIN_FILENO;
 	fd[1] = STDOUT_FILENO;
 	if (check_redirection(line->left, &fd[0], &fd[1]))
@@ -86,6 +88,11 @@ void	execute_line(t_node *line, t_node *ast, t_token *token)
 	}
 	else
 	{
+		if (line->left != NULL && check_heredoc(line->left))
+		{
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
+		}
 		if (fork())
 		{
 			if (wait(&status))

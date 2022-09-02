@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_util2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 00:53:35 by sojoo             #+#    #+#             */
-/*   Updated: 2022/09/01 16:32:35 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 13:37:57 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,15 @@ void	print_error(char *str1, char *str2, char *str3, char *str4)
 	if (str4)
 		write(2, str4, ft_strlen(str4));
 	write(2, "\n", 1);
+}
+
+int	check_heredoc(t_node *redirect)
+{
+	while (redirect != NULL && redirect->type == REDIRECTION)
+	{
+		if (ft_strequal(redirect->str, "<<") == 1)
+			return (1);
+		redirect = redirect->right;
+	}
+	return (0);
 }

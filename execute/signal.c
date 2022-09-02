@@ -6,17 +6,11 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 05:16:45 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:48:29 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 13:39:44 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-
-void	signal_set(void)
-{
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
-}
 
 void	signal_handler(int signum)
 {
@@ -78,4 +72,31 @@ void	sigint_inpipe(int signum)
 	}
 	else
 		printf("^C\n");
+}
+
+void	signal_heredoc(int signum)
+{
+	int	pid;
+	int	status;
+
+	(void)signum;
+	pid = waitpid(-1, &status, WNOHANG);
+	if (pid == -1)
+	{
+		if (signum == SIGINT)
+		{
+			printf("\n");
+			exit(1);
+		}
+		else if (signum == SIGQUIT)
+		{
+			rl_on_new_line();
+			rl_redisplay();
+		}
+	}
+	else
+	{
+		if (signum == SIGINT)
+			printf("\n");
+	}
 }
