@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:15:30 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 17:42:22 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 15:45:01 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ int	change_dollar(t_token *tokenlist, t_token *prev)
 			i = change_dollar_single_quotes(tokenlist, i);
 		else if (tokenlist->value[i] == '$')
 		{
-			i = face_dollar_sign(i, ft_strlen(tokenlist->value), \
+			if (prev->type == REDIRECT && ft_strequal(prev->value, "<<") == 1)
+				i = dollar_and_redirect(i, tokenlist) - 1;
+			else
+				i = face_dollar_sign(i, ft_strlen(tokenlist->value), \
 				0, tokenlist) - 1;
 			if (i == -2)
 				return (0);
@@ -85,7 +88,7 @@ int	find_double_quotes(t_token *tokenlist, int i, t_token *prev)
 	j = find_quotes_index(i, tokenlist);
 	if (tokenlist->value[j] != '\0')
 	{
-		if (prev->type != REDIRECT || ft_strequal(prev->value, "<<") == 0)
+		if (prev->type == REDIRECT && ft_strequal(prev->value, "<<") == 1)
 			return (j);
 		while (i <= j)
 		{

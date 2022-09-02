@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/09/02 13:40:42 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 15:44:16 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		envp_in_value(t_token *tokenlist, int i, int *j, int is_inquotes);
 int		find_word(char *str, int i);
 int		dollar_next_quotes(t_token *tokenlist, int i, int *j, int is_inquotes);
 int		face_dollar_sign(int i, int len, int is_quotes, t_token *tokenlist);
+int	    dollar_and_redirect(int i, t_token *tokenlist);
 
 //token_what.c
 int		tokenize_detail(char *str, int i, t_token **prev);
