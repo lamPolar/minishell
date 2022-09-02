@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 00:48:18 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 13:19:57 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,8 @@ void	execute_executable(t_node *line)
 
 	fd[0] = STDIN_FILENO;
 	fd[1] = STDOUT_FILENO;
-	fd[0] = check_infile(line->left, fd[0]);
-	check_fd_error(fd[0], 1);
-	fd[1] = check_outfile(line->left, fd[1]);
-	check_fd_error(fd[1], 1);
+	if (check_redirection(line->left, &fd[0], &fd[1]))
+		check_fd_error(fd, 1);
 	ft_dup2(fd[0], STDIN_FILENO);
 	ft_dup2(fd[1], STDOUT_FILENO);
 	if (line->right)
@@ -104,20 +102,15 @@ void	execute_builtin(t_node *line, t_node *ast, t_token *token)
 
 	fd[0] = STDIN_FILENO;
 	fd[1] = STDOUT_FILENO;
-	fd[0] = check_infile(line->left, fd[0]);
-	if (fd[0] != -1 && fd[0] != -2)
+	if (check_redirection(line->left, &fd[0], &fd[1]))
 	{
-		fd[1] = check_outfile(line->left, fd[1]);
-		if (fd[1] != -1 && fd[1] != -2)
-		{
-			ft_dup2(fd[0], STDIN_FILENO);
-			ft_dup2(fd[1], STDOUT_FILENO);
-			if (run_builtin(line->right, ast, token))
-				signal_exit_code(ft_strdup("1"));
-			else
-				signal_exit_code(ft_strdup("0"));
-		}
-		check_fd_error(fd[1], 0);
+		check_fd_error(fd, 0);
+		return ;
 	}
-	check_fd_error(fd[0], 0);
+	ft_dup2(fd[0], STDIN_FILENO);
+	ft_dup2(fd[1], STDOUT_FILENO);
+	if (run_builtin(line->right, ast, token))
+		signal_exit_code(ft_strdup("1"));
+	else
+		signal_exit_code(ft_strdup("0"));
 }

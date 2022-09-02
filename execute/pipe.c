@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 00:33:22 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 13:31:30 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,30 @@ void	close_pipe(int process, int *pipes)
 	}
 }
 
-void	check_fd_error(int fd, int flag)
+void	check_fd_error(int *fd, int flag)
 {
-	if (fd == -1)
+	int	temp;
+	int	i;
+
+	i = 0;
+	while (i < 2)
 	{
-		if (flag)
-			exit(1);
-		else
-			signal_exit_code(ft_strdup("1"));
-	}
-	if (fd == -2)
-	{
-		if (flag)
-			exit(127);
-		else
-			signal_exit_code(ft_strdup("127"));
+		temp = fd[i];
+		if (temp == -1)
+		{
+			if (flag)
+				exit(1);
+			else
+				signal_exit_code(ft_strdup("1"));
+		}
+		if (temp == -2)
+		{
+			if (flag)
+				exit(127);
+			else
+				signal_exit_code(ft_strdup("127"));
+		}
+		i += 1;
 	}
 }
 
@@ -79,10 +88,8 @@ t_node	*child_process(int *pipes, int i, int process, t_node *root)
 		fd[0] = pipes[(i - 1) * 2];
 	if (i != process - 1)
 		fd[1] = pipes[(i * 2) + 1];
-	fd[0] = check_infile(line->left, fd[0]);
-	check_fd_error(fd[0], 1);
-	fd[1] = check_outfile(line->left, fd[1]);
-	check_fd_error(fd[1], 1);
+	if (check_redirection(line->left, &fd[0], &fd[1]))
+		check_fd_error(fd, 1);
 	ft_dup2(fd[0], 0);
 	ft_dup2(fd[1], 1);
 	return (line);
