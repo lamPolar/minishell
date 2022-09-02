@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:03:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 19:11:51 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 13:40:42 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <errno.h>
 # include <string.h>
 # include <signal.h>
-# include <termios.h>
 # include <unistd.h>
 
 //token.c

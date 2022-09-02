@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 22:02:50 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 03:56:02 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 13:39:32 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	print_start_shell(void)
 	printf("                    ▀████████▀     \e[1;37m █ TEAM - JOY █\n");
 	printf("                                    █▄▄▄▄▄▄▄▄▄▄▄▄█\n\n");
 	printf("\e[0m");
+}
+
+void	signal_set(void)
+{
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
 }
 
 void	first_init(int argc, char *argv[], struct termios *term)

@@ -21,11 +21,11 @@ NAME = minishell
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	@$(CC) $(CFLAGS) $^ -lreadline -L/opt/homebrew/opt/readline/lib -o $(NAME)
+	@$(CC) $(CFLAGS) $^ -lreadline -L/Users/sojoo/.brew/opt/readline/lib -o $(NAME)
 	@printf "\n\e[0;32m$(NAME) was created successfully. \e[0m\n"
 
 .c.o : %.c $(LIBS)
-	@$(CC) $(CFLAGS) -I/opt/homebrew/opt/readline/include -c $< -o $@
+	@$(CC) $(CFLAGS) -I/Users/sojoo/.brew/opt/readline/include -c $< -o $@
 	@printf "\e[1;32m██\e[0m"
 
 clean :
