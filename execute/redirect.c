@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 00:53:36 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 02:40:09 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	here_doc(int fd, char *delimiter)
 	char	*buf;
 
 	buf = (char *)ft_calloc(sizeof(char), 1);
-	line = readline("> ");
+	line = readline("\e[0;91m> \e[0m");
 	while (line)
 	{
 		if (ft_strequal(delimiter, line))
@@ -111,6 +111,6 @@ void	here_doc(int fd, char *delimiter)
 		}
 		buf = ft_strjoin(buf, line, 1);
 		buf = ft_strjoin(buf, ft_strdup("\n"), 1);
-		line = readline("> ");
+		line = readline("\e[0;91m> \e[0m");
 	}
 }

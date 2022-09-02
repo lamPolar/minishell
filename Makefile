@@ -21,20 +21,24 @@ NAME = minishell
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $^ -lreadline -L/usr/local/opt/readline/lib -o $(NAME)
+	@$(CC) $(CFLAGS) $^ -lreadline -L/opt/homebrew/opt/readline/lib -o $(NAME)
+	@printf "\n\e[0;32m$(NAME) was created successfully. \e[0m\n"
 
 .c.o : %.c $(LIBS)
-	$(CC) $(CFLAGS) -I/usr/local/opt/readline/include -c $< -o $@
+	@$(CC) $(CFLAGS) -I/opt/homebrew/opt/readline/include -c $< -o $@
+	@printf "\e[1;32m██\e[0m"
 
 clean :
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
+	@printf "$(NAME)'s object files were removed successfully.\n"
 
 fclean : 
-	make clean
-	rm -f $(NAME)
+	@make clean
+	@rm -f $(NAME)
+	@printf "$(NAME) was removed successfully.\n\n"
 
 re : 
-	make fclean
-	make all
+	@make fclean
+	@make all
 
 .PHONY : all clean fclean re
