@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:47 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 13:40:24 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 16:54:10 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define AMBIGUOUS 51
-# define OPEN_ERR 52
-
 //pipe.c
 int		initial_pipe(int process, int **pipes, pid_t **pid, t_node **line);
 void	close_pipe(int process, int *pipes);
@@ -37,11 +34,10 @@ void	check_fd_error(int fd[2], int flag);
 
 //redirect.c
 int		check_redirection(t_node *re, int *infd, int *outfd);
-
-void	here_doc(int fd, char *delimiter);
-int		check_infile(t_node *re, int *infd, int *outfd);
+void	here_doc(int *fd, char *delimiter);
+void	check_here_doc(int *infd, char *delimiter);
+int		check_infile(t_node *re, int *infd);
 int		check_outfile(t_node *re, int *outfd);
-int		print_fd_error(int flag, int *fd);
 
 //execute.c
 void	execute_tree(t_node *root, t_node *ast, t_token *token);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 13:36:41 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 16:50:59 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process)
 void	execute_executable(t_node *line)
 {
 	int	fd[2];
-	
+
 	signal(SIGINT, signal_heredoc);
 	signal(SIGQUIT, signal_heredoc);
 	fd[0] = STDIN_FILENO;
@@ -75,8 +75,9 @@ void	execute_executable(t_node *line)
 
 void	execute_line(t_node *line, t_node *ast, t_token *token)
 {
-	int	save_fd[2];
-	int	status;
+	pid_t	pid;
+	int		save_fd[2];
+	int		status;
 
 	if (line->right && check_builtin(line->right))
 	{
@@ -93,9 +94,10 @@ void	execute_line(t_node *line, t_node *ast, t_token *token)
 			signal(SIGINT, SIG_IGN);
 			signal(SIGQUIT, SIG_IGN);
 		}
-		if (fork())
+		pid = fork();
+		if (pid)
 		{
-			if (wait(&status))
+			if (waitpid(pid, &status, 0) == pid)
 				update_exitcode(status);
 		}
 		else

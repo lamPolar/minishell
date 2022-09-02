@@ -6,26 +6,11 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 13:26:38 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/02 16:55:49 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-
-int	print_fd_error(int flag, int *fd)
-{
-	if (flag == AMBIGUOUS)
-	{
-		print_error("KINDER: ambiguous redirect", 0, 0, 0);
-		*fd = -1;
-	}
-	else if (flag == OPEN_ERR)
-	{
-		print_error("KINDER: ", strerror(errno), 0, 0);
-		*fd = -2;
-	}
-	return (1);
-}
 
 int	check_redirection(t_node *re, int *infd, int *outfd)
 {
@@ -33,7 +18,7 @@ int	check_redirection(t_node *re, int *infd, int *outfd)
 	{
 		if (ft_strequal(re->str, "<") || ft_strequal(re->str, "<<"))
 		{
-			if (check_infile(re, infd, outfd))
+			if (check_infile(re, infd))
 				return (1);
 		}
 		else if (ft_strequal(re->str, ">") || ft_strequal(re->str, ">>"))
@@ -46,7 +31,7 @@ int	check_redirection(t_node *re, int *infd, int *outfd)
 	return (0);
 }
 
-int	check_infile(t_node *re, int *infd, int *outfd)
+int	check_infile(t_node *re, int *infd)
 {
 	if (ft_strequal(re->str, "<"))
 	{
@@ -57,9 +42,9 @@ int	check_infile(t_node *re, int *infd, int *outfd)
 	}
 	else if (ft_strequal(re->str, "<<"))
 	{
-		*infd = STDIN_FILENO;
-		here_doc(*outfd, re->left->str);
-	}	
+		ft_close(*infd);
+		here_doc(infd, re->left->str);
+	}
 	if (*infd == -1)
 		return (print_fd_error(OPEN_ERR, infd));
 	return (0);
@@ -86,20 +71,39 @@ int	check_outfile(t_node *re, int *outfd)
 	return (0);
 }
 
-void	here_doc(int fd, char *delimiter)
+void	check_here_doc(int *infd, char *delimiter)
 {
-	char	*line;
-	char	*buf;
+	pid_t	pid;
+	int		fd[2];
+	int		status;
 
+	pipe(fd);
+	pid = fork();
+	if (pid)
+	{
+		ft_close(fd[1]);
+		waitpid(pid, &status, 0);
+		*infd = fd[0];
+	}
+	else
+		here_doc(fd, delimiter);
+}
+
+void	here_doc(int *fd, char *delimiter)
+{
+	char	*buf;
+	char	*line;
+
+	ft_close(fd[0]);
 	buf = (char *)ft_calloc(sizeof(char), 1);
 	line = readline("\e[0;91m> \e[0m");
 	while (line)
 	{
 		if (ft_strequal(delimiter, line))
 		{
-			write(fd, buf, ft_strlen(buf));
+			write(fd[1], buf, ft_strlen(buf));
 			free(buf);
-			break ;
+			exit(0);
 		}
 		buf = ft_strjoin(buf, line, 1);
 		buf = ft_strjoin(buf, ft_strdup("\n"), 1);

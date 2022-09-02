@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 20:50:37 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 13:38:04 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 16:56:16 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ char	*ft_strjoin_three(char const *s1, char const *s2, char const *s3);
 int		ft_free(char *str);
 void	free_double_array(char **string);
 void	print_error(char *str1, char *str2, char *str3, char *str4);
-int	    check_heredoc(t_node *redirect);
+int		check_heredoc(t_node *redirect);
+int		print_fd_error(int flag, int *fd);
 
 //pipe_util3.c
 int		check_builtin(t_node *command);

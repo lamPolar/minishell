@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 22:36:09 by heeskim           #+#    #+#             */
-/*   Updated: 2022/08/31 20:20:47 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 16:54:06 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 # define PIPE_T 30
 # define REDIRECT 31
 # define WORD 32
+
+# define AMBIGUOUS 41
+# define OPEN_ERR 42
 
 typedef struct envp
 {

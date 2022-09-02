@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_util2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 00:53:35 by sojoo             #+#    #+#             */
-/*   Updated: 2022/09/02 13:37:57 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 16:56:01 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,19 @@ int	check_heredoc(t_node *redirect)
 		redirect = redirect->right;
 	}
 	return (0);
+}
+
+int	print_fd_error(int flag, int *fd)
+{
+	if (flag == AMBIGUOUS)
+	{
+		print_error("KINDER: ambiguous redirect", 0, 0, 0);
+		*fd = -1;
+	}
+	else if (flag == OPEN_ERR)
+	{
+		print_error("KINDER: ", strerror(errno), 0, 0);
+		*fd = -2;
+	}
+	return (1);
 }
