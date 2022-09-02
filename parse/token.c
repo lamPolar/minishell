@@ -6,7 +6,7 @@
 /*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:35:24 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 20:44:28 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 15:44:03 by sojoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,17 @@ int	make_quotes_token(char *str, int i, int j, t_token **prev)
 		*prev = (*prev)->next;
 	}
 	return (1);
+}
+
+int	dollar_and_redirect(int i, t_token *tokenlist)
+{
+	int	j;
+
+	j = check_valid(i, ft_strlen(tokenlist->value), tokenlist->value);
+	if (j == i + 1)
+	{
+		if (envp_in_value(tokenlist, i, &j, 0) == 0)
+			return (-2);
+	}
+	return (j);
 }
