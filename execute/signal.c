@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 05:16:45 by sojoo             #+#    #+#             */
-/*   Updated: 2022/09/02 13:39:44 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/02 17:51:57 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	c_handler(int pid)
 	else
 	{
 		printf("^C\n");
-		signal_exit_code(ft_strdup("130"));
+		exit(130);
 	}
 }
 
