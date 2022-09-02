@@ -32,9 +32,9 @@ int		make_quotes_token(char *str, int i, int j, t_token **prev);
 
 //token_after.c
 int		after_tokenize(t_token *tokenlist);
-int		change_dollar(t_token *tokenlist);
+int		change_dollar(t_token *tokenlist, t_token *prev);
 int		delete_quotes_loop(t_token *tokenlist);
-int		find_double_quotes(t_token *tokenlist, int i);
+int		find_double_quotes(t_token *tokenlist, int i, t_token *prev);
 int		change_dollar_single_quotes(t_token *tokenlist, int i);
 
 //token_env.c

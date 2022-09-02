@@ -21,11 +21,8 @@ int	after_tokenize(t_token *tokenlist)
 	{
 		if (tokenlist->type == WORD)
 		{
-			if (prev->type != REDIRECT || ft_strequal(prev->value, "<<") == 0)
-			{
-				if (change_dollar(tokenlist) == 0)
-					return (0);
-			}
+			if (change_dollar(tokenlist, prev) == 0)
+				return (0);
 			if (delete_quotes_loop(tokenlist) == 0)
 				return (0);
 		}
@@ -35,7 +32,7 @@ int	after_tokenize(t_token *tokenlist)
 	return (1);
 }
 
-int	change_dollar(t_token *tokenlist)
+int	change_dollar(t_token *tokenlist, t_token *prev)
 {
 	int	i;
 
@@ -43,8 +40,8 @@ int	change_dollar(t_token *tokenlist)
 	while (tokenlist->value[++i] != '\0')
 	{
 		if (tokenlist->value[i] == '\"')
-		{
-			i = find_double_quotes(tokenlist, i);
+		{			
+			i = find_double_quotes(tokenlist, i, prev);
 			if (i == -1)
 				return (0);
 		}
@@ -81,13 +78,15 @@ int	delete_quotes_loop(t_token *tokenlist)
 	return (1);
 }
 
-int	find_double_quotes(t_token *tokenlist, int i)
+int	find_double_quotes(t_token *tokenlist, int i, t_token *prev)
 {
 	int	j;
 
 	j = find_quotes_index(i, tokenlist);
 	if (tokenlist->value[j] != '\0')
 	{
+		if (prev->type != REDIRECT || ft_strequal(prev->value, "<<") == 0)
+			return (j);
 		while (i <= j)
 		{
 			if (tokenlist->value[i] == '$')
