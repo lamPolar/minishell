@@ -36,8 +36,8 @@ void	c_handler(int pid)
 	}
 	else
 	{
-		printf("^C\n");
-		exit(130);
+		printf("\n");
+		signal_exit_code(ft_strdup("130"));
 	}
 }
 
@@ -50,12 +50,12 @@ void	q_handler(int pid)
 	}
 	else
 	{
-		printf("^\\Quit: 3\n");
+		printf("Quit: 3\n");
 		signal_exit_code(ft_strdup("131"));
 	}
 }
 
-void	sigint_inpipe(int signum)
+void	signal_inpipe(int signum)
 {
 	int	pid;
 	int	status;
@@ -71,7 +71,11 @@ void	sigint_inpipe(int signum)
 		signal_exit_code(ft_strdup("1"));
 	}
 	else
-		printf("^C\n");
+	{
+		if (signum == SIGINT)
+			printf("\n");
+		signal_exit_code(ft_strdup("0"));
+	}
 }
 
 void	signal_heredoc(int signum)
@@ -97,6 +101,6 @@ void	signal_heredoc(int signum)
 	else
 	{
 		if (signum == SIGINT)
-			printf("\n");
+			exit(1);
 	}
 }

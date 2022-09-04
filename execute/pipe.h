@@ -43,17 +43,19 @@ int		check_outfile(t_node *re, int *outfd);
 void	execute_tree(t_node *root, t_node *ast, t_token *token);
 void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process);
 void	execute_line(t_node *line, t_node *ast, t_token *token);
+void	signal_and_execute(t_node *line);
 void	execute_builtin(t_node *line, t_node *ast, t_token *token);
 
 //execute2.c
 void	execute_function(t_node *line, t_node *ast, t_token *token);
 void	execute(t_node *command);
+void	execute_executable(t_node *line);
 
 //signal.c
 void	signal_handler(int signum);
 void	c_handler(int pid);
 void	q_handler(int pid);
-void	sigint_inpipe(int signum);
+void	signal_inpipe(int signum);
 void	signal_heredoc(int signum);
 
 #endif

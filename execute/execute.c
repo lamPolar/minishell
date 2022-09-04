@@ -37,7 +37,8 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process)
 	if (initial_pipe(process, &pipes, &pid, &line))
 		return ;
 	i = 0;
-	signal(SIGINT, sigint_inpipe);
+	signal(SIGINT, signal_inpipe);
+	signal(SIGQUIT, signal_inpipe);
 	while (i < process)
 	{
 		pid[i] = fork();
@@ -56,26 +57,9 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process)
 	}
 }
 
-void	execute_executable(t_node *line)
-{
-	int	fd[2];
-
-	fd[0] = STDIN_FILENO;
-	fd[1] = STDOUT_FILENO;
-	if (check_redirection(line->left, &fd[0], &fd[1]))
-		check_fd_error(fd, 1);
-	ft_dup2(fd[0], STDIN_FILENO);
-	ft_dup2(fd[1], STDOUT_FILENO);
-	if (line->right)
-		execute(line->right);
-	exit(0);
-}
-
 void	execute_line(t_node *line, t_node *ast, t_token *token)
 {
-	pid_t	pid;
 	int		save_fd[2];
-	int		status;
 
 	if (line->right && check_builtin(line->right))
 	{
@@ -86,24 +70,29 @@ void	execute_line(t_node *line, t_node *ast, t_token *token)
 		ft_dup2(save_fd[1], STDOUT_FILENO);
 	}
 	else
+		signal_and_execute(line);
+}
+
+void	signal_and_execute(t_node *line)
+{
+	pid_t	pid;
+	int		status;
+
+	if (line->left != NULL && check_heredoc(line->left))
+		{
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
+		}
+	pid = fork();
+	if (pid)
 	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-		pid = fork();
-		if (pid)
-		{
-			if (waitpid(pid, &status, 0) == pid)
-				update_exitcode(status);
-		}
-		else
-		{
-			signal(SIGINT, signal_handler);
-			signal(SIGQUIT, signal_handler);
-			execute_executable(line);
-		}
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, signal_handler);
+		if (waitpid(pid, &status, 0) == pid)
+			update_exitcode(status);
 	}
+	else
+		execute_executable(line);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
 }
 
 void	execute_builtin(t_node *line, t_node *ast, t_token *token)

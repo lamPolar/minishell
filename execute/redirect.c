@@ -78,8 +78,8 @@ void	check_here_doc(int *infd, char *delimiter)
 	int		status;
 
 	pipe(fd);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+ 	signal(SIGINT, signal_heredoc);
+	signal(SIGQUIT, signal_heredoc);
 	pid = fork();
 	if (pid)
 	{
@@ -90,8 +90,6 @@ void	check_here_doc(int *infd, char *delimiter)
 	}
 	else
 		here_doc(fd, delimiter);
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
 }
 
 void	here_doc(int *fd, char *delimiter)
@@ -99,8 +97,6 @@ void	here_doc(int *fd, char *delimiter)
 	char	*buf;
 	char	*line;
 
- 	signal(SIGINT, signal_heredoc);
-	signal(SIGQUIT, signal_heredoc);
 	ft_close(fd[0]);
 	buf = (char *)ft_calloc(sizeof(char), 1);
 	line = readline("\e[0;91m> \e[0m");
