@@ -57,3 +57,18 @@ void	execute(t_node *command)
 		exit(126);
 	}
 }
+
+void	execute_executable(t_node *line)
+{
+	int	fd[2];
+
+	fd[0] = STDIN_FILENO;
+	fd[1] = STDOUT_FILENO;
+	if (check_redirection(line->left, &fd[0], &fd[1]))
+		check_fd_error(fd, 1);
+	ft_dup2(fd[0], STDIN_FILENO);
+	ft_dup2(fd[1], STDOUT_FILENO);
+	if (line->right)
+		execute(line->right);
+	exit(0);
+}

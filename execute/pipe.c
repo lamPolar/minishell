@@ -117,5 +117,6 @@ void	parent_process(int *pipes, pid_t *pid, int i, int process)
 		free(pipes);
 		free(pid);
 		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, signal_handler);
 	}
 }
