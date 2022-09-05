@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 05:16:45 by sojoo             #+#    #+#             */
-/*   Updated: 2022/09/02 17:51:57 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/05 15:04:16 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,8 @@ void	signal_inpipe(int signum)
 
 	(void)signum;
 	pid = waitpid(-1, &status, WNOHANG);
-	if (pid == -1)
-	{	
+	if (signum == SIGINT)
 		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		signal_exit_code(ft_strdup("1"));
-	}
-	else
-	{
-		if (signum == SIGINT)
-			printf("\n");
-		signal_exit_code(ft_strdup("0"));
-	}
 }
 
 void	signal_heredoc(int signum)

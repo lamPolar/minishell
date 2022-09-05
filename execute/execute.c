@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 03:13:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 17:51:53 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/05 14:58:42 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	execute_tree(t_node *root, t_node *ast, t_token *token)
 	else if (root->type == PIPE)
 	{
 		process = count_process(root);
+		signal(SIGINT, signal_inpipe);
+		signal(SIGQUIT, signal_inpipe);
 		execute_pipe(root, ast, token, process);
 	}
 	else
@@ -37,8 +39,6 @@ void	execute_pipe(t_node *root, t_node *ast, t_token *token, int process)
 	if (initial_pipe(process, &pipes, &pid, &line))
 		return ;
 	i = 0;
-	signal(SIGINT, signal_inpipe);
-	signal(SIGQUIT, signal_inpipe);
 	while (i < process)
 	{
 		pid[i] = fork();
@@ -79,10 +79,10 @@ void	signal_and_execute(t_node *line)
 	int		status;
 
 	if (line->left != NULL && check_heredoc(line->left))
-		{
-			signal(SIGINT, SIG_IGN);
-			signal(SIGQUIT, SIG_IGN);
-		}
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
 	pid = fork();
 	if (pid)
 	{

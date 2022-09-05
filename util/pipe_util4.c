@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 15:19:01 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 03:10:43 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/05 14:54:29 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,25 @@ void	ft_dup2(int fd1, int fd2)
 int	update_exitcode(int status)
 {
 	char	*exitcode;
-	char	*save;
 	t_envp	*env;
 
 	env = g_env;
+	if (WIFSIGNALED(status))
+	{
+		if (SIGINT == WTERMSIG(status))
+			exitcode = ft_strdup("130");
+		if (SIGQUIT == WTERMSIG(status))
+			exitcode = ft_strdup("131");
+	}
 	if (WIFEXITED(status))
 	{
 		status = WEXITSTATUS(status);
 		exitcode = ft_itoa(status);
-		if (exitcode == NULL)
-			return (0);
-		while (env)
-		{
-			if (ft_strequal(env->key, "?"))
-			{
-				save = env->value;
-				env->value = exitcode;
-				free(save);
-				break ;
-			}
-			env = env->next;
-		}
-		return (0);
 	}
-	return (1);
+	if (exitcode == NULL)
+		return (1);
+	signal_exit_code(exitcode);
+	return (0);
 }
 
 void	print_atoi_error(char *save)

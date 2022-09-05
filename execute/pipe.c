@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 18:25:08 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 13:31:30 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/05 14:45:27 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,9 @@ void	parent_process(int *pipes, pid_t *pid, int i, int process)
 		j = 0;
 		while (j < process)
 		{
-			wait(&status);
-			j += 1;
-			if (waitpid(pid[process - 1], &status, 0) == pid[process - 1])
-			{
+			if (waitpid(-1, &status, 0) == pid[process - 1])
 				update_exitcode(status);
-				j += 1;
-			}
+			j += 1;
 		}
 		free(pipes);
 		free(pid);
