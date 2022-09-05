@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojoo <sojoo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 04:16:58 by sojoo             #+#    #+#             */
-/*   Updated: 2022/08/31 17:42:39 by sojoo            ###   ########.fr       */
+/*   Updated: 2022/09/05 15:23:37 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	replace_value(t_token *tokenlist, t_envp *env, int i, int *j)
 	char	*new_value;
 
 	size = ft_strlen(tokenlist->value) + ft_strlen(env->value) - *j + i;
-	new_value = (char *)ft_calloc(size, sizeof(char));
+	new_value = (char *)ft_calloc(size + 1, sizeof(char));
 	if (new_value == NULL)
 		return (0);
 	idx = -1;

@@ -6,7 +6,7 @@
 /*   By: heeskim <heeskim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 15:53:49 by heeskim           #+#    #+#             */
-/*   Updated: 2022/09/02 17:51:43 by heeskim          ###   ########.fr       */
+/*   Updated: 2022/09/05 15:49:51 by heeskim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	check_here_doc(int *infd, char *delimiter)
 	int		status;
 
 	pipe(fd);
- 	signal(SIGINT, signal_heredoc);
+	signal(SIGINT, signal_heredoc);
 	signal(SIGQUIT, signal_heredoc);
 	pid = fork();
 	if (pid)
